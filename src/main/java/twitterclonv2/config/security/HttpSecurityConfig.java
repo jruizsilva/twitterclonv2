@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +32,12 @@ public class HttpSecurityConfig {
         httpSecurity.addFilterBefore(jwtAuthenticationFilter,
                                      UsernamePasswordAuthenticationFilter.class);
         httpSecurity.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-        httpSecurity.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+        httpSecurity.authorizeHttpRequests(buildRequestMatchers());
+        return httpSecurity.build();
+    }
+
+    private static Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> buildRequestMatchers() {
+        return authorizationManagerRequestMatcherRegistry -> {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/auth/authenticate")
                                                       .permitAll();
@@ -54,7 +61,6 @@ public class HttpSecurityConfig {
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
-        });
-        return httpSecurity.build();
+        };
     }
 }
