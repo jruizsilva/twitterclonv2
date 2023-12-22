@@ -1,10 +1,10 @@
-package twitterclonv2.repository;
+package twitterclonv2.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import twitterclonv2.entity.UserEntity;
+import twitterclonv2.domain.entity.UserEntity;
 
 import java.util.Optional;
 

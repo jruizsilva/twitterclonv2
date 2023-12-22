@@ -1,4 +1,4 @@
-package twitterclonv2.service;
+package twitterclonv2.business.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,7 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import twitterclonv2.entity.UserEntity;
+import twitterclonv2.domain.entity.UserEntity;
 
 import javax.crypto.SecretKey;
 import java.util.Date;

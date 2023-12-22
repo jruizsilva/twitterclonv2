@@ -1,13 +1,13 @@
-package twitterclonv2.service;
+package twitterclonv2.business.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import twitterclonv2.dto.AuthenticationRequest;
-import twitterclonv2.dto.AuthenticationResponse;
-import twitterclonv2.entity.UserEntity;
-import twitterclonv2.repository.UserRepository;
+import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
+import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
+import twitterclonv2.domain.entity.UserEntity;
+import twitterclonv2.persistence.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package twitterclonv2.dto;
+package twitterclonv2.domain.dto.user.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

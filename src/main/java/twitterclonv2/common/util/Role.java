@@ -1,4 +1,4 @@
-package twitterclonv2.util;
+package twitterclonv2.common.util;
 
 import lombok.Getter;
 

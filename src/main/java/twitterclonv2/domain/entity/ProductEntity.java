@@ -1,8 +1,9 @@
-package twitterclonv2.entity;
+package twitterclonv2.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -21,10 +22,12 @@ public class ProductEntity {
             nullable = false)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "el nombre es requerido")
     private String name;
 
-    @DecimalMin(value = "0.01")
+    @DecimalMin(value = "0.01",
+                message = "el precio debe ser mayor a 0")
+    @NotNull(message = "el precio es requerido")
     private BigDecimal price;
 
 }

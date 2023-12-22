@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import twitterclonv2.repository.UserRepository;
+import twitterclonv2.persistence.UserRepository;
 
 @Component
 @RequiredArgsConstructor

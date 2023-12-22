@@ -9,9 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import twitterclonv2.entity.UserEntity;
-import twitterclonv2.repository.UserRepository;
-import twitterclonv2.service.JwtService;
+import twitterclonv2.domain.entity.UserEntity;
+import twitterclonv2.persistence.UserRepository;
+import twitterclonv2.business.service.JwtService;
 
 import java.io.IOException;
 

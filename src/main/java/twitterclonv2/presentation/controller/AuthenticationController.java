@@ -1,12 +1,12 @@
-package twitterclonv2.controller;
+package twitterclonv2.presentation.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import twitterclonv2.dto.AuthenticationRequest;
-import twitterclonv2.dto.AuthenticationResponse;
-import twitterclonv2.service.AuthenticationService;
+import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
+import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
+import twitterclonv2.business.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/auth")

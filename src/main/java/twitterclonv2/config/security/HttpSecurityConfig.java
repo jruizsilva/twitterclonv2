@@ -15,7 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import twitterclonv2.config.security.filter.JwtAuthenticationFilter;
-import twitterclonv2.util.Permission;
+import twitterclonv2.common.util.Permission;
 
 @Configuration
 @EnableWebSecurity
