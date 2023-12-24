@@ -14,8 +14,8 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import twitterclonv2.config.security.filter.JwtAuthenticationFilter;
 import twitterclonv2.common.util.Permission;
+import twitterclonv2.config.security.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -50,6 +50,10 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers("/error")
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers("/h2-console/**")
+                                                      .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/v3/api-docs/**")
+                                                      .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui/**")
                                                       .permitAll();
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
