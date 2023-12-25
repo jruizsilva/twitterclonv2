@@ -16,8 +16,8 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<?> handleObjectNotFoundException(ObjectNotFoundException e,
-                                                           HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleObjectNotFoundException(ObjectNotFoundException e,
+                                                                  HttpServletRequest request) {
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Objeto no encontrado")
@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception e,
-                                                    HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleGenericException(Exception e,
+                                                           HttpServletRequest request) {
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Error interno del servidor,  por favor intente mas tarde")

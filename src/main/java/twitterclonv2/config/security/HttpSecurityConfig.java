@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import twitterclonv2.common.util.Permission;
 import twitterclonv2.config.security.filter.JwtAuthenticationFilter;
+import twitterclonv2.config.security.handler.CustomAccessDeniedHandler;
+import twitterclonv2.config.security.handler.CustomAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +25,8 @@ import twitterclonv2.config.security.filter.JwtAuthenticationFilter;
 public class HttpSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -33,6 +37,10 @@ public class HttpSecurityConfig {
                                      UsernamePasswordAuthenticationFilter.class);
         httpSecurity.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         httpSecurity.authorizeHttpRequests(buildRequestMatchers());
+        httpSecurity.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {
+            httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(customAuthenticationEntryPoint);
+            httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(customAccessDeniedHandler);
+        });
         return httpSecurity.build();
     }
 
@@ -55,6 +63,10 @@ public class HttpSecurityConfig {
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui/**")
                                                       .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/customers")
+                                                      .permitAll()
+            ;
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/products")
