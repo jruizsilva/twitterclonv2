@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import twitterclonv2.business.service.AdministratorService;
 import twitterclonv2.business.service.AuthenticationService;
-import twitterclonv2.business.service.CustomerService;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.CreateUserEntityRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/administrator")
 @RequiredArgsConstructor
-public class CustomerController {
-    private final CustomerService customerService;
+public class AdministratorController {
+    private final AdministratorService administratorService;
     private final AuthenticationService authenticationService;
 
     @PostMapping
     public ResponseEntity<AuthenticationResponse> createOneCustomer(@RequestBody @Valid CreateUserEntityRequest createUserEntityRequest) {
-        customerService.createOneCustomer(createUserEntityRequest);
+        administratorService.createOneAdministrator(createUserEntityRequest);
         AuthenticationRequest authenticationRequest =
                 AuthenticationRequest.builder()
                                      .username(createUserEntityRequest.getUsername())

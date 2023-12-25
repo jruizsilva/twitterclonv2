@@ -10,17 +10,17 @@ import twitterclonv2.persistence.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerService {
+public class AdministratorService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void createOneCustomer(CreateUserEntityRequest createUserEntityRequest) {
+    public void createOneAdministrator(CreateUserEntityRequest createUserEntityRequest) {
         UserEntity userEntity =
                 UserEntity.builder()
                           .name(createUserEntityRequest.getName())
                           .username(createUserEntityRequest.getUsername())
                           .password(passwordEncoder.encode(createUserEntityRequest.getPassword()))
-                          .role(Role.CUSTOMER)
+                          .role(Role.ADMINISTRATOR)
                           .build();
         userRepository.save(userEntity);
     }

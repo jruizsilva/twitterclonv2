@@ -67,6 +67,10 @@ public class HttpSecurityConfig {
                                                                        "/customers")
                                                       .permitAll()
             ;
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/administrator")
+                                                      .hasAuthority(Permission.SAVE_ONE_ADMINISTRATOR.name())
+            ;
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/products")
