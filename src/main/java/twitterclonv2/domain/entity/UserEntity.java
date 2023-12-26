@@ -1,5 +1,6 @@
 package twitterclonv2.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,6 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 @Setter
-@ToString
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {
@@ -30,6 +30,11 @@ public class UserEntity implements UserDetails {
     private String name;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonManagedReference
+    @OneToMany(targetEntity = PostEntity.class,
+               mappedBy = "author")
+    private List<PostEntity> posts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

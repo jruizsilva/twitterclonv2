@@ -65,12 +65,16 @@ public class HttpSecurityConfig {
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/customers")
-                                                      .permitAll()
-            ;
+                                                      .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/posts")
+                                                      .hasAuthority(Permission.SAVE_ONE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/administrator")
-                                                      .hasAuthority(Permission.SAVE_ONE_ADMINISTRATOR.name())
-            ;
+                                                      .hasAuthority(Permission.SAVE_ONE_ADMINISTRATOR.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/auth/profile")
+                                                      .hasAuthority(Permission.FIND_USER_AUTHENTICATED.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/products")

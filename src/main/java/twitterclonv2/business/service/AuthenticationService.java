@@ -3,7 +3,9 @@ package twitterclonv2.business.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import twitterclonv2.common.exception.ObjectNotFoundException;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
@@ -44,5 +46,14 @@ public class AuthenticationService {
                         userEntity.getAuthorities());
 
         return extraClaims;
+    }
+
+    public UserEntity findUserAuthenticated() {
+        UsernamePasswordAuthenticationToken auth =
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext()
+                                                                           .getAuthentication();
+        String username = (String) auth.getPrincipal();
+        return userRepository.findByUsername(username)
+                             .orElseThrow(() -> new ObjectNotFoundException("User not found"));
     }
 }
