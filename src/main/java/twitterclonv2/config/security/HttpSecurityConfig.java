@@ -55,13 +55,10 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui/**")
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/auth/register")
-                                                      .permitAll();
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/auth/login")
+                                                                       "/auth/**")
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/auth/profile")
+                                                                       "/users/profile")
                                                       .hasAuthority(Permission.GET_USER_AUTHENTICATED.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
