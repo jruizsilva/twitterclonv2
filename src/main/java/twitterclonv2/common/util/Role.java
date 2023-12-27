@@ -7,14 +7,14 @@ import java.util.List;
 
 @Getter
 public enum Role {
-    CUSTOMER(Arrays.asList(Permission.READ_ALL_PRODUCTS,
-                           Permission.SAVE_ONE_POST,
-                           Permission.FIND_USER_AUTHENTICATED)),
+    USER(Arrays.asList(Permission.READ_ALL_PRODUCTS,
+                       Permission.SAVE_ONE_POST,
+                       Permission.GET_USER_AUTHENTICATED)),
     ADMINISTRATOR(Arrays.asList(Permission.READ_ALL_PRODUCTS,
                                 Permission.SAVE_ONE_PRODUCT,
-                                Permission.SAVE_ONE_ADMINISTRATOR,
+                                Permission.SAVE_ONE_USER,
                                 Permission.SAVE_ONE_POST,
-                                Permission.FIND_USER_AUTHENTICATED));
+                                Permission.GET_USER_AUTHENTICATED));
 
     private List<Permission> permissions;
 

@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
-import twitterclonv2.business.service.JwtService;
+import twitterclonv2.business.service.impl.JwtServiceImpl;
 
 import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
     private final UserRepository userRepository;
 
     @Override
@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authorizationHeader.replace("Bearer ",
                                                  "");
-        String username = jwtService.extractUsernameFromJwt(jwt);
+        String username = jwtServiceImpl.extractUsernameFromJwt(jwt);
         UserEntity userEntity = userRepository.findByUsername(username)
                                               .orElseThrow(() -> new RuntimeException("User not found"));
 

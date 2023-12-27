@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import twitterclonv2.business.service.PostService;
+import twitterclonv2.business.facade.PostFacade;
 import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 
@@ -16,11 +16,11 @@ import twitterclonv2.domain.entity.PostEntity;
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
-    private final PostService postService;
+    private final PostFacade postFacade;
 
     @PostMapping
     public ResponseEntity<PostEntity> createOnePost(@RequestBody @Valid PostRequest postRequest) {
-        PostEntity postEntitySaved = postService.createOnePost(postRequest);
+        PostEntity postEntitySaved = postFacade.createOnePost(postRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(postEntitySaved);
     }

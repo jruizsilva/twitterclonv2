@@ -46,15 +46,6 @@ public class HttpSecurityConfig {
 
     private static Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> buildRequestMatchers() {
         return authorizationManagerRequestMatcherRegistry -> {
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/auth/authenticate")
-                                                      .permitAll();
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/auth/public-access")
-                                                      .permitAll();
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/auth/test")
-                                                      .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers("/error")
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers("/h2-console/**")
@@ -64,24 +55,18 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui/**")
                                                       .permitAll();
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/customers")
+                                                                       "/auth/register")
                                                       .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/auth/login")
+                                                      .permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/auth/profile")
+                                                      .hasAuthority(Permission.GET_USER_AUTHENTICATED.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.SAVE_ONE_POST.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/administrator")
-                                                      .hasAuthority(Permission.SAVE_ONE_ADMINISTRATOR.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/auth/profile")
-                                                      .hasAuthority(Permission.FIND_USER_AUTHENTICATED.name());
-
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/products")
-                                                      .hasAuthority(Permission.READ_ALL_PRODUCTS.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/products")
-                                                      .hasAuthority(Permission.SAVE_ONE_PRODUCT.name());
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();

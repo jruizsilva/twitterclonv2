@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserEntityRequest {
+public class RegisterUserRequest {
     @NotBlank(message = "el username no debe estar vacio")
     @Length(min = 4,
             message = "el username debe tener 4 o mas caracteres")
