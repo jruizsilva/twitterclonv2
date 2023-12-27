@@ -22,4 +22,7 @@ public class RegisterUserRequest {
     @Length(min = 4,
             message = "el nombre debe tener 4 o mas caracteres")
     private String name;
+    @Length(min = 4,
+            message = "la descripcion debe tener 4 o mas caracteres")
+    private String description;
 }

@@ -27,6 +27,7 @@ public class UserEntity implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String description;
     private String name;
     @Enumerated(EnumType.STRING)
     private Role role;
