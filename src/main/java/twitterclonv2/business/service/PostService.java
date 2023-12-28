@@ -8,4 +8,5 @@ import java.util.List;
 public interface PostService {
     PostEntity createOnePost(PostRequest postRequest);
     List<PostEntity> findAll();
+    List<PostEntity> findByOrderByCreatedAtDesc();
 }

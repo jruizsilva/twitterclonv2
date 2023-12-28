@@ -29,4 +29,12 @@ public class PostFacadeImpl implements PostFacade {
                              .map(postMapper::toDto)
                              .toList();
     }
+
+    @Override
+    public List<PostDto> findByOrderByCreatedAtDesc() {
+        List<PostEntity> postEntityList = postService.findByOrderByCreatedAtDesc();
+        return postEntityList.stream()
+                             .map(postMapper::toDto)
+                             .toList();
+    }
 }

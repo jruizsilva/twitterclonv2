@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostFacade {
     PostEntity createOnePost(PostRequest postRequest);
     List<PostDto> findAll();
+    List<PostDto> findByOrderByCreatedAtDesc();
 }

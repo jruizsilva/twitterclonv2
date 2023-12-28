@@ -27,6 +27,6 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDto>> findAll() {
-        return ResponseEntity.ok(postFacade.findAll());
+        return ResponseEntity.ok(postFacade.findByOrderByCreatedAtDesc());
     }
 }
