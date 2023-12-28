@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import twitterclonv2.business.service.JwtService;
-import twitterclonv2.common.exception.ObjectNotFoundException;
+import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
 
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                                  "");
         String username = jwtService.extractUsernameFromJwt(jwt);
         UserEntity userEntity = userRepository.findByUsername(username)
-                                              .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                                              .orElseThrow(() -> new CustomObjectNotFoundException("User not found"));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
                                                                                                           userEntity.getPassword(),

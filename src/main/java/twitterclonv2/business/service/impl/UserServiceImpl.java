@@ -2,12 +2,14 @@ package twitterclonv2.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import twitterclonv2.business.service.UserService;
-import twitterclonv2.common.exception.ObjectNotFoundException;
+import twitterclonv2.common.exception.CustomObjectNotFoundException;
+import twitterclonv2.common.exception.InvalidPasswordException;
 import twitterclonv2.common.util.Role;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.RegisterUserRequest;
@@ -27,12 +29,18 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                                                        authenticationRequest.getPassword());
-        authenticationManager.authenticate(authenticationToken);
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+                                                            authenticationRequest.getPassword());
+            authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException e) {
+            throw new InvalidPasswordException("Incorrect username or password",
+                                               e);
+        }
+
         UserEntity userEntity = userRepository.findByUsername(authenticationRequest.getUsername())
-                                              .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                                              .orElseThrow(() -> new CustomObjectNotFoundException("User not found"));
 
         String jwt = jwtServiceImpl.generateToken(userEntity,
                                                   generateExtraClaims(userEntity));
@@ -69,6 +77,6 @@ public class UserServiceImpl implements UserService {
                                                                            .getAuthentication();
         String username = (String) auth.getPrincipal();
         return userRepository.findByUsername(username)
-                             .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                             .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

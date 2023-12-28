@@ -29,7 +29,7 @@ public class AuthController {
             summary = "POST endpoint for login an user"
     )
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws Exception {
         AuthenticationResponse jwtDto = userFacade.authenticate(authenticationRequest);
         return ResponseEntity.ok(jwtDto);
     }

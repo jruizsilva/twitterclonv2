@@ -3,11 +3,11 @@ package twitterclonv2.presentation.advice;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import twitterclonv2.common.exception.ObjectNotFoundException;
+import twitterclonv2.common.exception.CustomObjectNotFoundException;
+import twitterclonv2.common.exception.InvalidPasswordException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<ApiError> handleObjectNotFoundException(ObjectNotFoundException e,
-                                                                  HttpServletRequest request) {
+    @ExceptionHandler(CustomObjectNotFoundException.class)
+    public ResponseEntity<ApiError> handleCustomObjectNotFoundException(CustomObjectNotFoundException e,
+                                                                        HttpServletRequest request) {
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Objeto no encontrado")
@@ -30,24 +30,24 @@ public class GlobalExceptionHandler {
                              .body(apiError);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleGenericException(Exception e,
-                                                           HttpServletRequest request) {
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ApiError> handleInvalidPasswordException(InvalidPasswordException e,
+                                                                   HttpServletRequest request) {
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
-                                    .message("Error interno del servidor,  por favor intente mas tarde")
+                                    .message("Credenciales no validas")
                                     .url(request.getRequestURL()
                                                 .toString())
                                     .method(request.getMethod())
                                     .timestamp(LocalDateTime.now())
                                     .build();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(apiError);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e,
-                                                         HttpServletRequest request) {
+    /*@ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException e,
+                                                                HttpServletRequest request) {
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Acceso denegado, No tienes los permisos necesarios para acceder a esta función. Por favor, contacta al administrador si crees que esto es un error.")
@@ -58,11 +58,11 @@ public class GlobalExceptionHandler {
                                     .build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                              .body(apiError);
-    }
+    }*/
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
-                                                                   HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+                                                                          HttpServletRequest request) {
         List<String> errors = new ArrayList<>();
         if (!e.getFieldErrors()
               .isEmpty()) {
@@ -86,6 +86,21 @@ public class GlobalExceptionHandler {
                                     .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(apiError);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleGenericException(Exception e,
+                                                           HttpServletRequest request) {
+        ApiError apiError = ApiError.builder()
+                                    .backendMessage(e.getLocalizedMessage())
+                                    .message("Error interno del servidor,  por favor intente mas tarde")
+                                    .url(request.getRequestURL()
+                                                .toString())
+                                    .method(request.getMethod())
+                                    .timestamp(LocalDateTime.now())
+                                    .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .body(apiError);
     }
 }
