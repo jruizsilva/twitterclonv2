@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
-import twitterclonv2.common.exception.InvalidPasswordException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
+import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,5 +25,10 @@ public class PostServiceImpl implements PostService {
                                           .author(userEntity)
                                           .build();
         return postRepository.save(postEntity);
+    }
+
+    @Override
+    public List<PostEntity> findAll() {
+        return postRepository.findAll();
     }
 }

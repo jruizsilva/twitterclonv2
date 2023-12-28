@@ -84,6 +84,9 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.SAVE_ONE_POST.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/posts")
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS.name());
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
