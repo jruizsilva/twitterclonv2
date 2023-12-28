@@ -63,7 +63,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
                                                                    HttpServletRequest request) {
-        System.out.println("handleMethodArgumentNotValidException");
         List<String> errors = new ArrayList<>();
         if (!e.getFieldErrors()
               .isEmpty()) {

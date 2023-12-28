@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
         authenticationManager.authenticate(authenticationToken);
         UserEntity userEntity = userRepository.findByUsername(authenticationRequest.getUsername())
                                               .orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println(userEntity);
 
         String jwt = jwtServiceImpl.generateToken(userEntity,
                                                   generateExtraClaims(userEntity));
