@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.persistence.UserRepository;
 
 @Component
@@ -37,11 +38,9 @@ public class SecurityBeansInjector {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
-            return userRepository.findByUsername(username)
-                                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        };
+        return username ->
+                userRepository.findByUsername(username)
+                              .orElseThrow(() -> new CustomObjectNotFoundException("Incorrect username or password - User not found - 3"));
 
     }
 }

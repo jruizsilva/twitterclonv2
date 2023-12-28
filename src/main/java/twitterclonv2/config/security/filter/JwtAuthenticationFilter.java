@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                                  "");
         String username = jwtService.extractUsernameFromJwt(jwt);
         UserEntity userEntity = userRepository.findByUsername(username)
-                                              .orElseThrow(() -> new CustomObjectNotFoundException("User not found"));
+                                              .orElseThrow(() -> new CustomObjectNotFoundException("Incorrect username or password - User not found - 4"));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
                                                                                                           userEntity.getPassword(),

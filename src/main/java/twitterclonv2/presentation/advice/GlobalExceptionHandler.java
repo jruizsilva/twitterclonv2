@@ -3,6 +3,8 @@ package twitterclonv2.presentation.advice;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +17,22 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException e,
+                                                                  HttpServletRequest request) {
+        System.out.println("handleBadCredentialsException");
+        ApiError apiError = ApiError.builder()
+                                    .backendMessage(e.getLocalizedMessage())
+                                    .message("Incorrect username or password")
+                                    .url(request.getRequestURL()
+                                                .toString())
+                                    .method(request.getMethod())
+                                    .timestamp(LocalDateTime.now())
+                                    .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(apiError);
+    }
+
     @ExceptionHandler(CustomObjectNotFoundException.class)
     public ResponseEntity<ApiError> handleCustomObjectNotFoundException(CustomObjectNotFoundException e,
                                                                         HttpServletRequest request) {
@@ -29,36 +47,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(apiError);
     }
-
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<ApiError> handleInvalidPasswordException(InvalidPasswordException e,
-                                                                   HttpServletRequest request) {
-        ApiError apiError = ApiError.builder()
-                                    .backendMessage(e.getLocalizedMessage())
-                                    .message("Credenciales no validas")
-                                    .url(request.getRequestURL()
-                                                .toString())
-                                    .method(request.getMethod())
-                                    .timestamp(LocalDateTime.now())
-                                    .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                             .body(apiError);
-    }
-
-    /*@ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException e,
-                                                                HttpServletRequest request) {
-        ApiError apiError = ApiError.builder()
-                                    .backendMessage(e.getLocalizedMessage())
-                                    .message("Acceso denegado, No tienes los permisos necesarios para acceder a esta función. Por favor, contacta al administrador si crees que esto es un error.")
-                                    .url(request.getRequestURL()
-                                                .toString())
-                                    .method(request.getMethod())
-                                    .timestamp(LocalDateTime.now())
-                                    .build();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                             .body(apiError);
-    }*/
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
@@ -85,6 +73,22 @@ public class GlobalExceptionHandler {
                                     .timestamp(LocalDateTime.now())
                                     .build();
 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(apiError);
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<ApiError> handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e,
+                                                                                 HttpServletRequest request) {
+        System.out.println("handleInternalAuthenticationServiceException");
+        ApiError apiError = ApiError.builder()
+                                    .backendMessage(e.getLocalizedMessage())
+                                    .message("Incorrect username or password")
+                                    .url(request.getRequestURL()
+                                                .toString())
+                                    .method(request.getMethod())
+                                    .timestamp(LocalDateTime.now())
+                                    .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(apiError);
     }
