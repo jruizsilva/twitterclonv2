@@ -14,22 +14,22 @@ import twitterclonv2.domain.entity.UserEntity;
 @Component
 @RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
-    private final UserService userServiceImpl;
+    private final UserService userService;
     private final UserMapper userMapper;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        return userServiceImpl.login(authenticationRequest);
+        return userService.login(authenticationRequest);
     }
 
     @Override
     public void registerUser(RegisterUserRequest registerUserRequest) {
-        userServiceImpl.registerUser(registerUserRequest);
+        userService.registerUser(registerUserRequest);
     }
 
     @Override
     public UserDto findUserAuthenticated() {
-        UserEntity userEntity = userServiceImpl.findUserAuthenticated();
+        UserEntity userEntity = userService.findUserAuthenticated();
         return userMapper.toDto(userEntity);
     }
 }

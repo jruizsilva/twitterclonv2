@@ -9,16 +9,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import twitterclonv2.business.service.JwtService;
+import twitterclonv2.common.exception.ObjectNotFoundException;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
-import twitterclonv2.business.service.impl.JwtServiceImpl;
 
 import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtServiceImpl jwtServiceImpl;
+    private final JwtService jwtService;
     private final UserRepository userRepository;
 
     @Override
@@ -35,9 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authorizationHeader.replace("Bearer ",
                                                  "");
-        String username = jwtServiceImpl.extractUsernameFromJwt(jwt);
+        String username = jwtService.extractUsernameFromJwt(jwt);
         UserEntity userEntity = userRepository.findByUsername(username)
-                                              .orElseThrow(() -> new RuntimeException("User not found"));
+                                              .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
                                                                                                           userEntity.getPassword(),
