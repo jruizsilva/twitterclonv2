@@ -18,8 +18,10 @@ public class PostFacadeImpl implements PostFacade {
     private final Mapper mapper;
 
     @Override
-    public PostEntity createOnePost(PostRequest postRequest) {
-        return postService.createOnePost(postRequest);
+    public PostDto createOnePost(PostRequest postRequest) {
+        PostEntity postEntity = postService.createOnePost(postRequest);
+        return mapper.postEntityToDto(postEntity,
+                                      true);
     }
 
     @Override

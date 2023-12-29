@@ -9,4 +9,5 @@ public interface UserService {
     AuthenticationResponse login(AuthenticationRequest authenticationRequest);
     void registerUser(RegisterUserRequest registerUserRequest);
     UserEntity findUserAuthenticated();
+    UserEntity updateUser(UserEntity userEntityRequest);
 }

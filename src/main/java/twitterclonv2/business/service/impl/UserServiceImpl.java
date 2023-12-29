@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username)
                              .orElseThrow(() -> new CustomObjectNotFoundException("Incorrect username or password - User not found - 2"));
     }
+
+    @Override
+    public UserEntity updateUser(UserEntity userEntityRequest) {
+        return userRepository.save(userEntityRequest);
+    }
 }

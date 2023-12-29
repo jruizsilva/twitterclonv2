@@ -8,6 +8,7 @@ import twitterclonv2.business.service.UserService;
 import twitterclonv2.domain.dto.user.UserDto;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.RegisterUserRequest;
+import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
 
@@ -31,6 +32,14 @@ public class UserFacadeImpl implements UserFacade {
     public UserDto findUserAuthenticated() {
         UserEntity userEntity = userService.findUserAuthenticated();
         return mapper.userEntityToDto(userEntity,
+                                      true);
+    }
+
+    @Override
+    public UserDto updateUser(UpdateUserRequest updateUserRequest) {
+        UserEntity userEntityToUpdate = mapper.userRequestToUserEntity(updateUserRequest);
+        UserEntity userEntityUpdated = userService.updateUser(userEntityToUpdate);
+        return mapper.userEntityToDto(userEntityUpdated,
                                       true);
     }
 }
