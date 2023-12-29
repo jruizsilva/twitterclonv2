@@ -3,7 +3,7 @@ package twitterclonv2.business.facade.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import twitterclonv2.business.facade.UserFacade;
-import twitterclonv2.business.mapper.UserMapper;
+import twitterclonv2.business.mapper.Mapper;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.domain.dto.user.UserDto;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
@@ -15,7 +15,7 @@ import twitterclonv2.domain.entity.UserEntity;
 @RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
     private final UserService userService;
-    private final UserMapper userMapper;
+    private final Mapper mapper;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
@@ -30,6 +30,7 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserDto findUserAuthenticated() {
         UserEntity userEntity = userService.findUserAuthenticated();
-        return userMapper.toDto(userEntity);
+        return mapper.userEntityToDto(userEntity,
+                                      true);
     }
 }
