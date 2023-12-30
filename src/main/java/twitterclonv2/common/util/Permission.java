@@ -6,5 +6,6 @@ public enum Permission {
     SAVE_ONE_USER,
     SAVE_ONE_POST,
     GET_USER_AUTHENTICATED,
-    FIND_ALL_POSTS
+    FIND_ALL_POSTS,
+    UPDATE_USER
 }

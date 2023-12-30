@@ -10,13 +10,15 @@ public enum Role {
     USER(Arrays.asList(Permission.FIND_ALL_PRODUCTS,
                        Permission.SAVE_ONE_POST,
                        Permission.GET_USER_AUTHENTICATED,
-                       Permission.FIND_ALL_POSTS)),
+                       Permission.FIND_ALL_POSTS,
+                       Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(Permission.FIND_ALL_PRODUCTS,
                                 Permission.SAVE_ONE_PRODUCT,
                                 Permission.SAVE_ONE_USER,
                                 Permission.SAVE_ONE_POST,
                                 Permission.GET_USER_AUTHENTICATED,
-                                Permission.FIND_ALL_POSTS));
+                                Permission.FIND_ALL_POSTS,
+                                Permission.UPDATE_USER));
 
     private List<Permission> permissions;
 
