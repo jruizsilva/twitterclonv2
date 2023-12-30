@@ -54,7 +54,6 @@ public class MapperImpl implements Mapper {
     @Override
     public UserEntity userRequestToUserEntity(UpdateUserRequest updateUserRequest) {
         return UserEntity.builder()
-                         .username(updateUserRequest.getUsername())
                          .name(updateUserRequest.getName())
                          .description(updateUserRequest.getDescription())
                          .build();
