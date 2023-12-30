@@ -12,6 +12,8 @@ import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
@@ -49,5 +51,14 @@ public class UserFacadeImpl implements UserFacade {
         UserEntity userEntityUpdated = userService.updateUser(userEntity);
         return mapper.userEntityToDto(userEntityUpdated,
                                       true);
+    }
+
+    @Override
+    public List<UserDto> findAllUsers() {
+        List<UserEntity> userEntityList = userService.findAllUsers();
+        return userEntityList.stream()
+                             .map(userEntity -> mapper.userEntityToDto(userEntity,
+                                                                       true))
+                             .toList();
     }
 }

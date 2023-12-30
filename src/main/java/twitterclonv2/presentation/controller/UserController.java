@@ -8,6 +8,8 @@ import twitterclonv2.business.facade.UserFacade;
 import twitterclonv2.domain.dto.user.UserDto;
 import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -17,6 +19,11 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<UserDto> findUserAuthenticated() {
         return ResponseEntity.ok(userFacade.findUserAuthenticated());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> findAllUsers() {
+        return ResponseEntity.ok(userFacade.findAllUsers());
     }
 
     @PatchMapping

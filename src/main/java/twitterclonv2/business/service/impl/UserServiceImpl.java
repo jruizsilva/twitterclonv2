@@ -16,6 +16,8 @@ import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -60,5 +62,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateUser(UserEntity userEntityRequest) {
         return userRepository.save(userEntityRequest);
+    }
+
+    @Override
+    public List<UserEntity> findAllUsers() {
+        return userRepository.findAll();
     }
 }
