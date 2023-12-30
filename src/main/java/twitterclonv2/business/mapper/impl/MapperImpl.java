@@ -39,6 +39,7 @@ public class MapperImpl implements Mapper {
         UserDto userDto = UserDto.builder()
                                  .id(userEntity.getId())
                                  .name(userEntity.getName())
+                                 .username(userEntity.getUsername())
                                  .description(userEntity.getDescription())
                                  .build();
         if (includePosts) {

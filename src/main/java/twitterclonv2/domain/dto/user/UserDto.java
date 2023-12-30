@@ -14,6 +14,7 @@ import java.util.List;
 public class UserDto {
     private Long id;
     private String name;
+    private String username;
     private String description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<PostDto> posts;

@@ -83,6 +83,9 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/users")
                                                       .hasAuthority(Permission.UPDATE_USER.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/users")
+                                                      .hasAuthority(Permission.FIND_ALL_USERS.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
