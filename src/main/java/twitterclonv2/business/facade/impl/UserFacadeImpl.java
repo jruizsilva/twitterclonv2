@@ -37,8 +37,16 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public UserDto updateUser(UpdateUserRequest updateUserRequest) {
-        UserEntity userEntityToUpdate = mapper.userRequestToUserEntity(updateUserRequest);
-        UserEntity userEntityUpdated = userService.updateUser(userEntityToUpdate);
+        UserEntity userEntity = userService.findUserAuthenticated();
+        if (updateUserRequest.getName() != null && !updateUserRequest.getName()
+                                                                     .isBlank()) {
+            userEntity.setName(updateUserRequest.getName());
+        }
+        if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
+                                                                            .isBlank()) {
+            userEntity.setDescription(updateUserRequest.getDescription());
+        }
+        UserEntity userEntityUpdated = userService.updateUser(userEntity);
         return mapper.userEntityToDto(userEntityUpdated,
                                       true);
     }

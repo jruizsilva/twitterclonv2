@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -35,6 +36,7 @@ public class UserEntity implements UserDetails {
     @JsonManagedReference
     @OneToMany(targetEntity = PostEntity.class,
                mappedBy = "author")
+    @ToString.Exclude
     private List<PostEntity> posts;
 
     @Override
