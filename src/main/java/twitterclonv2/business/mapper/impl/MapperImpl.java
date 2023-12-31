@@ -42,7 +42,7 @@ public class MapperImpl implements Mapper {
                                  .description(userEntity.getDescription())
                                  .build();
         if (includePosts) {
-            userDto.setPosts(userEntity.getPosts()
+            userDto.setPosts(userEntity.getPostsCreated()
                                        .stream()
                                        .map(postEntity -> this.postEntityToDto(postEntity,
                                                                                false))

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import twitterclonv2.business.facade.PostFacade;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
-import twitterclonv2.domain.dto.post.request.UpdatePostRequest;
 
 import java.util.List;
 
@@ -30,10 +29,12 @@ public class PostController {
         return ResponseEntity.ok(postFacade.findByOrderByCreatedAtDesc());
     }
 
-    @PutMapping
-    public ResponseEntity<PostDto> updatePost(@RequestBody @Valid
-                                              UpdatePostRequest updatePostRequest) {
-        return ResponseEntity.ok(postFacade.updatePost(updatePostRequest));
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostDto> updatePost(@PathVariable Long postId,
+                                              @RequestBody @Valid
+                                              PostRequest updatePostRequest) {
+        return ResponseEntity.ok(postFacade.updatePost(updatePostRequest,
+                                                       postId));
     }
 
     @DeleteMapping("/{postId}")

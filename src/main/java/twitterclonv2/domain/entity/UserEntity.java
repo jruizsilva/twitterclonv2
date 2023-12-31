@@ -37,7 +37,10 @@ public class UserEntity implements UserDetails {
     @OneToMany(targetEntity = PostEntity.class,
                mappedBy = "author")
     @ToString.Exclude
-    private List<PostEntity> posts;
+    private List<PostEntity> postsCreated;
+    @ManyToMany(mappedBy = "usersLikes")
+    @ToString.Exclude
+    private List<PostEntity> postsLiked;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

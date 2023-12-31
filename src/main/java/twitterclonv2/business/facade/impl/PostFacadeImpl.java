@@ -9,7 +9,6 @@ import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
-import twitterclonv2.domain.dto.post.request.UpdatePostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
@@ -50,12 +49,13 @@ public class PostFacadeImpl implements PostFacade {
     }
 
     @Override
-    public PostDto updatePost(UpdatePostRequest updatePostRequest) {
+    public PostDto updatePost(PostRequest postRequest,
+                              Long postId) {
         UserEntity userEntity = userService.findUserAuthenticated();
-        Optional<PostEntity> postEntityOptional = userEntity.getPosts()
+        Optional<PostEntity> postEntityOptional = userEntity.getPostsCreated()
                                                             .stream()
                                                             .map(post -> Objects.equals(post.getId(),
-                                                                                        updatePostRequest.getId()) ? post : null)
+                                                                                        postId) ? post : null)
                                                             .filter(Objects::nonNull)
                                                             .findFirst();
 
@@ -63,7 +63,7 @@ public class PostFacadeImpl implements PostFacade {
             throw new CustomObjectNotFoundException("Post not found in current user auth");
         }
         PostEntity postEntityToUpdate = postEntityOptional.get();
-        postEntityToUpdate.setContent(updatePostRequest.getContent());
+        postEntityToUpdate.setContent(postRequest.getContent());
         PostEntity postEntityUpdated = postService.updatePost(postEntityToUpdate);
 
         return mapper.postEntityToDto(postEntityUpdated,

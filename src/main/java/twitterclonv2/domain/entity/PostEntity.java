@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Builder
@@ -29,6 +30,14 @@ public class PostEntity {
     @ManyToOne(targetEntity = UserEntity.class)
     @JsonBackReference
     private UserEntity author;
+    @ManyToMany
+    @JoinTable(
+            name = "posts_users_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @ToString.Exclude
+    private List<UserEntity> usersLikes;
 
     @PrePersist
     protected void onCreate() {
