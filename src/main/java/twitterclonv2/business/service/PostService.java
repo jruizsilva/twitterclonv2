@@ -9,4 +9,5 @@ public interface PostService {
     PostEntity createOnePost(PostRequest postRequest);
     List<PostEntity> findAll();
     List<PostEntity> findByOrderByCreatedAtDesc();
+    PostEntity updatePost(PostEntity updatePostEntityRequest);
 }

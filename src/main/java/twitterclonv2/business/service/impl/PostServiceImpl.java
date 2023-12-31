@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
-import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
@@ -35,5 +34,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostEntity> findByOrderByCreatedAtDesc() {
         return postRepository.findByOrderByCreatedAtDesc();
+    }
+
+    @Override
+    public PostEntity updatePost(PostEntity updatePostEntityRequest) {
+        return postRepository.save(updatePostEntityRequest);
     }
 }
