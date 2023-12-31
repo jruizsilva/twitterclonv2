@@ -61,4 +61,16 @@ public class UserFacadeImpl implements UserFacade {
                                                                        true))
                              .toList();
     }
+
+    @Override
+    public List<UserDto> searchUsersByUsernameOrName(String peopleToSearch) {
+        List<UserEntity> userEntityList = userService.searchUsersByUsernameOrName(peopleToSearch);
+        System.out.println(userEntityList.toString());
+
+        return userEntityList.stream()
+                             .map(userEntity -> mapper
+                                     .userEntityToDto(userEntity,
+                                                      true))
+                             .toList();
+    }
 }

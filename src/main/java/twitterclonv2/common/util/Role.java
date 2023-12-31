@@ -8,11 +8,13 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.SEARCH_USERS,
             Permission.FIND_ALL_USERS,
             Permission.CREATE_ONE_POST,
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.SEARCH_USERS,
             Permission.FIND_ALL_USERS,
             Permission.CREATE_ONE_POST,
             Permission.GET_USER_AUTHENTICATED,

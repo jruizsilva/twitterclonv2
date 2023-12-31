@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService {
     public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public List<UserEntity> searchUsersByUsernameOrName(String peopleToSearch) {
+        return userRepository.findByUsernameLikeOrNameLikeAllIgnoreCase(peopleToSearch);
+    }
 }

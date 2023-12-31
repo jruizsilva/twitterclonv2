@@ -5,4 +5,5 @@ public enum Permission {
     CREATE_ONE_POST,
     GET_USER_AUTHENTICATED,
     UPDATE_USER,
+    SEARCH_USERS
 }

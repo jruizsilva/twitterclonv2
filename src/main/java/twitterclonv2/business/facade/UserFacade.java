@@ -14,4 +14,5 @@ public interface UserFacade {
     UserDto findUserAuthenticated();
     UserDto updateUser(UpdateUserRequest updateUserRequest);
     List<UserDto> findAllUsers();
+    List<UserDto> searchUsersByUsernameOrName(String peopleToSearch);
 }

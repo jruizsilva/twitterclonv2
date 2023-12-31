@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 @Component
 @RequiredArgsConstructor
 public class MapperImpl implements Mapper {
-
     @Override
     public PostDto postEntityToDto(PostEntity postEntity,
                                    boolean includeAuthor) {
