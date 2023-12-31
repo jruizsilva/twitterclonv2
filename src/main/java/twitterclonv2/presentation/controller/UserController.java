@@ -35,7 +35,6 @@ public class UserController {
     @GetMapping("/search/{peopleToSearch}")
     public ResponseEntity<List<UserDto>> searchUsersByUsernameOrName(@PathVariable String peopleToSearch) {
         String search = "%" + peopleToSearch + "%";
-        System.out.println(search);
         return ResponseEntity.ok(userFacade.searchUsersByUsernameOrName(search));
     }
 }
