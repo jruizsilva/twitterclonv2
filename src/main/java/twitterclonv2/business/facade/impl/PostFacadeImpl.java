@@ -69,4 +69,9 @@ public class PostFacadeImpl implements PostFacade {
         return mapper.postEntityToDto(postEntityUpdated,
                                       true);
     }
+
+    @Override
+    public void deletePostById(Long postId) {
+        postService.deletePostById(postId);
+    }
 }

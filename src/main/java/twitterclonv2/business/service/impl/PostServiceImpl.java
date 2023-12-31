@@ -40,4 +40,9 @@ public class PostServiceImpl implements PostService {
     public PostEntity updatePost(PostEntity updatePostEntityRequest) {
         return postRepository.save(updatePostEntityRequest);
     }
+
+    @Override
+    public void deletePostById(Long postId) {
+        postRepository.deleteById(postId);
+    }
 }

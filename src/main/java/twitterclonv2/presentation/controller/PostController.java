@@ -35,4 +35,11 @@ public class PostController {
                                               UpdatePostRequest updatePostRequest) {
         return ResponseEntity.ok(postFacade.updatePost(updatePostRequest));
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePostById(@PathVariable Long postId) {
+        postFacade.deletePostById(postId);
+        return ResponseEntity.noContent()
+                             .build();
+    }
 }

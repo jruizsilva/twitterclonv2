@@ -11,4 +11,5 @@ public interface PostFacade {
     List<PostDto> findAll();
     List<PostDto> findByOrderByCreatedAtDesc();
     PostDto updatePost(UpdatePostRequest updatePostRequest);
+    void deletePostById(Long postId);
 }

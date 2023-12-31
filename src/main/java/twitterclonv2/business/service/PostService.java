@@ -10,4 +10,5 @@ public interface PostService {
     List<PostEntity> findAll();
     List<PostEntity> findByOrderByCreatedAtDesc();
     PostEntity updatePost(PostEntity updatePostEntityRequest);
+    void deletePostById(Long postId);
 }
