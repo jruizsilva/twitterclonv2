@@ -44,4 +44,9 @@ public class PostController {
                              .build();
     }
 
+    @PatchMapping("/like")
+    public ResponseEntity<PostDto> toggleUserLikeByPostId(@RequestParam(name = "postId") Long postId) {
+        PostDto postDto = postFacade.toggleUserLikeByPostId(postId);
+        return ResponseEntity.ok(postDto);
+    }
 }

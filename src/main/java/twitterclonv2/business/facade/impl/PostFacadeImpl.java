@@ -75,5 +75,22 @@ public class PostFacadeImpl implements PostFacade {
         postService.deletePostById(postId);
     }
 
+    @Override
+    public PostDto toggleUserLikeByPostId(Long postId) {
+        UserEntity userEntity = userService.findUserAuthenticated();
+        PostEntity postLiked = postService.findPostById(postId);
+        List<UserEntity> userEntityLikeList = postLiked.getUsersLikes();
+        boolean liked = userEntityLikeList.contains(userEntity);
+
+        if (liked) {
+            userEntityLikeList.remove(userEntity);
+        } else {
+            userEntityLikeList.add(userEntity);
+        }
+        postLiked.setUsersLikes(userEntityLikeList);
+        PostEntity postEntityUpdated = postService.savePost(postLiked);
+        return mapper.postEntityToDto(postEntityUpdated,
+                                      true);
+    }
 
 }

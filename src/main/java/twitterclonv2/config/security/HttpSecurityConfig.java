@@ -98,6 +98,9 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/users/like/**")
                                                       .hasAuthority(Permission.TOGGLE_USER_LIKE_BY_POST_ID.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
+                                                                       "/posts/like/**")
+                                                      .hasAuthority(Permission.TOGGLE_USER_LIKE_BY_POST_ID.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
