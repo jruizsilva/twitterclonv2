@@ -8,7 +8,8 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
-            Permission.TOGGLE_USER_LIKE_BY_POST_ID,
+            Permission.REMOVE_LIKE_IN_POST,
+            Permission.LIKE_POST,
             Permission.DELETE_POST,
             Permission.UPDATE_POST,
             Permission.SEARCH_USERS,
@@ -17,7 +18,8 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
-            Permission.TOGGLE_USER_LIKE_BY_POST_ID,
+            Permission.REMOVE_LIKE_IN_POST,
+            Permission.LIKE_POST,
             Permission.DELETE_POST,
             Permission.UPDATE_POST,
             Permission.SEARCH_USERS,

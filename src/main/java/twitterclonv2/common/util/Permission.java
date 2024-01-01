@@ -8,5 +8,6 @@ public enum Permission {
     GET_USER_AUTHENTICATED,
     UPDATE_USER,
     SEARCH_USERS,
-    TOGGLE_USER_LIKE_BY_POST_ID
+    LIKE_POST,
+    REMOVE_LIKE_IN_POST
 }

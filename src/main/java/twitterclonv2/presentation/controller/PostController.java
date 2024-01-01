@@ -29,12 +29,22 @@ public class PostController {
         return ResponseEntity.ok(postFacade.findByOrderByCreatedAtDesc());
     }
 
-    @PutMapping("/{postId}")
+    @PatchMapping("/{postId}")
     public ResponseEntity<PostDto> updatePost(@PathVariable Long postId,
                                               @RequestBody @Valid
                                               PostRequest updatePostRequest) {
         return ResponseEntity.ok(postFacade.updatePost(updatePostRequest,
                                                        postId));
+    }
+
+    @PatchMapping("/{postId}/like")
+    public ResponseEntity<PostDto> likePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postFacade.likePost(postId));
+    }
+
+    @PatchMapping("/{postId}/dislike")
+    public ResponseEntity<PostDto> dislikePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postFacade.removeLikeInPost(postId));
     }
 
     @DeleteMapping("/{postId}")

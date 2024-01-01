@@ -9,6 +9,7 @@ import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
+import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
@@ -64,5 +65,46 @@ public class PostFacadeImpl implements PostFacade {
     @Override
     public void deletePostById(Long postId) {
         postService.deletePostById(postId);
+    }
+
+    @Override
+    public PostDto likePost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity postUserLiked = postService.findPostById(postId);
+        LikeEntity likeToAdd = LikeEntity.builder()
+                                         .user(userAuthenticated)
+                                         .post(postUserLiked)
+                                         .build();
+        List<LikeEntity> likes = postUserLiked.getLikes();
+        likes.add(likeToAdd);
+        postUserLiked.setLikes(likes);
+        PostEntity postSaved = postService.savePost(postUserLiked);
+        return mapper.postEntityToDto(postSaved,
+                                      true);
+    }
+
+    @Override
+    public PostDto removeLikeInPost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity postUserLiked = postService.findPostById(postId);
+        List<LikeEntity> likes = postUserLiked.getLikes();
+        Optional<LikeEntity> likeToDeleteOptional = likes.stream()
+                                                         .filter(like -> Objects.equals(postId,
+                                                                                        like.getPost()
+                                                                                            .getId())
+                                                         )
+                                                         .findFirst();
+        if (likeToDeleteOptional.isEmpty()) {
+            throw new RuntimeException("This post no has a like with that id");
+        }
+        LikeEntity likeToDelete = likeToDeleteOptional.get();
+        if (likeToDelete.getUser()
+                        .getId() != userAuthenticated.getId()) {
+            throw new RuntimeException("invalid user for this request");
+        }
+        likes.remove(likeToDelete);
+        PostEntity postSaved = postService.savePost(postUserLiked);
+        return mapper.postEntityToDto(postSaved,
+                                      true);
     }
 }

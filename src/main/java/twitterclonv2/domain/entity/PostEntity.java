@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -35,7 +34,7 @@ public class PostEntity {
     @OneToMany(mappedBy = "post",
                cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<LikeEntity> likes = new ArrayList<>();
+    private List<LikeEntity> likes;
 
     @PrePersist
     protected void onCreate() {

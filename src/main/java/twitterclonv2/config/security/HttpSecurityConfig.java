@@ -7,13 +7,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,7 +25,6 @@ import twitterclonv2.config.security.handler.CustomAuthenticationEntryPoint;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class HttpSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
@@ -97,10 +96,13 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(Permission.DELETE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/users/like/**")
-                                                      .hasAuthority(Permission.TOGGLE_USER_LIKE_BY_POST_ID.name());
+                                                      .hasAuthority(Permission.LIKE_POST.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
+                                                                                               HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.LIKE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
-                                                                       "/posts/like/**")
-                                                      .hasAuthority(Permission.TOGGLE_USER_LIKE_BY_POST_ID.name());
+                                                                       "/posts/[0-9]/like")
+                                                      .hasAuthority(Permission.REMOVE_LIKE_IN_POST.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
