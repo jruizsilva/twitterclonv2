@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import twitterclonv2.domain.dto.user.UserDto;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -15,4 +17,6 @@ public class PostDto {
     private String createdAt;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto author;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<UserDto> usersLikes;
 }
