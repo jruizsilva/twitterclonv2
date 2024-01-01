@@ -74,4 +74,6 @@ public class PostFacadeImpl implements PostFacade {
     public void deletePostById(Long postId) {
         postService.deletePostById(postId);
     }
+
+
 }

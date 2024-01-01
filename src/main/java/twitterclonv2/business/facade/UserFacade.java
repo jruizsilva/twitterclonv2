@@ -5,6 +5,7 @@ import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.RegisterUserRequest;
 import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
+import twitterclonv2.domain.entity.UserEntity;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface UserFacade {
     UserDto updateUser(UpdateUserRequest updateUserRequest);
     List<UserDto> findAllUsers();
     List<UserDto> searchUsersByUsernameOrName(String peopleToSearch);
+    UserEntity toggleUserLikeByPostId(Long postId);
+
 }

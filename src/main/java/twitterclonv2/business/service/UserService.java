@@ -14,4 +14,6 @@ public interface UserService {
     UserEntity updateUser(UserEntity userEntityRequest);
     List<UserEntity> findAllUsers();
     List<UserEntity> searchUsersByUsernameOrName(String peopleToSearch);
+    UserEntity findUserById(Long userId);
+    UserEntity saveUser(UserEntity userEntity);
 }

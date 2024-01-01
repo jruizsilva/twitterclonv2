@@ -17,6 +17,7 @@ import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +73,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> searchUsersByUsernameOrName(String peopleToSearch) {
         return userRepository.findByUsernameLikeOrNameLikeAllIgnoreCase(peopleToSearch);
+    }
+
+    @Override
+    public UserEntity findUserById(Long userId) {
+        Optional<UserEntity> postEntityOptional = userRepository.findById(userId);
+        if (postEntityOptional.isEmpty()) {
+            throw new CustomObjectNotFoundException("post with " + userId + " not found");
+        }
+        return postEntityOptional.get();
+    }
+
+    @Override
+    public UserEntity saveUser(UserEntity userEntity) {
+        return userRepository.save(userEntity);
     }
 }

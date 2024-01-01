@@ -30,12 +30,7 @@ public class PostEntity {
     @ManyToOne(targetEntity = UserEntity.class)
     @JsonBackReference
     private UserEntity author;
-    @ManyToMany
-    @JoinTable(
-            name = "posts_users_likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "postsLiked")
     @ToString.Exclude
     private List<UserEntity> usersLikes;
 
