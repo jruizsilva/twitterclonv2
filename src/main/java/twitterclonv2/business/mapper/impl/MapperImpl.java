@@ -3,9 +3,10 @@ package twitterclonv2.business.mapper.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import twitterclonv2.business.mapper.Mapper;
+import twitterclonv2.domain.dto.like.LikeDto;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.user.UserDto;
-import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
+import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
@@ -28,11 +29,6 @@ public class MapperImpl implements Mapper {
         if (includeAuthor) {
             postDto.setAuthor(this.userEntityToDto(postEntity.getAuthor(),
                                                    false));
-            postDto.setUsersLikes(postEntity.getUsersLikes()
-                                            .stream()
-                                            .map(userEntity -> this.userEntityToDto(userEntity,
-                                                                                    false))
-                                            .toList());
         }
         return postDto;
     }
@@ -52,21 +48,18 @@ public class MapperImpl implements Mapper {
                                        .map(postEntity -> this.postEntityToDto(postEntity,
                                                                                false))
                                        .toList());
-            userDto.setPostsLiked(userEntity.getPostsLiked()
-                                            .stream()
-                                            .map(postEntity -> this.postEntityToDto(postEntity,
-                                                                                    false))
-                                            .toList());
         }
         return userDto;
     }
 
     @Override
-    public UserEntity userRequestToUserEntity(UpdateUserRequest updateUserRequest) {
-        return UserEntity.builder()
-                         .name(updateUserRequest.getName())
-                         .description(updateUserRequest.getDescription())
-                         .build();
+    public LikeDto likeEntityToDto(LikeEntity likeEntity) {
+        return LikeDto.builder()
+                      .id(likeEntity.getId())
+                      .post(this.postEntityToDto(likeEntity.getPost(),
+                                                 false))
+                      .user(this.userEntityToDto(likeEntity.getUser(),
+                                                 false))
+                      .build();
     }
-
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -30,9 +31,11 @@ public class PostEntity {
     @ManyToOne(targetEntity = UserEntity.class)
     @JsonBackReference
     private UserEntity author;
-    @ManyToMany(mappedBy = "postsLiked")
+
+    @OneToMany(mappedBy = "post",
+               cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<UserEntity> usersLikes;
+    private List<LikeEntity> likes = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

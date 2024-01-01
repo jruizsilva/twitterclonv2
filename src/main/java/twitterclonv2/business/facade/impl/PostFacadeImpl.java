@@ -31,15 +31,6 @@ public class PostFacadeImpl implements PostFacade {
     }
 
     @Override
-    public List<PostDto> findAll() {
-        List<PostEntity> postEntityList = postService.findAll();
-        return postEntityList.stream()
-                             .map(postEntity -> mapper.postEntityToDto(postEntity,
-                                                                       true))
-                             .toList();
-    }
-
-    @Override
     public List<PostDto> findByOrderByCreatedAtDesc() {
         List<PostEntity> postEntityList = postService.findByOrderByCreatedAtDesc();
         return postEntityList.stream()
@@ -74,23 +65,4 @@ public class PostFacadeImpl implements PostFacade {
     public void deletePostById(Long postId) {
         postService.deletePostById(postId);
     }
-
-    @Override
-    public PostDto toggleUserLikeByPostId(Long postId) {
-        UserEntity userEntity = userService.findUserAuthenticated();
-        PostEntity postLiked = postService.findPostById(postId);
-        List<UserEntity> userEntityLikeList = postLiked.getUsersLikes();
-        boolean liked = userEntityLikeList.contains(userEntity);
-
-        if (liked) {
-            userEntityLikeList.remove(userEntity);
-        } else {
-            userEntityLikeList.add(userEntity);
-        }
-        postLiked.setUsersLikes(userEntityLikeList);
-        PostEntity postEntityUpdated = postService.savePost(postLiked);
-        return mapper.postEntityToDto(postEntityUpdated,
-                                      true);
-    }
-
 }

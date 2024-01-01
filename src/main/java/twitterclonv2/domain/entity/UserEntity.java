@@ -38,14 +38,6 @@ public class UserEntity implements UserDetails {
                mappedBy = "author")
     @ToString.Exclude
     private List<PostEntity> postsCreated;
-    @ManyToMany
-    @JoinTable(
-            name = "users_posts_likes",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    @ToString.Exclude
-    private List<PostEntity> postsLiked;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

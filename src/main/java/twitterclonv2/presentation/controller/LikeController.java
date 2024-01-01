@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UserController {
+public class LikeController {
     private final UserFacade userFacade;
 
     @GetMapping("/profile")
@@ -38,3 +38,4 @@ public class UserController {
         return ResponseEntity.ok(userFacade.searchUsersByUsernameOrName(search));
     }
 }
+

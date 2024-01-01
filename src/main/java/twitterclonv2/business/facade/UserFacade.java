@@ -15,6 +15,4 @@ public interface UserFacade {
     UserDto updateUser(UpdateUserRequest updateUserRequest);
     List<UserDto> findAllUsers();
     List<UserDto> searchUsersByUsernameOrName(String peopleToSearch);
-    UserDto toggleUserLikeByPostId(Long postId);
-
 }
