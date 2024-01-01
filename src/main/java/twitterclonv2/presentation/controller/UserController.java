@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import twitterclonv2.business.facade.UserFacade;
 import twitterclonv2.domain.dto.user.UserDto;
 import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
-import twitterclonv2.domain.entity.UserEntity;
 
 import java.util.List;
 
@@ -39,10 +38,9 @@ public class UserController {
         return ResponseEntity.ok(userFacade.searchUsersByUsernameOrName(search));
     }
 
-    @PatchMapping("/like/{postId}")
-    public ResponseEntity<UserEntity> toggleUserLikeByPostId(@PathVariable Long postId) {
-        UserEntity userEntity = userFacade.toggleUserLikeByPostId(postId);
-        return ResponseEntity.noContent()
-                             .build();
+    @PatchMapping("/like")
+    public ResponseEntity<UserDto> toggleUserLikeByPostId(@RequestParam(name = "postId") Long postId) {
+        UserDto userDto = userFacade.toggleUserLikeByPostId(postId);
+        return ResponseEntity.ok(userDto);
     }
 }

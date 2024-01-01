@@ -47,6 +47,11 @@ public class MapperImpl implements Mapper {
                                        .map(postEntity -> this.postEntityToDto(postEntity,
                                                                                false))
                                        .toList());
+            userDto.setPostsLiked(userEntity.getPostsLiked()
+                                            .stream()
+                                            .map(postEntity -> this.postEntityToDto(postEntity,
+                                                                                    false))
+                                            .toList());
         }
         return userDto;
     }

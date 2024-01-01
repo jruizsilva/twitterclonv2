@@ -18,4 +18,6 @@ public class UserDto {
     private String description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<PostDto> posts;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<PostDto> postsLiked;
 }

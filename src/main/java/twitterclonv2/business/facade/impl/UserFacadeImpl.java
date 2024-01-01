@@ -78,7 +78,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserEntity toggleUserLikeByPostId(Long postId) {
+    public UserDto toggleUserLikeByPostId(Long postId) {
         UserEntity userEntity = userService.findUserAuthenticated();
         PostEntity postLiked = postService.findPostById(postId);
         List<PostEntity> postsUserLikedList = userEntity.getPostsLiked();
@@ -90,6 +90,8 @@ public class UserFacadeImpl implements UserFacade {
             postsUserLikedList.add(postLiked);
         }
         userEntity.setPostsLiked(postsUserLikedList);
-        return userService.saveUser(userEntity);
+        UserEntity userEntityUpdated = userService.saveUser(userEntity);
+        return mapper.userEntityToDto(userEntityUpdated,
+                                      true);
     }
 }
