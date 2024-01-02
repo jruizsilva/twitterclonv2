@@ -100,8 +100,8 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                                HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.LIKE_POST.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
-                                                                       "/posts/[0-9]/like")
+            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/removeLike",
+                                                                                               HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_LIKE_IN_POST.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,

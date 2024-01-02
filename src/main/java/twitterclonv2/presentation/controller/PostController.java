@@ -42,8 +42,8 @@ public class PostController {
         return ResponseEntity.ok(postFacade.likePost(postId));
     }
 
-    @PatchMapping("/{postId}/dislike")
-    public ResponseEntity<PostDto> dislikePost(@PathVariable Long postId) {
+    @PatchMapping("/{postId}/removeLike")
+    public ResponseEntity<PostDto> removeLikeInPost(@PathVariable Long postId) {
         return ResponseEntity.ok(postFacade.removeLikeInPost(postId));
     }
 

@@ -89,19 +89,15 @@ public class PostFacadeImpl implements PostFacade {
         PostEntity postUserLiked = postService.findPostById(postId);
         List<LikeEntity> likes = postUserLiked.getLikes();
         Optional<LikeEntity> likeToDeleteOptional = likes.stream()
-                                                         .filter(like -> Objects.equals(postId,
-                                                                                        like.getPost()
-                                                                                            .getId())
-                                                         )
+                                                         .filter(like -> postId == like.getPost()
+                                                                                       .getId() && like.getUser()
+                                                                                                       .getId() == userAuthenticated.getId())
                                                          .findFirst();
         if (likeToDeleteOptional.isEmpty()) {
-            throw new RuntimeException("This post no has a like with that id");
+            return mapper.postEntityToDto(postUserLiked,
+                                          true);
         }
         LikeEntity likeToDelete = likeToDeleteOptional.get();
-        if (likeToDelete.getUser()
-                        .getId() != userAuthenticated.getId()) {
-            throw new RuntimeException("invalid user for this request");
-        }
         likes.remove(likeToDelete);
         PostEntity postSaved = postService.savePost(postUserLiked);
         return mapper.postEntityToDto(postSaved,
