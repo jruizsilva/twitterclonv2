@@ -53,4 +53,9 @@ public class PostController {
         return ResponseEntity.noContent()
                              .build();
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<PostDto>> findAllPostOfCurrentUser() {
+        return ResponseEntity.ok(postFacade.findAllPostOfCurrentUser());
+    }
 }

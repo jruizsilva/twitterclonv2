@@ -39,6 +39,10 @@ public class UserEntity implements UserDetails {
     @ToString.Exclude
     private List<PostEntity> postsCreated;
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<LikeEntity> likes;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities =

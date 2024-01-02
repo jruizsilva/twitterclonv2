@@ -18,5 +18,5 @@ public class PostDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto author;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<UserDto> usersLikes;
+    private List<UserDto> likes;
 }

@@ -9,7 +9,6 @@ import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
-import twitterclonv2.persistence.LikeRepository;
 import twitterclonv2.persistence.PostRepository;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final LikeRepository likeRepository;
     private final UserService userService;
 
     public PostEntity createOnePost(PostRequest postRequest) {
@@ -94,9 +92,14 @@ public class PostServiceImpl implements PostService {
         }
         LikeEntity likeToDelete = likeToDeleteOptional.get();
         likes.remove(likeToDelete);
-        likeRepository.delete(likeToDelete);
         post.setLikes(likes);
 
         return postRepository.save(post);
+    }
+
+    @Override
+    public List<PostEntity> findAllPostOfCurrentUser() {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        return postRepository.findByAuthor_Username(userAuthenticated.getUsername());
     }
 }

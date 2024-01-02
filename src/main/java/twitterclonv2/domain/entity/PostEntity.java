@@ -32,7 +32,7 @@ public class PostEntity {
     private UserEntity author;
 
     @OneToMany(mappedBy = "post",
-               cascade = CascadeType.ALL)
+               cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<LikeEntity> likes;
 

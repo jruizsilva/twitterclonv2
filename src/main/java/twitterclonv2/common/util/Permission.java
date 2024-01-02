@@ -9,5 +9,6 @@ public enum Permission {
     UPDATE_USER,
     SEARCH_USERS,
     LIKE_POST,
-    REMOVE_LIKE_IN_POST
+    REMOVE_LIKE_IN_POST,
+    FIND_ALL_POSTS_OF_CURRENT_USER,
 }

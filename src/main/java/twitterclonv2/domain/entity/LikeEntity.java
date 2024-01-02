@@ -26,4 +26,6 @@ public class LikeEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+
+
 }

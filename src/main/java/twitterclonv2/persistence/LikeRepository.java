@@ -8,6 +8,6 @@ import twitterclonv2.domain.entity.LikeEntity;
 import java.util.List;
 
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
-    @Query("select l from LikeEntity l where upper(l.user.username) = upper(:username)")
-    List<LikeEntity> findByUser_UsernameAllIgnoreCase(@Param("username") String username);
+    @Query("select l from LikeEntity l where l.user.id = :id")
+    List<LikeEntity> findByUser_Id(@Param("id") Long id);
 }

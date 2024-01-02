@@ -103,14 +103,16 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/removeLike",
                                                                                                HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_LIKE_IN_POST.name());
-
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.CREATE_ONE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/posts/user")
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS_OF_CURRENT_USER.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts")
                                                       .permitAll();
-
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
         };

@@ -13,13 +13,15 @@ public class Twitterclonv2Application {
                               args);
     }
 
-   /* @Bean
+    /*@Bean
     public CommandLineRunner createPasswordsCommand() {
         return args -> {
             System.out.println("admin clave:");
             System.out.println(passwordEncoder.encode("admin"));
             System.out.println("user clave:");
             System.out.println(passwordEncoder.encode("user"));
+            System.out.println("user sand:");
+            System.out.println(passwordEncoder.encode("sand"));
         };
     }*/
 }

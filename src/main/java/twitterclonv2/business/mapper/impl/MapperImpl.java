@@ -11,6 +11,7 @@ import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -29,11 +30,11 @@ public class MapperImpl implements Mapper {
         if (includeAuthor) {
             postDto.setAuthor(this.userEntityToDto(postEntity.getAuthor(),
                                                    false));
-            postDto.setUsersLikes(postEntity.getLikes()
-                                            .stream()
-                                            .map(likeEntity -> this.userEntityToDto(likeEntity.getUser(),
-                                                                                    false))
-                                            .toList());
+            postDto.setLikes(postEntity.getLikes() != null ? postEntity.getLikes()
+                                                                       .stream()
+                                                                       .map(likeEntity -> this.userEntityToDto(likeEntity.getUser(),
+                                                                                                               false))
+                                                                       .toList() : Collections.emptyList());
         }
         return postDto;
     }

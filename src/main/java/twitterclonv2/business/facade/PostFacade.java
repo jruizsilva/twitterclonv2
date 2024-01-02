@@ -13,4 +13,6 @@ public interface PostFacade {
     void deletePostById(Long postId);
     PostDto addLikeToPost(Long postId);
     PostDto removeLikeInPost(Long postId);
+    List<PostDto> findAllPostOfCurrentUser();
+    List<PostDto> getPostsLikedByUser(Long userId);
 }
