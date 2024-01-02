@@ -58,11 +58,18 @@ public class PostServiceImpl implements PostService {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+        List<LikeEntity> likes = post.getLikes();
+        boolean isPostIsAlreadyLiked = likes.stream()
+                                            .anyMatch(like -> like.getUser()
+                                                                  .getId() == userAuthenticated.getId());
+        if (isPostIsAlreadyLiked) {
+            return post;
+        }
+
         LikeEntity likeToAdd = LikeEntity.builder()
                                          .user(userAuthenticated)
                                          .post(post)
                                          .build();
-        List<LikeEntity> likes = post.getLikes();
         likes.add(likeToAdd);
         post.setLikes(likes);
         return postRepository.save(post);
@@ -84,6 +91,8 @@ public class PostServiceImpl implements PostService {
         }
         LikeEntity likeToDelete = likeToDeleteOptional.get();
         likes.remove(likeToDelete);
-        return null;
+        post.setLikes(likes);
+
+        return postRepository.save(post);
     }
 }
