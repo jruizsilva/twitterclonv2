@@ -29,6 +29,11 @@ public class MapperImpl implements Mapper {
         if (includeAuthor) {
             postDto.setAuthor(this.userEntityToDto(postEntity.getAuthor(),
                                                    false));
+            postDto.setUsersLikes(postEntity.getLikes()
+                                            .stream()
+                                            .map(likeEntity -> this.userEntityToDto(likeEntity.getUser(),
+                                                                                    false))
+                                            .toList());
         }
         return postDto;
     }
