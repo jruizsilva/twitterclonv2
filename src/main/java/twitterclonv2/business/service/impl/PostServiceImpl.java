@@ -30,11 +30,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostEntity> findAll() {
-        return postRepository.findAll();
-    }
-
-    @Override
     public List<PostEntity> findByOrderByCreatedAtDesc() {
         return postRepository.findByOrderByCreatedAtDesc();
     }
@@ -56,20 +51,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePostById(Long postId) {
         postRepository.deleteById(postId);
-    }
-
-    @Override
-    public PostEntity findPostById(Long postId) {
-        Optional<PostEntity> postEntityOptional = postRepository.findById(postId);
-        if (postEntityOptional.isEmpty()) {
-            throw new CustomObjectNotFoundException("post with " + postId + " not found");
-        }
-        return postEntityOptional.get();
-    }
-
-    @Override
-    public PostEntity savePost(PostEntity postEntity) {
-        return postRepository.save(postEntity);
     }
 
     @Override
