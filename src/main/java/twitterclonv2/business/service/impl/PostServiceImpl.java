@@ -9,6 +9,7 @@ import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
+import twitterclonv2.persistence.LikeRepository;
 import twitterclonv2.persistence.PostRepository;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
     private final UserService userService;
 
     public PostEntity createOnePost(PostRequest postRequest) {
@@ -59,10 +61,11 @@ public class PostServiceImpl implements PostService {
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
         List<LikeEntity> likes = post.getLikes();
-        boolean isPostIsAlreadyLiked = likes.stream()
-                                            .anyMatch(like -> like.getUser()
-                                                                  .getId() == userAuthenticated.getId());
-        if (isPostIsAlreadyLiked) {
+        Optional<LikeEntity> likeOptional = likes.stream()
+                                                 .filter(like -> like.getUser()
+                                                                     .getId() == userAuthenticated.getId())
+                                                 .findFirst();
+        if (likeOptional.isPresent()) {
             return post;
         }
 
@@ -91,6 +94,7 @@ public class PostServiceImpl implements PostService {
         }
         LikeEntity likeToDelete = likeToDeleteOptional.get();
         likes.remove(likeToDelete);
+        likeRepository.delete(likeToDelete);
         post.setLikes(likes);
 
         return postRepository.save(post);
