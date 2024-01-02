@@ -6,6 +6,7 @@ import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.domain.dto.post.request.PostRequest;
+import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
@@ -39,8 +40,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostEntity updatePost(PostEntity updatePostEntityRequest) {
-        return postRepository.save(updatePostEntityRequest);
+    public PostEntity updatePost(PostRequest postRequest,
+                                 Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = postRepository.findById(postId)
+                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+        if (post.getAuthor()
+                .getId() != userAuthenticated.getId()) {
+            throw new RuntimeException("post author is not equal to the user authenticated");
+        }
+        post.setContent(postRequest.getContent());
+        return postRepository.save(post);
     }
 
     @Override
@@ -60,5 +70,39 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity savePost(PostEntity postEntity) {
         return postRepository.save(postEntity);
+    }
+
+    @Override
+    public PostEntity addLikeToPost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = postRepository.findById(postId)
+                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+        LikeEntity likeToAdd = LikeEntity.builder()
+                                         .user(userAuthenticated)
+                                         .post(post)
+                                         .build();
+        List<LikeEntity> likes = post.getLikes();
+        likes.add(likeToAdd);
+        post.setLikes(likes);
+        return postRepository.save(post);
+    }
+
+    @Override
+    public PostEntity removeLikeInPost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = postRepository.findById(postId)
+                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+        List<LikeEntity> likes = post.getLikes();
+        Optional<LikeEntity> likeToDeleteOptional = likes.stream()
+                                                         .filter(like -> postId == like.getPost()
+                                                                                       .getId() && like.getUser()
+                                                                                                       .getId() == userAuthenticated.getId())
+                                                         .findFirst();
+        if (likeToDeleteOptional.isEmpty()) {
+            return post;
+        }
+        LikeEntity likeToDelete = likeToDeleteOptional.get();
+        likes.remove(likeToDelete);
+        return null;
     }
 }

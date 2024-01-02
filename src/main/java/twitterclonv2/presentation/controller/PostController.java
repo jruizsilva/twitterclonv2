@@ -39,7 +39,7 @@ public class PostController {
 
     @PatchMapping("/{postId}/like")
     public ResponseEntity<PostDto> likePost(@PathVariable Long postId) {
-        return ResponseEntity.ok(postFacade.likePost(postId));
+        return ResponseEntity.ok(postFacade.addLikeToPost(postId));
     }
 
     @PatchMapping("/{postId}/removeLike")
