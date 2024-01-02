@@ -12,6 +12,7 @@ import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.common.util.Role;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.RegisterUserRequest;
+import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
@@ -61,8 +62,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateUser(UserEntity userEntityRequest) {
-        return userRepository.save(userEntityRequest);
+    public UserEntity updateUser(UpdateUserRequest updateUserRequest) {
+        UserEntity userEntity = this.findUserAuthenticated();
+        if (updateUserRequest.getName() != null && !updateUserRequest.getName()
+                                                                     .isBlank()) {
+            userEntity.setName(updateUserRequest.getName());
+        }
+        if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
+                                                                            .isBlank()) {
+            userEntity.setDescription(updateUserRequest.getDescription());
+        }
+        return userRepository.save(userEntity);
     }
 
     @Override

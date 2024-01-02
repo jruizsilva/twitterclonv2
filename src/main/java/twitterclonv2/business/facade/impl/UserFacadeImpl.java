@@ -39,16 +39,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public UserDto updateUser(UpdateUserRequest updateUserRequest) {
-        UserEntity userEntity = userService.findUserAuthenticated();
-        if (updateUserRequest.getName() != null && !updateUserRequest.getName()
-                                                                     .isBlank()) {
-            userEntity.setName(updateUserRequest.getName());
-        }
-        if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
-                                                                            .isBlank()) {
-            userEntity.setDescription(updateUserRequest.getDescription());
-        }
-        UserEntity userEntityUpdated = userService.updateUser(userEntity);
+        UserEntity userEntityUpdated = userService.updateUser(updateUserRequest);
         return mapper.userEntityToDto(userEntityUpdated,
                                       true);
     }
@@ -65,7 +56,6 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public List<UserDto> searchUsersByUsernameOrName(String peopleToSearch) {
         List<UserEntity> userEntityList = userService.searchUsersByUsernameOrName(peopleToSearch);
-        System.out.println(userEntityList.toString());
 
         return userEntityList.stream()
                              .map(userEntity -> mapper
