@@ -2,7 +2,10 @@ package twitterclonv2.business.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import twitterclonv2.business.mapper.LikeMapper;
 import twitterclonv2.business.mapper.Mapper;
+import twitterclonv2.business.mapper.PostMapper;
+import twitterclonv2.business.mapper.UserMapper;
 import twitterclonv2.domain.dto.like.LikeDto;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.user.UserDto;
@@ -11,50 +14,31 @@ import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
 public class MapperImpl implements Mapper {
+    private final PostMapper postMapper;
+    private final UserMapper userMapper;
+    private final LikeMapper likeMapper;
+
     @Override
-    public PostDto postEntityToDto(PostEntity postEntity,
-                                   boolean includeAuthor) {
+    public PostDto postEntityToDto(PostEntity postEntity) {
+        PostDto postDto = postMapper.postEntityToDtoWithoutChildren(postEntity);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM 'at' HH:mm");
         String formattedDate = postEntity.getCreatedAt()
                                          .format(formatter);
-        PostDto postDto = PostDto.builder()
-                                 .id(postEntity.getId())
-                                 .content(postEntity.getContent())
-                                 .createdAt(formattedDate)
-                                 .build();
-        if (includeAuthor) {
-            postDto.setAuthor(this.userEntityToDto(postEntity.getAuthor(),
-                                                   false));
-            postDto.setLikes(postEntity.getLikes() != null ? postEntity.getLikes()
-                                                                       .stream()
-                                                                       .map(likeEntity -> this.userEntityToDto(likeEntity.getUser(),
-                                                                                                               false))
-                                                                       .toList() : Collections.emptyList());
-        }
+        postDto.setCreatedAt(formattedDate);
+        postDto.setAuthor(userMapper.userEntityToDtoWithoutChildren(postEntity.getAuthor()));
+        postDto.setLikes(likeMapper.likeEntityListToDtoListWithoutChildren(postEntity.getLikes()));
         return postDto;
     }
 
     @Override
-    public UserDto userEntityToDto(UserEntity userEntity,
-                                   boolean includePosts) {
-        UserDto userDto = UserDto.builder()
-                                 .id(userEntity.getId())
-                                 .name(userEntity.getName())
-                                 .username(userEntity.getUsername())
-                                 .description(userEntity.getDescription())
-                                 .build();
-        if (includePosts) {
-            userDto.setPosts(userEntity.getPostsCreated()
-                                       .stream()
-                                       .map(postEntity -> this.postEntityToDto(postEntity,
-                                                                               false))
-                                       .toList());
-        }
+    public UserDto userEntityToDto(UserEntity userEntity) {
+        UserDto userDto = userMapper.userEntityToDtoWithoutChildren(userEntity);
+        userDto.setPostsCreated(postMapper.postEntityListToDtoListWithoutChildren(userEntity.getPostsCreated()));
+        userDto.setPostsLiked(likeMapper.likeEntityListToDtoListWithoutChildren(userEntity.getLikes()));
         return userDto;
     }
 
@@ -62,10 +46,8 @@ public class MapperImpl implements Mapper {
     public LikeDto likeEntityToDto(LikeEntity likeEntity) {
         return LikeDto.builder()
                       .id(likeEntity.getId())
-                      .post(this.postEntityToDto(likeEntity.getPost(),
-                                                 false))
-                      .user(this.userEntityToDto(likeEntity.getUser(),
-                                                 false))
+                      .post(this.postEntityToDto(likeEntity.getPost()))
+                      .user(this.userEntityToDto(likeEntity.getUser()))
                       .build();
     }
 }

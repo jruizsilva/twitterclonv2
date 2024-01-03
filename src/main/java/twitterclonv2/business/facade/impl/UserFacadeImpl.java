@@ -33,23 +33,22 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserDto findUserAuthenticated() {
         UserEntity userEntity = userService.findUserAuthenticated();
-        return mapper.userEntityToDto(userEntity,
-                                      true);
+        return mapper.userEntityToDto(userEntity);
+       /* return mapper.userEntityToDto(userEntity,
+                                      true);*/
     }
 
     @Override
     public UserDto updateUser(UpdateUserRequest updateUserRequest) {
         UserEntity userEntityUpdated = userService.updateUser(updateUserRequest);
-        return mapper.userEntityToDto(userEntityUpdated,
-                                      true);
+        return mapper.userEntityToDto(userEntityUpdated);
     }
 
     @Override
     public List<UserDto> findAllUsers() {
         List<UserEntity> userEntityList = userService.findAllUsers();
         return userEntityList.stream()
-                             .map(userEntity -> mapper.userEntityToDto(userEntity,
-                                                                       true))
+                             .map(userEntity -> mapper.userEntityToDto(userEntity))
                              .toList();
     }
 
@@ -59,8 +58,7 @@ public class UserFacadeImpl implements UserFacade {
 
         return userEntityList.stream()
                              .map(userEntity -> mapper
-                                     .userEntityToDto(userEntity,
-                                                      true))
+                                     .userEntityToDto(userEntity))
                              .toList();
     }
 }

@@ -94,9 +94,6 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
                                                                        "/posts/**")
                                                       .hasAuthority(Permission.DELETE_POST.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
-                                                                       "/users/like/**")
-                                                      .hasAuthority(Permission.LIKE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                                HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.LIKE_POST.name());

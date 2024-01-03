@@ -56,8 +56,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity addLikeToPost(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
+        System.out.println(userAuthenticated);
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+        System.out.println(post);
         List<LikeEntity> likes = post.getLikes();
         Optional<LikeEntity> likeOptional = likes.stream()
                                                  .filter(like -> like.getUser()

@@ -1,6 +1,5 @@
 package twitterclonv2.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +27,7 @@ public class PostEntity {
     private LocalDateTime createdAt;
 
     @ManyToOne(targetEntity = UserEntity.class)
-    @JsonBackReference
+    /*@JsonBackReference*/
     private UserEntity author;
 
     @OneToMany(mappedBy = "post",
