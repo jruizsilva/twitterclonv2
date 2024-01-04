@@ -30,21 +30,12 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws Exception {
-        AuthenticationResponse jwtDto = userFacade.authenticate(authenticationRequest);
-        return ResponseEntity.ok(jwtDto);
+        return ResponseEntity.ok(userFacade.authenticate(authenticationRequest));
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
-        userFacade.registerUser(registerUserRequest);
-        AuthenticationRequest authenticationRequest =
-                AuthenticationRequest.builder()
-                                     .username(registerUserRequest.getUsername())
-                                     .password(registerUserRequest.getPassword())
-                                     .build();
-        AuthenticationResponse authenticationResponse =
-                userFacade.authenticate(authenticationRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(authenticationResponse);
+                             .body(userFacade.registerUser(registerUserRequest));
     }
 }

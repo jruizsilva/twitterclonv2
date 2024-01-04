@@ -41,13 +41,4 @@ public class MapperImpl implements Mapper {
         userDto.setPostsLiked(likeMapper.likeEntityListToDtoListWithoutChildren(userEntity.getLikes()));
         return userDto;
     }
-
-    @Override
-    public LikeDto likeEntityToDto(LikeEntity likeEntity) {
-        return LikeDto.builder()
-                      .id(likeEntity.getId())
-                      .post(this.postEntityToDto(likeEntity.getPost()))
-                      .user(this.userEntityToDto(likeEntity.getUser()))
-                      .build();
-    }
 }

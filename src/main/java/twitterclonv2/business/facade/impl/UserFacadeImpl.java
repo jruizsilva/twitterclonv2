@@ -26,8 +26,8 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void registerUser(RegisterUserRequest registerUserRequest) {
-        userService.registerUser(registerUserRequest);
+    public AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest) {
+        return userService.registerUser(registerUserRequest);
     }
 
     @Override

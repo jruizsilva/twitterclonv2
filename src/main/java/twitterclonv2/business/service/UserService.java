@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
     AuthenticationResponse login(AuthenticationRequest authenticationRequest);
-    void registerUser(RegisterUserRequest registerUserRequest);
+    AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest);
     UserEntity findUserAuthenticated();
     UserEntity updateUser(UpdateUserRequest updateUserRequest);
     List<UserEntity> findAllUsers();

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         return new AuthenticationResponse(jwt);
     }
 
-    public void registerUser(RegisterUserRequest registerUserRequest) {
+    public AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest) {
         UserEntity userEntity =
                 UserEntity.builder()
                           .name(registerUserRequest.getName())
@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService {
                           .role(Role.USER)
                           .build();
         userRepository.save(userEntity);
+        AuthenticationRequest authenticationRequest =
+                AuthenticationRequest.builder()
+                                     .username(registerUserRequest.getUsername())
+                                     .password(registerUserRequest.getPassword())
+                                     .build();
+        return this.login(authenticationRequest);
     }
 
     public UserEntity findUserAuthenticated() {

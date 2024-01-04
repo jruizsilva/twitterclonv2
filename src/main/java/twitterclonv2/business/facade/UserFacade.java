@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserFacade {
     AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest);
-    void registerUser(RegisterUserRequest registerUserRequest);
+    AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest);
     UserDto findUserAuthenticated();
     UserDto updateUser(UpdateUserRequest updateUserRequest);
     List<UserDto> findAllUsers();
