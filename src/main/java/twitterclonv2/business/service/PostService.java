@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostService {
     PostEntity createOnePost(PostRequest postRequest);
-    List<PostEntity> findByOrderByCreatedAtDesc();
+    List<PostEntity> findAllPostsOrderByCreatedAtDesc();
     PostEntity updatePost(PostRequest postRequest,
                           Long postId);
     void deletePostById(Long postId);

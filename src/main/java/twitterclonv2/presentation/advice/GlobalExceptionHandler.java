@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException e,
                                                                   HttpServletRequest request) {
-        System.out.println("handleBadCredentialsException");
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Incorrect username or password")
@@ -79,7 +78,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<ApiError> handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e,
                                                                                  HttpServletRequest request) {
-        System.out.println("handleInternalAuthenticationServiceException");
         ApiError apiError = ApiError.builder()
                                     .backendMessage(e.getLocalizedMessage())
                                     .message("Incorrect username or password")

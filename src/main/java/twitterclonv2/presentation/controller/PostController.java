@@ -26,7 +26,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostDto>> findAll() {
-        return ResponseEntity.ok(postFacade.findByOrderByCreatedAtDesc());
+        return ResponseEntity.ok(postFacade.findAllPostsOrderByCreatedAtDesc());
     }
 
     @PatchMapping("/{postId}")

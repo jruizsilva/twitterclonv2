@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostFacade {
     PostDto createOnePost(PostRequest postRequest);
-    List<PostDto> findByOrderByCreatedAtDesc();
+    List<PostDto> findAllPostsOrderByCreatedAtDesc();
     PostDto updatePost(PostRequest postRequest,
                        Long postId);
     void deletePostById(Long postId);
