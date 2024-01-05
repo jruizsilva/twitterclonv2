@@ -21,15 +21,15 @@ public class BookmarkController {
     }
 
     @PostMapping
-    public ResponseEntity<BookmarkDto> addBookmark(@RequestParam Long postId,
-                                                   @RequestParam String username) {
+    public ResponseEntity<PostDto> addBookmark(@RequestParam Long postId,
+                                               @RequestParam String username) {
         return ResponseEntity.ok(bookmarkFacade.addBookmark(postId,
                                                             username));
     }
 
     @DeleteMapping
-    public ResponseEntity<BookmarkDto> removeBookmark(@RequestParam Long postId,
-                                                      @RequestParam String username) {
+    public ResponseEntity<Void> removeBookmark(@RequestParam Long postId,
+                                               @RequestParam String username) {
         bookmarkFacade.removeBookmark(postId,
                                       username);
         return ResponseEntity.noContent()

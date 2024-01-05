@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface BookmarkFacade {
     List<BookmarkDto> findAllBookmarksByUsername(String username);
-    BookmarkDto addBookmark(Long postId,
-                            String username);
+    PostDto addBookmark(Long postId,
+                        String username);
     void removeBookmark(Long bookmarkId,
                         String username);
     List<PostDto> getBookmarkedPostsByUsername(String username);

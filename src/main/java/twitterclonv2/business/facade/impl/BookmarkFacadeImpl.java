@@ -27,13 +27,11 @@ public class BookmarkFacadeImpl implements BookmarkFacade {
     }
 
     @Override
-    public BookmarkDto addBookmark(Long postId,
-                                   String username) {
-        BookmarkEntity bookmark = bookmarkService.addBookmark(postId,
-                                                              username);
-        System.out.println("facade");
-        System.out.println(bookmark);
-        return mapper.bookmarkEntityToDto(bookmark);
+    public PostDto addBookmark(Long postId,
+                               String username) {
+        PostEntity post = bookmarkService.addBookmark(postId,
+                                                      username);
+        return mapper.postEntityToDto(post);
     }
 
     @Override

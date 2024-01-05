@@ -27,8 +27,8 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public BookmarkEntity addBookmark(Long postId,
-                                      String username) {
+    public PostEntity addBookmark(Long postId,
+                                  String username) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         if (!Objects.equals(username,
                             userAuthenticated.getUsername())) {
@@ -47,7 +47,8 @@ public class BookmarkServiceImpl implements BookmarkService {
                                                      .post(post)
                                                      .user(userAuthenticated)
                                                      .build();
-        return bookmarkRepository.save(bookmarkToAdd);
+        bookmarkRepository.save(bookmarkToAdd);
+        return post;
     }
 
     @Override
@@ -69,9 +70,8 @@ public class BookmarkServiceImpl implements BookmarkService {
             throw new RuntimeException("usernames doesn't match");
         }
         List<BookmarkEntity> bookmarksSaved = userAuthenticated.getBookmarksSaved();
-        List<PostEntity> posts = bookmarksSaved.stream()
-                                               .map(BookmarkEntity::getPost)
-                                               .toList();
-        return posts;
+        return bookmarksSaved.stream()
+                             .map(BookmarkEntity::getPost)
+                             .toList();
     }
 }
