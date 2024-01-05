@@ -108,10 +108,22 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts/user")
                                                       .hasAuthority(Permission.FIND_ALL_POSTS_OF_CURRENT_USER.name());
-
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/bookmarks/**")
+                                                      .hasAuthority(Permission.ADD_BOOKMARK.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
+                                                                       "/bookmarks/**")
+                                                      .hasAuthority(Permission.REMOVE_BOOKMARK.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts")
                                                       .hasAuthority(Permission.FIND_ALL_POSTS.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/bookmarks")
+                                                      .hasAuthority(Permission.FIND_ALL_BOOKMARKS_BY_USERNAME.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/bookmarks/posts/**")
+                                                      .hasAuthority(Permission.GET_BOOKMARKED_POSTS_BY_USERNAME.name());
+
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
         };

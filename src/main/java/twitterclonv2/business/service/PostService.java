@@ -14,4 +14,5 @@ public interface PostService {
     PostEntity addLikeToPost(Long postId);
     PostEntity removeLikeInPost(Long postId);
     List<PostEntity> findAllPostOfCurrentUser();
+    PostEntity findPostById(Long postId);
 }

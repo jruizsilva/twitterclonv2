@@ -2,14 +2,11 @@ package twitterclonv2.business.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import twitterclonv2.business.mapper.LikeMapper;
-import twitterclonv2.business.mapper.Mapper;
-import twitterclonv2.business.mapper.PostMapper;
-import twitterclonv2.business.mapper.UserMapper;
-import twitterclonv2.domain.dto.like.LikeDto;
+import twitterclonv2.business.mapper.*;
+import twitterclonv2.domain.dto.bookmark.BookmarkDto;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.user.UserDto;
-import twitterclonv2.domain.entity.LikeEntity;
+import twitterclonv2.domain.entity.BookmarkEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
@@ -21,6 +18,7 @@ public class MapperImpl implements Mapper {
     private final PostMapper postMapper;
     private final UserMapper userMapper;
     private final LikeMapper likeMapper;
+    private final BookmarkMapper bookmarkMapper;
 
     @Override
     public PostDto postEntityToDto(PostEntity postEntity) {
@@ -39,6 +37,19 @@ public class MapperImpl implements Mapper {
         UserDto userDto = userMapper.userEntityToDtoWithoutChildren(userEntity);
         userDto.setPostsCreated(postMapper.postEntityListToDtoListWithoutChildren(userEntity.getPostsCreated()));
         userDto.setPostsLiked(likeMapper.likeEntityListToDtoListWithoutChildren(userEntity.getLikes()));
+        userDto.setBookmarksSaved(bookmarkMapper.bookmarkEntityListToDtoListWithoutChildren(userEntity.getBookmarksSaved()));
         return userDto;
+    }
+
+    @Override
+    public BookmarkDto bookmarkEntityToDto(BookmarkEntity bookmarkEntity) {
+        BookmarkDto.BookmarkDtoBuilder bookmarkDto = BookmarkDto.builder();
+        bookmarkDto.id(bookmarkEntity.getId());
+        bookmarkDto.post(postMapper.postEntityToDtoWithoutChildren(bookmarkEntity.getPost()));
+        System.out.println("mapper 1");
+        bookmarkDto.user(userMapper.userEntityToDtoWithoutChildren(bookmarkEntity.getUser()));
+        System.out.println("mapper 2");
+        System.out.println(bookmarkDto);
+        return bookmarkDto.build();
     }
 }

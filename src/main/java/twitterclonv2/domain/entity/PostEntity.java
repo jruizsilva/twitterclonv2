@@ -5,8 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,9 +31,13 @@ public class PostEntity {
     private UserEntity author;
 
     @OneToMany(mappedBy = "post",
-               cascade = CascadeType.ALL, orphanRemoval = true)
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
     @ToString.Exclude
     private List<LikeEntity> likes;
+
+    @OneToMany(mappedBy = "post")
+    private Set<BookmarkEntity> bookmarks;
 
     @PrePersist
     protected void onCreate() {

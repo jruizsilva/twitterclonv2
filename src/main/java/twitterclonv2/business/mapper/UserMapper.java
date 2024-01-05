@@ -14,5 +14,7 @@ public interface UserMapper {
              ignore = true)
     @Mapping(target = "postsCreated",
              ignore = true)
+    @Mapping(target = "bookmarksSaved",
+             ignore = true)
     UserDto userEntityToDtoWithoutChildren(UserEntity userEntity);
 }

@@ -2,6 +2,7 @@ package twitterclonv2.domain.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import twitterclonv2.domain.dto.bookmark.BookmarkDto;
 import twitterclonv2.domain.dto.like.LikeDto;
 import twitterclonv2.domain.dto.post.PostDto;
 
@@ -22,4 +23,6 @@ public class UserDto {
     private List<PostDto> postsCreated;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<LikeDto> postsLiked;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<BookmarkDto> bookmarksSaved;
 }

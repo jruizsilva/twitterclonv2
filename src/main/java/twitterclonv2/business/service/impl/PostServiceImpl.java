@@ -102,4 +102,11 @@ public class PostServiceImpl implements PostService {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         return postRepository.findByAuthor_Username(userAuthenticated.getUsername());
     }
+
+    @Override
+    public PostEntity findPostById(Long postId) {
+        return postRepository.findById(postId)
+                             .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
+
+    }
 }

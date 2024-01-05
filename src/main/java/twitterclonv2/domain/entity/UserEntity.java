@@ -39,6 +39,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<LikeEntity> likes;
 
+    @OneToMany(mappedBy = "user")
+    private List<BookmarkEntity> bookmarksSaved;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities =
