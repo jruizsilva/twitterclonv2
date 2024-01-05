@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "Jonathan Ruiz Silva",
+                        name = "Jonathan Marcelo Ruiz Silva",
                         email = "ruizsilvajonathan@gmail.com",
                         url = "https://portfolio-jruizsilva.vercel.app"
                 ),
@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         url = "http://localhost:8080"
                 ),
                 @Server(description = "Prod ENV",
-                        url = "http://localhost:8080"
+                        url = "https://clonapp.onrender.com"
                 )
         },
         security = {
