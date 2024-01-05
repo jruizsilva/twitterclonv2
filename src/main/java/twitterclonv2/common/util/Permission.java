@@ -11,4 +11,5 @@ public enum Permission {
     LIKE_POST,
     REMOVE_LIKE_IN_POST,
     FIND_ALL_POSTS_OF_CURRENT_USER,
+    FIND_ALL_POSTS
 }

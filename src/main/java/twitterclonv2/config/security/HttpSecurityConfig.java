@@ -109,7 +109,7 @@ public class HttpSecurityConfig {
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts")
-                                                      .permitAll();
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS.name());
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
         };
