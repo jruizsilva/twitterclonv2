@@ -27,8 +27,8 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public PostEntity addBookmark(Long postId,
-                                  String username) {
+    public BookmarkEntity addBookmark(Long postId,
+                                      String username) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         if (!Objects.equals(username,
                             userAuthenticated.getUsername())) {
@@ -47,8 +47,7 @@ public class BookmarkServiceImpl implements BookmarkService {
                                                      .post(post)
                                                      .user(userAuthenticated)
                                                      .build();
-        bookmarkRepository.save(bookmarkToAdd);
-        return post;
+        return bookmarkRepository.save(bookmarkToAdd);
     }
 
     @Override

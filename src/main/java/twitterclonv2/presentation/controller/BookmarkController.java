@@ -21,8 +21,8 @@ public class BookmarkController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> addBookmark(@RequestParam Long postId,
-                                               @RequestParam String username) {
+    public ResponseEntity<BookmarkDto> addBookmark(@RequestParam Long postId,
+                                                   @RequestParam String username) {
         return ResponseEntity.ok(bookmarkFacade.addBookmark(postId,
                                                             username));
     }

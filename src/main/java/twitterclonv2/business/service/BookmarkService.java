@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookmarkService {
     List<BookmarkEntity> findAllBookmarks();
-    PostEntity addBookmark(Long postId,
+    BookmarkEntity addBookmark(Long postId,
                            String username);
     void removeBookmark(Long bookmarkId,
                         String username);

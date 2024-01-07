@@ -90,7 +90,7 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users/search/**")
                                                       .hasAuthority(Permission.SEARCH_USERS.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PUT,
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/posts/**")
                                                       .hasAuthority(Permission.UPDATE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
