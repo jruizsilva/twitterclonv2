@@ -33,10 +33,12 @@ public class UserEntity implements UserDetails {
 
     /*@JsonManagedReference*/
     @OneToMany(targetEntity = PostEntity.class,
-               mappedBy = "author")
+               mappedBy = "author",
+               cascade = CascadeType.ALL)
     private List<PostEntity> postsCreated;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+               cascade = CascadeType.ALL)
     private List<LikeEntity> likes;
 
     @OneToMany(mappedBy = "user")

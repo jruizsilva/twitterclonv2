@@ -36,8 +36,9 @@ public class BookmarkServiceImpl implements BookmarkService {
         }
         Optional<BookmarkEntity> bookmarkOptional = userAuthenticated.getBookmarksSaved()
                                                                      .stream()
-                                                                     .filter(bookmarkEntity -> bookmarkEntity.getPost()
-                                                                                                             .getId() == postId)
+                                                                     .filter(bookmarkEntity -> Objects.equals(bookmarkEntity.getPost()
+                                                                                                                            .getId(),
+                                                                                                              postId))
                                                                      .findFirst();
         if (bookmarkOptional.isPresent()) {
             throw new RuntimeException("Bookmark already added");

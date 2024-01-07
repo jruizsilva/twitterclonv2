@@ -12,6 +12,7 @@ import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -60,8 +61,9 @@ public class PostServiceImpl implements PostService {
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
         List<LikeEntity> likes = post.getLikes();
         Optional<LikeEntity> likeOptional = likes.stream()
-                                                 .filter(like -> like.getUser()
-                                                                     .getId() == userAuthenticated.getId())
+                                                 .filter(like -> Objects.equals(like.getUser()
+                                                                                    .getId(),
+                                                                                userAuthenticated.getId()))
                                                  .findFirst();
         if (likeOptional.isPresent()) {
             return post;
@@ -83,9 +85,10 @@ public class PostServiceImpl implements PostService {
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
         List<LikeEntity> likes = post.getLikes();
         Optional<LikeEntity> likeToDeleteOptional = likes.stream()
-                                                         .filter(like -> postId == like.getPost()
-                                                                                       .getId() && like.getUser()
-                                                                                                       .getId() == userAuthenticated.getId())
+                                                         .filter(like -> postId.equals(like.getPost()
+                                                                                           .getId()) && Objects.equals(like.getUser()
+                                                                                                                           .getId(),
+                                                                                                                       userAuthenticated.getId()))
                                                          .findFirst();
         if (likeToDeleteOptional.isEmpty()) {
             return post;

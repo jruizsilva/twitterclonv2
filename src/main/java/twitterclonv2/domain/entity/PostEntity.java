@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -26,18 +25,19 @@ public class PostEntity {
             updatable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(targetEntity = UserEntity.class)
+    @ManyToOne(targetEntity = UserEntity.class,
+               cascade = CascadeType.ALL)
     /*@JsonBackReference*/
     private UserEntity author;
 
     @OneToMany(mappedBy = "post",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
+               orphanRemoval = true,
+               cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<LikeEntity> likes;
 
     @OneToMany(mappedBy = "post")
-    private Set<BookmarkEntity> bookmarks;
+    private List<BookmarkEntity> bookmarks;
 
     @PrePersist
     protected void onCreate() {

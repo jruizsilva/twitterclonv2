@@ -1,9 +1,12 @@
 package twitterclonv2.business.service;
 
+import twitterclonv2.domain.dto.like.request.LikeRequest;
 import twitterclonv2.domain.entity.PostEntity;
 
 import java.util.List;
 
 public interface LikeService {
     List<PostEntity> getPostsLikedByUser(Long userId);
+    void addLikeToPost(LikeRequest likeRequest);
+    void removeLikeToPost(LikeRequest likeRequest);
 }

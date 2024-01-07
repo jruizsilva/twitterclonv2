@@ -98,10 +98,16 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(Permission.DELETE_POST.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                                HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.LIKE_POST.name());
+                                                      .hasAuthority(Permission.CREATE_LIKE.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/likes",
+                                                                       HttpMethod.POST.name())
+                                                      .hasAuthority(Permission.CREATE_LIKE.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/removeLike",
                                                                                                HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.REMOVE_LIKE_IN_POST.name());
+                                                      .hasAuthority(Permission.DELETE_LIKE.name());
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/likes",
+                                                                       HttpMethod.DELETE.name())
+                                                      .hasAuthority(Permission.DELETE_LIKE.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.CREATE_ONE_POST.name());
