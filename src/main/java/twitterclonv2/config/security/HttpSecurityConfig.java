@@ -115,6 +115,10 @@ public class HttpSecurityConfig {
                                                                        "/posts")
                                                       .hasAuthority(Permission.FIND_ALL_POSTS.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
+                                                                       "/users/username/**")
+                                                      .hasAuthority(Permission.DELETE_USER_BY_USERNAME.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                       HttpMethod.PATCH.name()))

@@ -18,6 +18,6 @@ public interface UserService {
     List<UserEntity> searchUsersByUsernameOrName(String peopleToSearch);
     UserEntity findUserById(Long userId);
     UserEntity findUserByUsername(String username);
-
     UserEntity save(UserEntity userEntity);
+    void deleteUserByUsername(String username);
 }

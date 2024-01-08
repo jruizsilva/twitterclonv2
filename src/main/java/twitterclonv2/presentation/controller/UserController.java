@@ -40,4 +40,11 @@ public class UserController {
         String search = "%" + peopleToSearch + "%";
         return ResponseEntity.ok(userService.searchUsersByUsernameOrName(search));
     }
+
+    @DeleteMapping("/username/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        userService.deleteUserByUsername(username);
+        return ResponseEntity.noContent()
+                             .build();
+    }
 }

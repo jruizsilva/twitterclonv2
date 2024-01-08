@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.DELETE_USER_BY_USERNAME,
             Permission.ADD_POST_TO_POSTS_SAVED,
             Permission.REMOVE_POST_FROM_POSTS_SAVED,
             Permission.FIND_ALL_POSTS,
@@ -22,6 +23,7 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.DELETE_USER_BY_USERNAME,
             Permission.ADD_POST_TO_POSTS_SAVED,
             Permission.REMOVE_POST_FROM_POSTS_SAVED,
             Permission.FIND_ALL_POSTS,

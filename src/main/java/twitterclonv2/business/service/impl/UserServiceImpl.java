@@ -105,6 +105,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUserByUsername(String username) {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
+        UserEntity userToDelete = this.findUserByUsername(username);
+        if (isNotAdmin(userAuthenticated) && usernameIsNotEqualToUserAuthenticated(username,
+                                                                                   userToDelete)) {
+            throw new RuntimeException("Acceso denegado");
+        }
+        userRepository.delete(userToDelete);
+    }
+
+    @Override
     public UserEntity updateUser(String username,
                                  UpdateUserRequest updateUserRequest) {
         UserEntity userAuthenticated = this.findUserAuthenticated();
