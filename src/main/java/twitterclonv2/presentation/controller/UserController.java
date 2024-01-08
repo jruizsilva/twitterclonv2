@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.domain.dto.user.request.UpdateUserRequest;
+import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 
 import java.util.List;
@@ -39,5 +40,16 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> searchUsersByUsernameOrName(@PathVariable String peopleToSearch) {
         String search = "%" + peopleToSearch + "%";
         return ResponseEntity.ok(userService.searchUsersByUsernameOrName(search));
+    }
+
+    @PatchMapping("/posts/{postId}/savePost")
+    public ResponseEntity<PostEntity> addPostToPostsSaved() {
+        return null;
+    }
+
+    @PatchMapping("/posts/{postId}/removePostSaved")
+    public ResponseEntity<PostEntity> removePostFromPostsSaved() {
+        return null;
+
     }
 }

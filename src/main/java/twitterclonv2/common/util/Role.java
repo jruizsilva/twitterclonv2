@@ -8,10 +8,8 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
-            Permission.GET_BOOKMARKED_POSTS_BY_USERNAME,
-            Permission.FIND_ALL_BOOKMARKS_BY_USERNAME,
-            Permission.REMOVE_BOOKMARK,
-            Permission.ADD_BOOKMARK,
+            Permission.ADD_POST_TO_POSTS_SAVED,
+            Permission.REMOVE_POST_FROM_POSTS_SAVED,
             Permission.FIND_ALL_POSTS,
             Permission.FIND_ALL_POSTS_BY_USERNAME,
             Permission.DELETE_LIKE,
@@ -24,10 +22,8 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
-            Permission.GET_BOOKMARKED_POSTS_BY_USERNAME,
-            Permission.FIND_ALL_BOOKMARKS_BY_USERNAME,
-            Permission.REMOVE_BOOKMARK,
-            Permission.ADD_BOOKMARK,
+            Permission.ADD_POST_TO_POSTS_SAVED,
+            Permission.REMOVE_POST_FROM_POSTS_SAVED,
             Permission.FIND_ALL_POSTS,
             Permission.FIND_ALL_POSTS_BY_USERNAME,
             Permission.DELETE_LIKE,
