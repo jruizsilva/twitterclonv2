@@ -51,6 +51,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePostById(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        if (!isAdmin(userAuthenticated) && !authorIsEqualToUserAuthenticated(post,
+                                                                             userAuthenticated)) {
+            throw new RuntimeException("acceso denegado");
+        }
         postRepository.deleteById(postId);
     }
 
