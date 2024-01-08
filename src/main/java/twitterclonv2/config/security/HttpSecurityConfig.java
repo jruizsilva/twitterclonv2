@@ -103,14 +103,6 @@ public class HttpSecurityConfig {
                                                                        "/posts/**")
                                                       .hasAuthority(Permission.DELETE_POST.name());
 
-            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
-                                                                                               HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.CREATE_LIKE.name());
-
-            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/removeLike",
-                                                                                               HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.DELETE_LIKE.name());
-
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.CREATE_ONE_POST.name());
@@ -122,6 +114,26 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts")
                                                       .hasAuthority(Permission.FIND_ALL_POSTS.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/[0-9]+/like",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.CREATE_LIKE.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/[0-9]+/removeLike",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.DELETE_LIKE.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/users/posts/[0-9]+/savePost",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.ADD_POST_TO_POSTS_SAVED.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/users/posts/[0-9]+/removePostSaved",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.REMOVE_POST_FROM_POSTS_SAVED.name());
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
