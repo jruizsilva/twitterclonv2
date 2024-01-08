@@ -60,16 +60,12 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}/savePost")
-    public ResponseEntity<Void> addPostToPostsSaved(@PathVariable Long postId) {
-        postService.addPostToPostsSaved(postId);
-        return ResponseEntity.noContent()
-                             .build();
+    public ResponseEntity<PostEntity> addPostToPostsSaved(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.addPostToPostsSaved(postId));
     }
 
     @PatchMapping("/{postId}/removePostSaved")
-    public ResponseEntity<Void> removePostFromPostsSaved(@PathVariable Long postId) {
-        postService.removePostFromPostsSaved(postId);
-        return ResponseEntity.noContent()
-                             .build();
+    public ResponseEntity<PostEntity> removePostFromPostsSaved(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.removePostFromPostsSaved(postId));
     }
 }

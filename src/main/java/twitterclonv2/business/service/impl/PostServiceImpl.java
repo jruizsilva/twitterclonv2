@@ -148,7 +148,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void addPostToPostsSaved(Long postId) {
+    public PostEntity addPostToPostsSaved(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
         List<PostEntity> postsSaved = userAuthenticated.getPostsSaved();
@@ -161,7 +161,7 @@ public class PostServiceImpl implements PostService {
         }
         if (postOptional.isPresent()) {
             System.out.println("post already added in postsSaved");
-            return;
+            return post;
         }
         postsSaved.add(post);
         userAuthenticated.setPostsSaved(postsSaved);
@@ -170,12 +170,31 @@ public class PostServiceImpl implements PostService {
         List<UserEntity> savedByUsers = post.getSavedByUsers();
         savedByUsers.add(userAuthenticated);
         post.setSavedByUsers(savedByUsers);
-        postRepository.save(post);
+        return postRepository.save(post);
     }
 
     @Override
-    public void removePostFromPostsSaved(Long postId) {
-        /*UserEntity userAuthenticated = this.findUserAuthenticated();
-        PostEntity post = postService.findPostById(postId);*/
+    public PostEntity removePostFromPostsSaved(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+
+        List<UserEntity> savedByUsers = post.getSavedByUsers();
+        List<PostEntity> postsSaved = userAuthenticated.getPostsSaved();
+
+        if (postsSaved.isEmpty() && savedByUsers.isEmpty()) {
+            System.out.println("post to remove not found - both list are empty");
+            return post;
+        }
+
+        postsSaved.removeIf(p -> Objects.equals(p.getId(),
+                                                post.getId()));
+        savedByUsers.removeIf(u -> Objects.equals(u.getId(),
+                                                  userAuthenticated.getId()));
+
+        userAuthenticated.setPostsSaved(postsSaved);
+        userService.save(userAuthenticated);
+
+        post.setSavedByUsers(savedByUsers);
+        return postRepository.save(post);
     }
 }
