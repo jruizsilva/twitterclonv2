@@ -30,7 +30,7 @@ public class PostEntity {
     @JsonManagedReference
     private UserEntity user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "posts_users_likes",
             joinColumns = @JoinColumn(name = "post_id"),

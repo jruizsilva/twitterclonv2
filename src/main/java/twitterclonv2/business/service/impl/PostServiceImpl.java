@@ -79,24 +79,34 @@ public class PostServiceImpl implements PostService {
     public PostEntity addLikeToPost(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
-        List<PostEntity> postsLiked = userAuthenticated.getPostsLiked();
         List<UserEntity> likedByUsers = post.getLikedByUsers();
-        if (!postsLiked.isEmpty() && !likedByUsers.isEmpty()) {
-            Optional<UserEntity> likeOptional =
-                    likedByUsers.stream()
-                                .filter(user -> Objects.equals(user.getId(),
-                                                               userAuthenticated.getId()))
-                                .findFirst();
-            if (likeOptional.isPresent()) {
-                System.out.println("like already added");
-                return post;
-            }
+        if (userAlreadyLikedPost(userAuthenticated,
+                                 likedByUsers)) {
+            System.out.println("like already added");
+            return post;
         }
+        return updatePostAndUserEntities(userAuthenticated,
+                                         post);
+    }
+
+    private boolean userAlreadyLikedPost(UserEntity user,
+                                         List<UserEntity> likedByUsers) {
+        return likedByUsers.stream()
+                           .anyMatch(likedUser -> Objects.equals(likedUser.getId(),
+                                                                 user.getId()));
+    }
+
+    private PostEntity updatePostAndUserEntities(UserEntity user,
+                                                 PostEntity post) {
+        List<PostEntity> postsLiked = user.getPostsLiked();
         postsLiked.add(post);
-        userAuthenticated.setPostsLiked(postsLiked);
-        userRepository.save(userAuthenticated);
-        likedByUsers.add(userAuthenticated);
+        user.setPostsLiked(postsLiked);
+
+        List<UserEntity> likedByUsers = post.getLikedByUsers();
+        likedByUsers.add(user);
         post.setLikedByUsers(likedByUsers);
+
+        userRepository.save(user);
         return postRepository.save(post);
     }
 
@@ -104,26 +114,23 @@ public class PostServiceImpl implements PostService {
     public PostEntity removeLikeInPost(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
+
         List<UserEntity> likedByUsers = post.getLikedByUsers();
         List<PostEntity> postsLiked = userAuthenticated.getPostsLiked();
+
         if (postsLiked.isEmpty() && likedByUsers.isEmpty()) {
             System.out.println("like to remove not found - like list is empty");
-        }
-        Optional<UserEntity> likeOptional =
-                likedByUsers.stream()
-                            .filter(user -> Objects.equals(user.getId(),
-                                                           userAuthenticated.getId()))
-                            .findFirst();
-        if (likeOptional.isEmpty()) {
-            System.out.println("like to remove not found");
             return post;
         }
-        postsLiked.remove(post);
+        postsLiked.removeIf(postEntity -> Objects.equals(postEntity.getId(),
+                                                         post.getId()));
+        likedByUsers.removeIf(userEntity -> Objects.equals(userEntity.getId(),
+                                                           userAuthenticated.getId()));
+
         userAuthenticated.setPostsLiked(postsLiked);
         userRepository.save(userAuthenticated);
-        likedByUsers.remove(userAuthenticated);
-        post.setLikedByUsers(likedByUsers);
 
+        post.setLikedByUsers(likedByUsers);
         return postRepository.save(post);
     }
 
