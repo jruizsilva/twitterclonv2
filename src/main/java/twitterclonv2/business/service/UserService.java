@@ -12,7 +12,8 @@ public interface UserService {
     AuthenticationResponse login(AuthenticationRequest authenticationRequest);
     AuthenticationResponse register(RegisterUserRequest registerUserRequest);
     UserEntity findUserAuthenticated();
-    UserEntity updateUser(UpdateUserRequest updateUserRequest);
+    UserEntity updateUser(String username,
+                          UpdateUserRequest updateUserRequest);
     List<UserEntity> findAllUsers();
     List<UserEntity> searchUsersByUsernameOrName(String peopleToSearch);
     UserEntity findUserById(Long userId);

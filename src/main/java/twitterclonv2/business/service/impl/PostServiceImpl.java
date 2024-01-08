@@ -41,8 +41,8 @@ public class PostServiceImpl implements PostService {
                                  Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
-        if (!isAdmin(userAuthenticated) && !authorIsEqualToUserAuthenticated(post,
-                                                                             userAuthenticated)) {
+        if (isNotAdmin(userAuthenticated) && authorIsNotEqualToUserAuthenticated(post,
+                                                                                 userAuthenticated)) {
             throw new RuntimeException("acceso denegado");
         }
         post.setContent(postRequest.getContent());
@@ -53,8 +53,8 @@ public class PostServiceImpl implements PostService {
     public void deletePostById(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
-        if (!isAdmin(userAuthenticated) && !authorIsEqualToUserAuthenticated(post,
-                                                                             userAuthenticated)) {
+        if (isNotAdmin(userAuthenticated) && authorIsNotEqualToUserAuthenticated(post,
+                                                                                 userAuthenticated)) {
             throw new RuntimeException("acceso denegado");
         }
         postRepository.deleteById(postId);
@@ -119,18 +119,18 @@ public class PostServiceImpl implements PostService {
 
     }
 
-    private static boolean isAdmin(UserEntity userAuthenticated) {
+    private static boolean isNotAdmin(UserEntity userAuthenticated) {
 
         return userAuthenticated.getAuthorities()
                                 .stream()
-                                .anyMatch(grantedAuthority -> Objects.equals(grantedAuthority.getAuthority(),
-                                                                             "ROLE_ADMINISTRATOR"));
+                                .noneMatch(grantedAuthority -> Objects.equals(grantedAuthority.getAuthority(),
+                                                                              "ROLE_ADMINISTRATOR"));
     }
 
-    private static boolean authorIsEqualToUserAuthenticated(PostEntity post,
-                                                            UserEntity userAuthenticated) {
-        return Objects.equals(post.getUser()
-                                  .getId(),
-                              userAuthenticated.getId());
+    private static boolean authorIsNotEqualToUserAuthenticated(PostEntity post,
+                                                               UserEntity userAuthenticated) {
+        return !Objects.equals(post.getUser()
+                                   .getId(),
+                               userAuthenticated.getId());
     }
 }

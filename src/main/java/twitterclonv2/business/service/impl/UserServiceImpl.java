@@ -19,6 +19,7 @@ import twitterclonv2.persistence.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -72,20 +73,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateUser(UpdateUserRequest updateUserRequest) {
-        UserEntity userEntity = this.findUserAuthenticated();
-        if (updateUserRequest.getName() != null && !updateUserRequest.getName()
-                                                                     .isBlank()) {
-            userEntity.setName(updateUserRequest.getName());
-        }
-        if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
-                                                                            .isBlank()) {
-            userEntity.setDescription(updateUserRequest.getDescription());
-        }
-        return userRepository.save(userEntity);
-    }
-
-    @Override
     public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
     }
@@ -107,5 +94,38 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity saveUser(UserEntity userEntity) {
         return userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserEntity updateUser(String username,
+                                 UpdateUserRequest updateUserRequest) {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
+        if (isNotAdmin(userAuthenticated) && usernameIsNotEqualToUserAuthenticated(username,
+                                                                                   userAuthenticated)) {
+            throw new RuntimeException("Acceso denegado");
+        }
+        if (updateUserRequest.getName() != null && !updateUserRequest.getName()
+                                                                     .isBlank()) {
+            userAuthenticated.setName(updateUserRequest.getName());
+        }
+        if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
+                                                                            .isBlank()) {
+            userAuthenticated.setDescription(updateUserRequest.getDescription());
+        }
+        return userRepository.save(userAuthenticated);
+    }
+
+    private static boolean isNotAdmin(UserEntity userAuthenticated) {
+
+        return userAuthenticated.getAuthorities()
+                                .stream()
+                                .noneMatch(grantedAuthority -> Objects.equals(grantedAuthority.getAuthority(),
+                                                                              "ROLE_ADMINISTRATOR"));
+    }
+
+    private static boolean usernameIsNotEqualToUserAuthenticated(String username,
+                                                                 UserEntity userAuthenticated) {
+        return !Objects.equals(username,
+                               userAuthenticated.getUsername());
     }
 }

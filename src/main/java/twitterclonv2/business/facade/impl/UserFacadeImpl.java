@@ -39,8 +39,10 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDto updateUser(UpdateUserRequest updateUserRequest) {
-        UserEntity userEntityUpdated = userService.updateUser(updateUserRequest);
+    public UserDto updateUser(String username,
+                              UpdateUserRequest updateUserRequest) {
+        UserEntity userEntityUpdated = userService.updateUser(username,
+                                                              updateUserRequest);
         return mapper.userEntityToDto(userEntityUpdated);
     }
 
@@ -48,7 +50,7 @@ public class UserFacadeImpl implements UserFacade {
     public List<UserDto> findAllUsers() {
         List<UserEntity> userEntityList = userService.findAllUsers();
         return userEntityList.stream()
-                             .map(userEntity -> mapper.userEntityToDto(userEntity))
+                             .map(mapper::userEntityToDto)
                              .toList();
     }
 
