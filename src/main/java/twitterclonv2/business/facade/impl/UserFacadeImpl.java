@@ -21,13 +21,13 @@ public class UserFacadeImpl implements UserFacade {
     private final Mapper mapper;
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
         return userService.login(authenticationRequest);
     }
 
     @Override
     public AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest) {
-        return userService.registerUser(registerUserRequest);
+        return userService.register(registerUserRequest);
     }
 
     @Override

@@ -9,7 +9,7 @@ import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import java.util.List;
 
 public interface UserFacade {
-    AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest);
+    AuthenticationResponse login(AuthenticationRequest authenticationRequest);
     AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest);
     UserDto findUserAuthenticated();
     UserDto updateUser(UpdateUserRequest updateUserRequest);

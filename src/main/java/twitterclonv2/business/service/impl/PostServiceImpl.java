@@ -6,14 +6,12 @@ import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
 import twitterclonv2.domain.dto.post.request.PostRequest;
-import twitterclonv2.domain.entity.LikeEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +23,6 @@ public class PostServiceImpl implements PostService {
         UserEntity userEntity = userService.findUserAuthenticated();
         PostEntity postEntity = PostEntity.builder()
                                           .content(postRequest.getContent())
-                                          .author(userEntity)
                                           .build();
         return postRepository.save(postEntity);
     }
@@ -41,8 +38,9 @@ public class PostServiceImpl implements PostService {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        if (post.getAuthor()
-                .getId() != userAuthenticated.getId()) {
+        if (!Objects.equals(post.getUser()
+                                .getId(),
+                            userAuthenticated.getId())) {
             throw new RuntimeException("post author is not equal to the user authenticated");
         }
         post.setContent(postRequest.getContent());
@@ -54,12 +52,12 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(postId);
     }
 
-    @Override
+    /*@Override
     public PostEntity addLikeToPost(Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        List<LikeEntity> likes = post.getLikes();
+        List<LikeEntity> likes = post.getLikedByUsers();
         Optional<LikeEntity> likeOptional = likes.stream()
                                                  .filter(like -> Objects.equals(like.getUser()
                                                                                     .getId(),
@@ -74,7 +72,7 @@ public class PostServiceImpl implements PostService {
                                          .post(post)
                                          .build();
         likes.add(likeToAdd);
-        post.setLikes(likes);
+        post.setLikedByUsers(likes);
         return postRepository.save(post);
     }
 
@@ -83,7 +81,7 @@ public class PostServiceImpl implements PostService {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = postRepository.findById(postId)
                                         .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        List<LikeEntity> likes = post.getLikes();
+        List<LikeEntity> likes = post.getLikedByUsers();
         Optional<LikeEntity> likeToDeleteOptional = likes.stream()
                                                          .filter(like -> postId.equals(like.getPost()
                                                                                            .getId()) && Objects.equals(like.getUser()
@@ -95,15 +93,15 @@ public class PostServiceImpl implements PostService {
         }
         LikeEntity likeToDelete = likeToDeleteOptional.get();
         likes.remove(likeToDelete);
-        post.setLikes(likes);
+        post.setLikedByUsers(likes);
 
         return postRepository.save(post);
-    }
+    }*/
 
     @Override
     public List<PostEntity> findAllPostOfCurrentUser() {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
-        return postRepository.findByAuthor_Username(userAuthenticated.getUsername());
+        return postRepository.findByUser_Username(userAuthenticated.getUsername());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package twitterclonv2.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,19 +26,21 @@ public class PostEntity {
             updatable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne(targetEntity = UserEntity.class,
-               cascade = CascadeType.ALL)
-    /*@JsonBackReference*/
-    private UserEntity author;
+    @ManyToOne
+    @JsonManagedReference
+    private UserEntity user;
 
-    @OneToMany(mappedBy = "post",
-               orphanRemoval = true,
-               cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<LikeEntity> likes;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "posts_users_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonManagedReference
+    private List<UserEntity> likedByUsers;
 
-    @OneToMany(mappedBy = "post")
-    private List<BookmarkEntity> bookmarks;
+    @ManyToMany(mappedBy = "postsSaved")
+    @JsonManagedReference
+    private List<UserEntity> savedByUsers;
 
     @PrePersist
     protected void onCreate() {

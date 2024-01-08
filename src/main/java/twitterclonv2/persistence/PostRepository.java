@@ -10,6 +10,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
     @Query("select p from PostEntity p order by p.createdAt DESC")
     List<PostEntity> findByOrderByCreatedAtDesc();
-    @Query("select p from PostEntity p where p.author.username = :username")
-    List<PostEntity> findByAuthor_Username(@Param("username") String username);
+    @Query("select p from PostEntity p where p.user.username = :username")
+    List<PostEntity> findByUser_Username(@Param("username") String username);
 }

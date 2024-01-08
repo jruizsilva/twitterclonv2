@@ -1,5 +1,7 @@
 package twitterclonv2.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,24 +27,29 @@ public class UserEntity implements UserDetails {
             nullable = false)
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     private String description;
     private String name;
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    /*@JsonManagedReference*/
     @OneToMany(targetEntity = PostEntity.class,
-               mappedBy = "author",
-               cascade = CascadeType.ALL)
+               mappedBy = "user")
+    @JsonBackReference
     private List<PostEntity> postsCreated;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL)
-    private List<LikeEntity> likes;
+    @ManyToMany(mappedBy = "likedByUsers")
+    @JsonBackReference
+    private List<PostEntity> postsLiked;
 
-    @OneToMany(mappedBy = "user")
-    private List<BookmarkEntity> bookmarksSaved;
+    @ManyToMany
+    @JoinTable(
+            name = "users_posts_saved",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonBackReference
+    private List<PostEntity> postsSaved;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

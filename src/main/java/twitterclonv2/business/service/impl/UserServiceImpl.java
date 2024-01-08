@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         return new AuthenticationResponse(jwt);
     }
 
-    public AuthenticationResponse registerUser(RegisterUserRequest registerUserRequest) {
+    public AuthenticationResponse register(RegisterUserRequest registerUserRequest) {
         UserEntity userEntity =
                 UserEntity.builder()
                           .name(registerUserRequest.getName())

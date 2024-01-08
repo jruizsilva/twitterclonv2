@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import twitterclonv2.business.facade.UserFacade;
+import twitterclonv2.business.service.UserService;
 import twitterclonv2.domain.dto.user.request.AuthenticationRequest;
 import twitterclonv2.domain.dto.user.request.RegisterUserRequest;
 import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
@@ -22,7 +22,7 @@ import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 @Tag(name = "AuthController")
 @SecurityRequirements
 public class AuthController {
-    private final UserFacade userFacade;
+    private final UserService userService;
 
     @Operation(
             description = "Authenticate an user using the username and the password",
@@ -30,12 +30,12 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws Exception {
-        return ResponseEntity.ok(userFacade.authenticate(authenticationRequest));
+        return ResponseEntity.ok(userService.login(authenticationRequest));
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                             .body(userFacade.registerUser(registerUserRequest));
+                             .body(userService.register(registerUserRequest));
     }
 }

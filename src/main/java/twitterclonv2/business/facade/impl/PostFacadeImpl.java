@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import twitterclonv2.business.facade.PostFacade;
 import twitterclonv2.business.mapper.Mapper;
-import twitterclonv2.business.service.LikeService;
 import twitterclonv2.business.service.PostService;
 import twitterclonv2.domain.dto.post.PostDto;
 import twitterclonv2.domain.dto.post.request.PostRequest;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostFacadeImpl implements PostFacade {
     private final PostService postService;
-    private final LikeService likeService;
     private final Mapper mapper;
 
     @Override
@@ -48,31 +46,28 @@ public class PostFacadeImpl implements PostFacade {
         postService.deletePostById(postId);
     }
 
-    @Override
+   /* @Override
     public PostDto addLikeToPost(Long postId) {
         PostEntity postLiked = postService.addLikeToPost(postId);
         return mapper.postEntityToDto(postLiked);
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public PostDto removeLikeInPost(Long postId) {
         PostEntity postLikeRemoved = postService.removeLikeInPost(postId);
         return mapper.postEntityToDto(postLikeRemoved);
-    }
+    }*/
 
     @Override
     public List<PostDto> findAllPostOfCurrentUser() {
         List<PostEntity> postEntityList = postService.findAllPostOfCurrentUser();
         return postEntityList.stream()
-                             .map(postEntity -> mapper.postEntityToDto(postEntity))
+                             .map(mapper::postEntityToDto)
                              .toList();
     }
 
-    @Override
+    /*@Override
     public List<PostDto> getPostsLikedByUser(Long userId) {
-        List<PostEntity> postsLikedByUser = likeService.getPostsLikedByUser(userId);
-        return postsLikedByUser.stream()
-                               .map(postEntity -> mapper.postEntityToDto(postEntity))
-                               .toList();
-    }
+        return null;
+    }*/
 }
