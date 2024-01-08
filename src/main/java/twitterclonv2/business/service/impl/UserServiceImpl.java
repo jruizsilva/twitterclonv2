@@ -84,11 +84,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity findUserById(Long userId) {
-        Optional<UserEntity> postEntityOptional = userRepository.findById(userId);
-        if (postEntityOptional.isEmpty()) {
-            throw new CustomObjectNotFoundException("post with " + userId + " not found");
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new CustomObjectNotFoundException("user with id " + userId + " not found");
         }
-        return postEntityOptional.get();
+        return userOptional.get();
+    }
+
+    public UserEntity findUserByUsername(String username) {
+        Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            throw new CustomObjectNotFoundException("user with username" + username + " not found");
+        }
+        return userOptional.get();
     }
 
     @Override
@@ -100,19 +108,20 @@ public class UserServiceImpl implements UserService {
     public UserEntity updateUser(String username,
                                  UpdateUserRequest updateUserRequest) {
         UserEntity userAuthenticated = this.findUserAuthenticated();
+        UserEntity userToUpdate = this.findUserByUsername(username);
         if (isNotAdmin(userAuthenticated) && usernameIsNotEqualToUserAuthenticated(username,
                                                                                    userAuthenticated)) {
             throw new RuntimeException("Acceso denegado");
         }
         if (updateUserRequest.getName() != null && !updateUserRequest.getName()
                                                                      .isBlank()) {
-            userAuthenticated.setName(updateUserRequest.getName());
+            userToUpdate.setName(updateUserRequest.getName());
         }
         if (updateUserRequest.getDescription() != null && !updateUserRequest.getDescription()
                                                                             .isBlank()) {
-            userAuthenticated.setDescription(updateUserRequest.getDescription());
+            userToUpdate.setDescription(updateUserRequest.getDescription());
         }
-        return userRepository.save(userAuthenticated);
+        return userRepository.save(userToUpdate);
     }
 
     private static boolean isNotAdmin(UserEntity userAuthenticated) {

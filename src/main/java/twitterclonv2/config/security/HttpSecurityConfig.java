@@ -82,7 +82,7 @@ public class HttpSecurityConfig {
                                                                        "/users/profile")
                                                       .hasAuthority(Permission.GET_USER_AUTHENTICATED.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
-                                                                       "/users")
+                                                                       "/users/username/**")
                                                       .hasAuthority(Permission.UPDATE_USER.name());
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users")
