@@ -34,8 +34,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(targetEntity = PostEntity.class,
-               mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+               orphanRemoval = true)
     @JsonBackReference
     private List<PostEntity> postsCreated;
 

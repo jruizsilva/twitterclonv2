@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import twitterclonv2.business.service.JwtService;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
@@ -105,11 +106,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUserByUsername(String username) {
-        UserEntity userAuthenticated = this.findUserAuthenticated();
         UserEntity userToDelete = this.findUserByUsername(username);
-        if (isNotAdmin(userAuthenticated) && usernameIsNotEqualToUserAuthenticated(username,
-                                                                                   userToDelete)) {
+        if (isNotAdmin() && usernameIsNotEqualToUserAuthenticated(username)) {
             throw new RuntimeException("Acceso denegado");
         }
         userRepository.delete(userToDelete);
@@ -118,10 +118,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateUser(String username,
                                  UpdateUserRequest updateUserRequest) {
-        UserEntity userAuthenticated = this.findUserAuthenticated();
         UserEntity userToUpdate = this.findUserByUsername(username);
-        if (isNotAdmin(userAuthenticated) && usernameIsNotEqualToUserAuthenticated(username,
-                                                                                   userAuthenticated)) {
+        if (isNotAdmin() && usernameIsNotEqualToUserAuthenticated(username)) {
             throw new RuntimeException("Acceso denegado");
         }
         if (updateUserRequest.getName() != null && !updateUserRequest.getName()
@@ -135,7 +133,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userToUpdate);
     }
 
-    private static boolean isNotAdmin(UserEntity userAuthenticated) {
+    private boolean isNotAdmin() {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
 
         return userAuthenticated.getAuthorities()
                                 .stream()
@@ -143,8 +142,8 @@ public class UserServiceImpl implements UserService {
                                                                               "ROLE_ADMINISTRATOR"));
     }
 
-    private static boolean usernameIsNotEqualToUserAuthenticated(String username,
-                                                                 UserEntity userAuthenticated) {
+    private boolean usernameIsNotEqualToUserAuthenticated(String username) {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
         return !Objects.equals(username,
                                userAuthenticated.getUsername());
     }
