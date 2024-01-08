@@ -9,7 +9,6 @@ import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
-import twitterclonv2.persistence.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
 
     public PostEntity createOnePost(PostRequest postRequest) {
         UserEntity userEntity = userService.findUserAuthenticated();
@@ -106,7 +104,7 @@ public class PostServiceImpl implements PostService {
         likedByUsers.add(user);
         post.setLikedByUsers(likedByUsers);
 
-        userRepository.save(user);
+        userService.save(user);
         return postRepository.save(post);
     }
 
@@ -128,7 +126,7 @@ public class PostServiceImpl implements PostService {
                                                            userAuthenticated.getId()));
 
         userAuthenticated.setPostsLiked(postsLiked);
-        userRepository.save(userAuthenticated);
+        userService.save(userAuthenticated);
 
         post.setLikedByUsers(likedByUsers);
         return postRepository.save(post);
@@ -147,5 +145,37 @@ public class PostServiceImpl implements PostService {
         return !Objects.equals(post.getUser()
                                    .getId(),
                                userAuthenticated.getId());
+    }
+
+    @Override
+    public void addPostToPostsSaved(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        List<PostEntity> postsSaved = userAuthenticated.getPostsSaved();
+        Optional<PostEntity> postOptional = Optional.empty();
+        if (!postsSaved.isEmpty()) {
+            postOptional = postsSaved.stream()
+                                     .filter(p -> Objects.equals(p.getId(),
+                                                                 post.getId()))
+                                     .findFirst();
+        }
+        if (postOptional.isPresent()) {
+            System.out.println("post already added in postsSaved");
+            return;
+        }
+        postsSaved.add(post);
+        userAuthenticated.setPostsSaved(postsSaved);
+        userService.save(userAuthenticated);
+
+        List<UserEntity> savedByUsers = post.getSavedByUsers();
+        savedByUsers.add(userAuthenticated);
+        post.setSavedByUsers(savedByUsers);
+        postRepository.save(post);
+    }
+
+    @Override
+    public void removePostFromPostsSaved(Long postId) {
+        /*UserEntity userAuthenticated = this.findUserAuthenticated();
+        PostEntity post = postService.findPostById(postId);*/
     }
 }

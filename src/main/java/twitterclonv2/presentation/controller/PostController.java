@@ -58,4 +58,18 @@ public class PostController {
     public ResponseEntity<PostEntity> removeLikeInPost(@PathVariable Long postId) {
         return ResponseEntity.ok(postService.removeLikeInPost(postId));
     }
+
+    @PatchMapping("/{postId}/savePost")
+    public ResponseEntity<Void> addPostToPostsSaved(@PathVariable Long postId) {
+        postService.addPostToPostsSaved(postId);
+        return ResponseEntity.noContent()
+                             .build();
+    }
+
+    @PatchMapping("/{postId}/removePostSaved")
+    public ResponseEntity<Void> removePostFromPostsSaved(@PathVariable Long postId) {
+        postService.removePostFromPostsSaved(postId);
+        return ResponseEntity.noContent()
+                             .build();
+    }
 }

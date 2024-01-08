@@ -126,12 +126,12 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(Permission.DELETE_LIKE.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/users/posts/[0-9]+/savePost",
+                                                              new RegexRequestMatcher("/users/[0-9]+/savePost",
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.ADD_POST_TO_POSTS_SAVED.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/users/posts/[0-9]+/removePostSaved",
+                                                              new RegexRequestMatcher("/users/[0-9]+/removePostSaved",
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_POST_FROM_POSTS_SAVED.name());
 
