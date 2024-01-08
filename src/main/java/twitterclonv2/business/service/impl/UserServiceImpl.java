@@ -112,6 +112,28 @@ public class UserServiceImpl implements UserService {
         if (isNotAdmin() && usernameIsNotEqualToUserAuthenticated(username)) {
             throw new RuntimeException("Acceso denegado");
         }
+        // Desasociar el usuario de los posts que ha creado
+        userToDelete.getPostsCreated()
+                    .forEach(post -> post.setUser(null));
+
+        // Desasociar el usuario de los posts a los que les ha dado like
+        userToDelete.getPostsLiked()
+                    .forEach(post -> post.getLikedByUsers()
+                                         .remove(userToDelete));
+
+        // Desasociar el usuario de los posts que ha guardado
+        userToDelete.getPostsSaved()
+                    .forEach(post -> post.getSavedByUsers()
+                                         .remove(userToDelete));
+
+        // Limpiar las colecciones asociadas al usuario
+        userToDelete.getPostsCreated()
+                    .clear();
+        userToDelete.getPostsLiked()
+                    .clear();
+        userToDelete.getPostsSaved()
+                    .clear();
+
         userRepository.delete(userToDelete);
     }
 
