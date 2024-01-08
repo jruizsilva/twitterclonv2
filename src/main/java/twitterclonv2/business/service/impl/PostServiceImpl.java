@@ -10,6 +10,7 @@ import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,9 @@ public class PostServiceImpl implements PostService {
         UserEntity userEntity = userService.findUserAuthenticated();
         PostEntity postEntity = PostEntity.builder()
                                           .content(postRequest.getContent())
+                                          .user(userEntity)
+                                          .savedByUsers(Collections.emptyList())
+                                          .likedByUsers(Collections.emptyList())
                                           .build();
         return postRepository.save(postEntity);
     }
@@ -36,12 +40,10 @@ public class PostServiceImpl implements PostService {
     public PostEntity updatePost(PostRequest postRequest,
                                  Long postId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = postRepository.findById(postId)
-                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        if (!Objects.equals(post.getUser()
-                                .getId(),
-                            userAuthenticated.getId())) {
-            throw new RuntimeException("post author is not equal to the user authenticated");
+        PostEntity post = this.findPostById(postId);
+        if (!isAdmin(userAuthenticated) && !authorIsEqualToUserAuthenticated(post,
+                                                                             userAuthenticated)) {
+            throw new RuntimeException("acceso denegado");
         }
         post.setContent(postRequest.getContent());
         return postRepository.save(post);
@@ -109,5 +111,20 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId)
                              .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
 
+    }
+
+    private static boolean isAdmin(UserEntity userAuthenticated) {
+
+        return userAuthenticated.getAuthorities()
+                                .stream()
+                                .anyMatch(grantedAuthority -> Objects.equals(grantedAuthority.getAuthority(),
+                                                                             "ROLE_ADMINISTRATOR"));
+    }
+
+    private static boolean authorIsEqualToUserAuthenticated(PostEntity post,
+                                                            UserEntity userAuthenticated) {
+        return Objects.equals(post.getUser()
+                                  .getId(),
+                              userAuthenticated.getId());
     }
 }

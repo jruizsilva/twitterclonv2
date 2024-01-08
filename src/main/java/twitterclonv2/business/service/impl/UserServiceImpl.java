@@ -17,6 +17,7 @@ import twitterclonv2.domain.dto.user.response.AuthenticationResponse;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.UserRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,9 @@ public class UserServiceImpl implements UserService {
                           .username(registerUserRequest.getUsername())
                           .password(passwordEncoder.encode(registerUserRequest.getPassword()))
                           .role(Role.USER)
+                          .postsCreated(Collections.emptyList())
+                          .postsSaved(Collections.emptyList())
+                          .postsLiked(Collections.emptyList())
                           .build();
         userRepository.save(userEntity);
         AuthenticationRequest authenticationRequest =

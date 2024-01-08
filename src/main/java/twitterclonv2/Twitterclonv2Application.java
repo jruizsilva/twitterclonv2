@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Twitterclonv2Application {
-    /*@Autowired
+/*    @Autowired
     private PasswordEncoder passwordEncoder;*/
 
     public static void main(String[] args) {
@@ -20,8 +20,8 @@ public class Twitterclonv2Application {
             System.out.println(passwordEncoder.encode("admin"));
             System.out.println("user clave:");
             System.out.println(passwordEncoder.encode("user"));
-            System.out.println("user sand:");
-            System.out.println(passwordEncoder.encode("sand"));
+            System.out.println("user test:");
+            System.out.println(passwordEncoder.encode("test"));
         };
     }*/
 }
