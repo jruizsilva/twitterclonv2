@@ -44,18 +44,18 @@ public class PostController {
                              .build();
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<PostEntity>> findAllPostOfCurrentUser() {
-        return ResponseEntity.ok(postService.findAllPostOfCurrentUser());
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<PostEntity>> findAllPostByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(postService.findAllPostByUsername(username));
     }
 
-    /*@PatchMapping("/{postId}/like")
-    public ResponseEntity<PostDto> likePost(@PathVariable Long postId) {
-        return ResponseEntity.ok(postFacade.addLikeToPost(postId));
+    @PatchMapping("/{postId}/like")
+    public ResponseEntity<PostEntity> likePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.addLikeToPost(postId));
     }
 
     @PatchMapping("/{postId}/removeLike")
-    public ResponseEntity<PostDto> removeLikeInPost(@PathVariable Long postId) {
-        return ResponseEntity.ok(postFacade.removeLikeInPost(postId));
-    }*/
+    public ResponseEntity<PostEntity> removeLikeInPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.removeLikeInPost(postId));
+    }
 }

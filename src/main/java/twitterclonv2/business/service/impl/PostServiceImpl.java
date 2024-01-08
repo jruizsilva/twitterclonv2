@@ -9,16 +9,19 @@ import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
+import twitterclonv2.persistence.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public PostEntity createOnePost(PostRequest postRequest) {
         UserEntity userEntity = userService.findUserAuthenticated();
@@ -60,56 +63,9 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(postId);
     }
 
-    /*@Override
-    public PostEntity addLikeToPost(Long postId) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = postRepository.findById(postId)
-                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        List<LikeEntity> likes = post.getLikedByUsers();
-        Optional<LikeEntity> likeOptional = likes.stream()
-                                                 .filter(like -> Objects.equals(like.getUser()
-                                                                                    .getId(),
-                                                                                userAuthenticated.getId()))
-                                                 .findFirst();
-        if (likeOptional.isPresent()) {
-            return post;
-        }
-
-        LikeEntity likeToAdd = LikeEntity.builder()
-                                         .user(userAuthenticated)
-                                         .post(post)
-                                         .build();
-        likes.add(likeToAdd);
-        post.setLikedByUsers(likes);
-        return postRepository.save(post);
-    }
-
     @Override
-    public PostEntity removeLikeInPost(Long postId) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = postRepository.findById(postId)
-                                        .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
-        List<LikeEntity> likes = post.getLikedByUsers();
-        Optional<LikeEntity> likeToDeleteOptional = likes.stream()
-                                                         .filter(like -> postId.equals(like.getPost()
-                                                                                           .getId()) && Objects.equals(like.getUser()
-                                                                                                                           .getId(),
-                                                                                                                       userAuthenticated.getId()))
-                                                         .findFirst();
-        if (likeToDeleteOptional.isEmpty()) {
-            return post;
-        }
-        LikeEntity likeToDelete = likeToDeleteOptional.get();
-        likes.remove(likeToDelete);
-        post.setLikedByUsers(likes);
-
-        return postRepository.save(post);
-    }*/
-
-    @Override
-    public List<PostEntity> findAllPostOfCurrentUser() {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        return postRepository.findByUser_Username(userAuthenticated.getUsername());
+    public List<PostEntity> findAllPostByUsername(String username) {
+        return postRepository.findByUser_Username(username);
     }
 
     @Override
@@ -117,6 +73,58 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId)
                              .orElseThrow(() -> new CustomObjectNotFoundException("post not found"));
 
+    }
+
+    @Override
+    public PostEntity addLikeToPost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        List<PostEntity> postsLiked = userAuthenticated.getPostsLiked();
+        List<UserEntity> likedByUsers = post.getLikedByUsers();
+        if (!postsLiked.isEmpty() && !likedByUsers.isEmpty()) {
+            Optional<UserEntity> likeOptional =
+                    likedByUsers.stream()
+                                .filter(user -> Objects.equals(user.getId(),
+                                                               userAuthenticated.getId()))
+                                .findFirst();
+            if (likeOptional.isPresent()) {
+                System.out.println("like already added");
+                return post;
+            }
+        }
+        postsLiked.add(post);
+        userAuthenticated.setPostsLiked(postsLiked);
+        userRepository.save(userAuthenticated);
+        likedByUsers.add(userAuthenticated);
+        post.setLikedByUsers(likedByUsers);
+        return postRepository.save(post);
+    }
+
+    @Override
+    public PostEntity removeLikeInPost(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        List<UserEntity> likedByUsers = post.getLikedByUsers();
+        List<PostEntity> postsLiked = userAuthenticated.getPostsLiked();
+        if (postsLiked.isEmpty() && likedByUsers.isEmpty()) {
+            System.out.println("like to remove not found - like list is empty");
+        }
+        Optional<UserEntity> likeOptional =
+                likedByUsers.stream()
+                            .filter(user -> Objects.equals(user.getId(),
+                                                           userAuthenticated.getId()))
+                            .findFirst();
+        if (likeOptional.isEmpty()) {
+            System.out.println("like to remove not found");
+            return post;
+        }
+        postsLiked.remove(post);
+        userAuthenticated.setPostsLiked(postsLiked);
+        userRepository.save(userAuthenticated);
+        likedByUsers.remove(userAuthenticated);
+        post.setLikedByUsers(likedByUsers);
+
+        return postRepository.save(post);
     }
 
     private static boolean isNotAdmin(UserEntity userAuthenticated) {

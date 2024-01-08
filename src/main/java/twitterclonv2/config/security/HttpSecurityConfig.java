@@ -78,57 +78,50 @@ public class HttpSecurityConfig {
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/auth/**")
                                                       .permitAll();
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users/profile")
                                                       .hasAuthority(Permission.GET_USER_AUTHENTICATED.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/users/username/**")
                                                       .hasAuthority(Permission.UPDATE_USER.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users")
                                                       .hasAuthority(Permission.FIND_ALL_USERS.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users/search/**")
                                                       .hasAuthority(Permission.SEARCH_USERS.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/posts/**")
                                                       .hasAuthority(Permission.UPDATE_POST.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
                                                                        "/posts/**")
                                                       .hasAuthority(Permission.DELETE_POST.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                                HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.CREATE_LIKE.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers("/likes",
-                                                                       HttpMethod.POST.name())
-                                                      .hasAuthority(Permission.CREATE_LIKE.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/posts/[0-9]+/removeLike",
                                                                                                HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.DELETE_LIKE.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers("/likes",
-                                                                       HttpMethod.DELETE.name())
-                                                      .hasAuthority(Permission.DELETE_LIKE.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
                                                                        "/posts")
                                                       .hasAuthority(Permission.CREATE_ONE_POST.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/posts/user")
-                                                      .hasAuthority(Permission.FIND_ALL_POSTS_OF_CURRENT_USER.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
-                                                                       "/bookmarks/**")
-                                                      .hasAuthority(Permission.ADD_BOOKMARK.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
-                                                                       "/bookmarks/**")
-                                                      .hasAuthority(Permission.REMOVE_BOOKMARK.name());
+                                                                       "/posts/username/**")
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS_BY_USERNAME.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/posts")
                                                       .hasAuthority(Permission.FIND_ALL_POSTS.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/bookmarks")
-                                                      .hasAuthority(Permission.FIND_ALL_BOOKMARKS_BY_USERNAME.name());
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/bookmarks/posts/**")
-                                                      .hasAuthority(Permission.GET_BOOKMARKED_POSTS_BY_USERNAME.name());
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
