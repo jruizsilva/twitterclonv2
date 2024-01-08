@@ -45,8 +45,8 @@ public class UserEntity implements UserDetails {
     @ManyToMany
     @JoinTable(
             name = "users_posts_saved",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
     @JsonBackReference
     private List<PostEntity> postsSaved;
 

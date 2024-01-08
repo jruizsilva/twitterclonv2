@@ -134,6 +134,9 @@ public class UserServiceImpl implements UserService {
         userToDelete.getPostsSaved()
                     .clear();
 
+        // Sincronizar la entidad con la base de datos
+        userRepository.save(userToDelete);
+
         userRepository.delete(userToDelete);
     }
 
