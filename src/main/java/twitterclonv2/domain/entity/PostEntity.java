@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,10 +37,12 @@ public class PostEntity {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonManagedReference
+    @ToString.Exclude
     private List<UserEntity> likedByUsers;
 
     @ManyToMany(mappedBy = "postsSaved")
     @JsonManagedReference
+    @ToString.Exclude
     private List<UserEntity> savedByUsers;
 
     @PrePersist
