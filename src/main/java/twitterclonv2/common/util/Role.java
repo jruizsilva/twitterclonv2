@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.FIND_USER_BY_USERNAME,
             Permission.FIND_ALL_POSTS_LIKE_BY_USERNAME,
             Permission.FIND_ALL_POSTS_SAVED_BY_USERNAME,
             Permission.FIND_ALL_POSTS_CREATED_BY_USERNAME,
@@ -26,6 +27,7 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.FIND_USER_BY_USERNAME,
             Permission.FIND_ALL_POSTS_LIKE_BY_USERNAME,
             Permission.FIND_ALL_POSTS_SAVED_BY_USERNAME,
             Permission.FIND_ALL_POSTS_CREATED_BY_USERNAME,
