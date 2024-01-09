@@ -7,14 +7,17 @@ import java.util.List;
 
 public interface PostService {
     PostEntity createOnePost(PostRequest postRequest);
-    List<PostEntity> findAllPostsOrderByCreatedAtDesc();
     PostEntity updatePost(PostRequest postRequest,
                           Long postId);
     void deletePostById(Long postId);
     PostEntity addLikeToPost(Long postId);
     PostEntity removeLikeInPost(Long postId);
-    List<PostEntity> findAllPostByUsername(String username);
     PostEntity findPostById(Long postId);
     PostEntity addPostToPostsSaved(Long postId);
     PostEntity removePostFromPostsSaved(Long postId);
+
+    List<PostEntity> findAllPostsOrderByCreatedAtDesc();
+    List<PostEntity> findAllPostsCreatedByUsername(String username);
+    List<PostEntity> findAllPostsLikedByUsername(String username);
+    List<PostEntity> findAllPostsSavedByUsername(String username);
 }

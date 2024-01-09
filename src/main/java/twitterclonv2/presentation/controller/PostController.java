@@ -44,11 +44,6 @@ public class PostController {
                              .build();
     }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<List<PostEntity>> findAllPostByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(postService.findAllPostByUsername(username));
-    }
-
     @PatchMapping("/{postId}/like")
     public ResponseEntity<PostEntity> likePost(@PathVariable Long postId) {
         return ResponseEntity.ok(postService.addLikeToPost(postId));
@@ -67,5 +62,20 @@ public class PostController {
     @PatchMapping("/{postId}/removePostSaved")
     public ResponseEntity<PostEntity> removePostFromPostsSaved(@PathVariable Long postId) {
         return ResponseEntity.ok(postService.removePostFromPostsSaved(postId));
+    }
+
+    @GetMapping("/username/{username}/postsCreated")
+    public ResponseEntity<List<PostEntity>> findAllPostsCreatedByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(postService.findAllPostsCreatedByUsername(username));
+    }
+
+    @GetMapping("/username/{username}/postsLiked")
+    public ResponseEntity<List<PostEntity>> findAllPostsLikedByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(postService.findAllPostsLikedByUsername(username));
+    }
+
+    @GetMapping("/username/{username}/postsSaved")
+    public ResponseEntity<List<PostEntity>> findAllPostsSavedByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(postService.findAllPostsSavedByUsername(username));
     }
 }

@@ -139,6 +139,21 @@ public class HttpSecurityConfig {
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_POST_FROM_POSTS_SAVED.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/username/[a-z]+/postsCreated",
+                                                                                      HttpMethod.GET.name()))
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS_CREATED_BY_USERNAME.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/username/[a-z]+/postsLiked",
+                                                                                      HttpMethod.GET.name()))
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS_LIKE_BY_USERNAME.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/username/[a-z]+/postsSaved",
+                                                                                      HttpMethod.GET.name()))
+                                                      .hasAuthority(Permission.FIND_ALL_POSTS_SAVED_BY_USERNAME.name());
+
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
         };

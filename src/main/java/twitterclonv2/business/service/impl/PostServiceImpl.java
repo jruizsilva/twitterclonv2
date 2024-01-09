@@ -59,19 +59,20 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("acceso denegado");
         }
         // Desasociar el post de los usuarios antes de eliminarlo
-        postToDelete.getSavedByUsers().forEach(user -> user.getPostsSaved().remove(postToDelete));
-        postToDelete.getLikedByUsers().forEach(user -> user.getPostsLiked().remove(postToDelete));
+        postToDelete.getSavedByUsers()
+                    .forEach(user -> user.getPostsSaved()
+                                         .remove(postToDelete));
+        postToDelete.getLikedByUsers()
+                    .forEach(user -> user.getPostsLiked()
+                                         .remove(postToDelete));
 
         // Limpiar las colecciones asociadas al post
-        postToDelete.getSavedByUsers().clear();
-        postToDelete.getLikedByUsers().clear();
+        postToDelete.getSavedByUsers()
+                    .clear();
+        postToDelete.getLikedByUsers()
+                    .clear();
 
         postRepository.delete(postToDelete);
-    }
-
-    @Override
-    public List<PostEntity> findAllPostByUsername(String username) {
-        return postRepository.findByUser_Username(username);
     }
 
     @Override
@@ -204,5 +205,29 @@ public class PostServiceImpl implements PostService {
 
         post.setSavedByUsers(savedByUsers);
         return postRepository.save(post);
+    }
+
+    @Override
+    public List<PostEntity> findAllPostsCreatedByUsername(String username) {
+        UserEntity user = userService.findUserByUsername(username);
+        List<PostEntity> postsCreated = user.getPostsCreated();
+        System.out.println(postsCreated);
+        return postsCreated;
+    }
+
+    @Override
+    public List<PostEntity> findAllPostsLikedByUsername(String username) {
+        UserEntity user = userService.findUserByUsername(username);
+        List<PostEntity> postsLiked = user.getPostsLiked();
+        System.out.println(postsLiked);
+        return postsLiked;
+    }
+
+    @Override
+    public List<PostEntity> findAllPostsSavedByUsername(String username) {
+        UserEntity user = userService.findUserByUsername(username);
+        List<PostEntity> postsSaved = user.getPostsSaved();
+        System.out.println(postsSaved);
+        return postsSaved;
     }
 }

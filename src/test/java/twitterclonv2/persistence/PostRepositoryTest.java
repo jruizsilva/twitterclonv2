@@ -55,12 +55,4 @@ class PostRepositoryTest {
                                     .isAfter(result.get(2)
                                                    .getCreatedAt()));
     }
-
-    @Test
-    void findPostsByUser_UsernameCaseValid() {
-        List<PostEntity> result = postRepository.findByUser_Username("usertest");
-        System.out.println(result);
-        Assertions.assertEquals(2,
-                                result.size());
-    }
 }

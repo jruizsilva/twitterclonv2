@@ -60,7 +60,7 @@ public class PostFacadeImpl implements PostFacade {
 
     @Override
     public List<PostDto> findAllPostByUsername(String username) {
-        List<PostEntity> postEntityList = postService.findAllPostByUsername(username);
+        List<PostEntity> postEntityList = postService.findAllPostsCreatedByUsername(username);
         return postEntityList.stream()
                              .map(mapper::postEntityToDto)
                              .toList();
