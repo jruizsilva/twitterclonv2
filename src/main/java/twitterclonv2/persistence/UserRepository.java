@@ -15,5 +15,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsername(@Param("username") String username);
     @Query("select u from UserEntity u where upper(u.username) like upper(?1) or upper(u.name) like upper(?1)")
     List<UserEntity> findByUsernameLikeOrNameLikeAllIgnoreCase(String peopleToSearch);
-
 }

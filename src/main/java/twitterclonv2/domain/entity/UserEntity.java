@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -36,10 +37,12 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonBackReference
+    @ToString.Exclude
     private List<PostEntity> postsCreated;
 
     @ManyToMany(mappedBy = "likedByUsers")
     @JsonBackReference
+    @ToString.Exclude
     private List<PostEntity> postsLiked;
 
     @ManyToMany
@@ -48,6 +51,7 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     @JsonBackReference
+    @ToString.Exclude
     private List<PostEntity> postsSaved;
 
     @Override
