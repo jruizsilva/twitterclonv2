@@ -210,24 +210,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostEntity> findAllPostsCreatedByUsername(String username) {
         UserEntity user = userService.findUserByUsername(username);
-        List<PostEntity> postsCreated = user.getPostsCreated();
-        System.out.println(postsCreated);
-        return postsCreated;
+        return user.getPostsCreated();
     }
 
     @Override
     public List<PostEntity> findAllPostsLikedByUsername(String username) {
         UserEntity user = userService.findUserByUsername(username);
-        List<PostEntity> postsLiked = user.getPostsLiked();
-        System.out.println(postsLiked);
-        return postsLiked;
+        return user.getPostsLiked();
     }
 
     @Override
     public List<PostEntity> findAllPostsSavedByUsername(String username) {
         UserEntity user = userService.findUserByUsername(username);
-        List<PostEntity> postsSaved = user.getPostsSaved();
-        System.out.println(postsSaved);
-        return postsSaved;
+        return user.getPostsSaved();
     }
 }
