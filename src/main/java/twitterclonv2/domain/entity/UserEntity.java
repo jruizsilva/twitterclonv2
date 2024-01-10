@@ -54,6 +54,8 @@ public class UserEntity implements UserDetails {
     @ToString.Exclude
     private List<PostEntity> postsSaved;
 
+    private String profileImage;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities =

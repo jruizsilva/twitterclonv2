@@ -123,6 +123,16 @@ public class HttpSecurityConfig {
                                                                        "/users/username/**")
                                                       .hasAuthority(Permission.FIND_USER_BY_USERNAME.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/upload/profileImage")
+                                                      .hasAuthority(
+                                                              Permission.UPLOAD_PROFILE_IMAGE.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST,
+                                                                       "/upload/backgroundImage")
+                                                      .hasAuthority(
+                                                              Permission.UPLOAD_BACKGROUND_IMAGE.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                       HttpMethod.PATCH.name()))
