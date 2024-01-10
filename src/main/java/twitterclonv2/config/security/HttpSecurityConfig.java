@@ -80,11 +80,11 @@ public class HttpSecurityConfig {
                                                       .permitAll();
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/profileImages/**")
+                                                                       "uploads/profileImages/**")
                                                       .permitAll();
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
-                                                                       "/backgroundImages/**")
+                                                                       "uploads/backgroundImages/**")
                                                       .permitAll();
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,

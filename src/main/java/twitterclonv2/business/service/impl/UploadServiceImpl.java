@@ -19,8 +19,8 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public String uploadProfileImage(MultipartFile file) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
         try {
+            UserEntity userAuthenticated = userService.findUserAuthenticated();
             String fileName = userAuthenticated.getUsername();
             byte[] bytes = file.getBytes();
             String fileOriginalName = file.getOriginalFilename();
@@ -34,6 +34,15 @@ public class UploadServiceImpl implements UploadService {
             if (!fileOriginalName.endsWith(".jpg") && !fileOriginalName.endsWith(".jpeg") && !fileOriginalName.endsWith(".png")) {
                 return "Only JPG, JPEG, PNG files are allowed!";
             }
+            String profileImagePath = userAuthenticated.getProfileImage();
+
+            if (profileImagePath != null) {
+                String profileImageRelativePath = profileImagePath.substring(1);
+                File profileImage = new File(profileImageRelativePath);
+                if (profileImage.exists()) {
+                    profileImage.delete();
+                }
+            }
             String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
             String newFileName = fileName + fileExtension;
 
@@ -45,13 +54,13 @@ public class UploadServiceImpl implements UploadService {
             Files.write(path,
                         bytes);
 
-            String publicPath = "/profileImages/" + newFileName;
+            String publicPath = "/uploads/profileImages/" + newFileName;
             userAuthenticated.setProfileImage(publicPath);
             userService.save(userAuthenticated);
 
             return publicPath;
         } catch (Exception e) {
-            System.out.println();
+            System.out.println(e.getMessage());
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
