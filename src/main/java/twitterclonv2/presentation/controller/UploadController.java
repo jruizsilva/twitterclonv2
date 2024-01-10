@@ -19,21 +19,11 @@ public class UploadController {
     public ResponseEntity<String> uploadProfileImage(@RequestParam("profileImage")
                                                      MultipartFile profileImage) {
         return ResponseEntity.ok(uploadService.uploadProfileImage(profileImage));
-        /*if (profileImage.isEmpty()) {
-            throw new RuntimeException("image is empty");
-        }
-        Path pathProfileImages = Paths.get("src/main/resources/static/profileImages");
-        String absolutePathProfileImages = pathProfileImages.toFile()
-                                                            .getAbsolutePath();
-        try {
-            byte[] bytesImg = profileImage.getBytes();
-            Path fullPath = Paths.get(absolutePathProfileImages + "/" + profileImage.getOriginalFilename());
-            Files.write(fullPath,
-                        bytesImg);
+    }
 
-            return ResponseEntity.ok(profileImage.getOriginalFilename());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
+    @PostMapping("/backgroundImage")
+    public ResponseEntity<String> uploadBackgroundImage(@RequestParam("backgroundImage")
+                                                        MultipartFile backgroundImage) {
+        return ResponseEntity.ok(uploadService.uploadBackgroundImage(backgroundImage));
     }
 }

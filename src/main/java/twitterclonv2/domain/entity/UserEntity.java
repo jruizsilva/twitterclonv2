@@ -55,6 +55,7 @@ public class UserEntity implements UserDetails {
     private List<PostEntity> postsSaved;
 
     private String profileImage;
+    private String backgroundImage;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
