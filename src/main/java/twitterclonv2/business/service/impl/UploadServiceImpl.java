@@ -50,15 +50,16 @@ public class UploadServiceImpl implements UploadService {
             if (!folderProfileImages.exists()) {
                 folderProfileImages.mkdirs();
             }
-            Path path = Paths.get("uploads/profileImages/" + newFileName);
+            String pathWithFileName = "uploads/profileImages/" + newFileName;
+
+            Path path = Paths.get(pathWithFileName);
             Files.write(path,
                         bytes);
 
-            String publicPath = "/uploads/profileImages/" + newFileName;
-            userAuthenticated.setProfileImage(publicPath);
+            userAuthenticated.setProfileImage(pathWithFileName);
             userService.save(userAuthenticated);
 
-            return publicPath;
+            return pathWithFileName;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -99,15 +100,15 @@ public class UploadServiceImpl implements UploadService {
             if (!folderBgImages.exists()) {
                 folderBgImages.mkdirs();
             }
-            Path path = Paths.get("uploads/backgroundImages/" + newFileName);
+            String pathWithFileName = "uploads/backgroundImages/" + newFileName;
+            Path path = Paths.get(pathWithFileName);
             Files.write(path,
                         bytes);
 
-            String publicPath = "/uploads/backgroundImages/" + newFileName;
-            userAuthenticated.setBackgroundImage(publicPath);
+            userAuthenticated.setBackgroundImage(pathWithFileName);
             userService.save(userAuthenticated);
 
-            return publicPath;
+            return pathWithFileName;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
