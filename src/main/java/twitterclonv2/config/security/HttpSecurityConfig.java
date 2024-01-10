@@ -80,6 +80,14 @@ public class HttpSecurityConfig {
                                                       .permitAll();
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/profileImages/**")
+                                                      .permitAll();
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
+                                                                       "/backgroundImages/**")
+                                                      .permitAll();
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET,
                                                                        "/users/profile")
                                                       .hasAuthority(Permission.GET_USER_AUTHENTICATED.name());
 
