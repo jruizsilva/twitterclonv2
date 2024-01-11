@@ -141,6 +141,16 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(
                                                               Permission.UPLOAD_BACKGROUND_IMAGE.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
+                                                                       "/upload/profileImage")
+                                                      .hasAuthority(
+                                                              Permission.DELETE_PROFILE_IMAGE.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE,
+                                                                       "/upload/backgroundImage")
+                                                      .hasAuthority(
+                                                              Permission.DELETE_BACKGROUND_IMAGE.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                       HttpMethod.PATCH.name()))

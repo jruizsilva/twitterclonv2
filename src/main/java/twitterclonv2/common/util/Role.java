@@ -8,6 +8,8 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.DELETE_BACKGROUND_IMAGE,
+            Permission.DELETE_PROFILE_IMAGE,
             Permission.UPLOAD_PROFILE_IMAGE,
             Permission.UPLOAD_BACKGROUND_IMAGE,
             Permission.FIND_USER_BY_USERNAME,
@@ -29,6 +31,8 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.DELETE_BACKGROUND_IMAGE,
+            Permission.DELETE_PROFILE_IMAGE,
             Permission.UPLOAD_PROFILE_IMAGE,
             Permission.UPLOAD_BACKGROUND_IMAGE,
             Permission.FIND_USER_BY_USERNAME,
