@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.FIND_ALL_FOLLOWERS_BY_USERNAME,
             Permission.ADD_FOLLOWER,
             Permission.REMOVE_FOLLOWER,
             Permission.DELETE_BACKGROUND_IMAGE,
@@ -33,6 +34,7 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.FIND_ALL_FOLLOWERS_BY_USERNAME,
             Permission.ADD_FOLLOWER,
             Permission.REMOVE_FOLLOWER,
             Permission.DELETE_BACKGROUND_IMAGE,

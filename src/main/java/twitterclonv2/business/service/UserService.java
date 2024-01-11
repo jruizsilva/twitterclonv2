@@ -22,4 +22,5 @@ public interface UserService {
     void deleteUserByUsername(String username);
     UserEntity addFollower(String username);
     UserEntity removeFollower(String username);
+    List<UserEntity> findAllFollowersByUsername(String username);
 }

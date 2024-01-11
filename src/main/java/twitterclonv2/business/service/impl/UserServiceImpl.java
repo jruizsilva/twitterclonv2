@@ -191,6 +191,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserEntity> findAllFollowersByUsername(String username) {
+        UserEntity user = this.findUserByUsername(username);
+
+        return user.getFollowers();
+    }
+
+    @Override
     public UserEntity updateUser(String username,
                                  UpdateUserRequest updateUserRequest) {
         UserEntity userToUpdate = this.findUserByUsername(username);

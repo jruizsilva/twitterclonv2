@@ -62,4 +62,9 @@ public class UserController {
     public ResponseEntity<UserEntity> removeFollower(@PathVariable String username) {
         return ResponseEntity.ok(userService.removeFollower(username));
     }
+
+    @GetMapping("/{username}/findAllFollowers")
+    public ResponseEntity<List<UserEntity>> findAllFollowers(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findAllFollowersByUsername(username));
+    }
 }

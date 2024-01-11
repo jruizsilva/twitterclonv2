@@ -58,6 +58,7 @@ public class UserEntity implements UserDetails {
     private String backgroundImage;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "users_followers",
             joinColumns = @JoinColumn(name = "user_id"),
