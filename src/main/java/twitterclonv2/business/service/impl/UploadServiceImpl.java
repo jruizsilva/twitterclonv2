@@ -115,4 +115,29 @@ public class UploadServiceImpl implements UploadService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public String deleteProfileImage() {
+        try {
+            UserEntity userAuthenticated = userService.findUserAuthenticated();
+            String profileImagePath = userAuthenticated.getProfileImage();
+
+            if (profileImagePath != null) {
+                String profileImageRelativePath = profileImagePath.substring(1);
+                File profileImage = new File(profileImageRelativePath);
+                if (profileImage.exists()) {
+                    profileImage.delete();
+                }
+            }
+
+            userAuthenticated.setProfileImage(null);
+            userService.save(userAuthenticated);
+
+            return "image deleted";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
