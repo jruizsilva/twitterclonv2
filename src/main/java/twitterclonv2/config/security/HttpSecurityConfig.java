@@ -151,6 +151,16 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(
                                                               Permission.DELETE_BACKGROUND_IMAGE.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
+                                                                       "/users/addFollower/**")
+                                                      .hasAuthority(
+                                                              Permission.ADD_FOLLOWER.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
+                                                                       "/users/removeFollower/**")
+                                                      .hasAuthority(
+                                                              Permission.REMOVE_FOLLOWER.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                       HttpMethod.PATCH.name()))
