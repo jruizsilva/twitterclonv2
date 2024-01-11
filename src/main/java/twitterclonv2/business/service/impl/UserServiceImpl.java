@@ -142,52 +142,52 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity addFollower(String username) {
-        UserEntity userAuthenticated = this.findUserAuthenticated();
-        UserEntity followerToAdd = this.findUserByUsername(username);
+        UserEntity newFollower = this.findUserAuthenticated();
+        UserEntity userToUpdate = this.findUserByUsername(username);
 
-        if (Objects.equals(userAuthenticated.getUsername(),
-                           followerToAdd.getUsername())) {
+        if (Objects.equals(userToUpdate.getUsername(),
+                           newFollower.getUsername())) {
             System.out.println("can't follow yourself");
             throw new RuntimeException("can't follow yourself");
         }
-        List<UserEntity> followers = userAuthenticated.getFollowers();
+        List<UserEntity> followers = userToUpdate.getFollowers();
         if (!followers.isEmpty()) {
             Optional<UserEntity> followerAlreadyAdded = followers.stream()
                                                                  .filter(userEntity -> Objects.equals(userEntity.getUsername(),
-                                                                                                      followerToAdd.getUsername()))
+                                                                                                      newFollower.getUsername()))
                                                                  .findFirst();
             if (followerAlreadyAdded.isPresent()) {
                 System.out.println("follow already added");
                 throw new RuntimeException("follow already added");
             }
         }
-        followers.add(followerToAdd);
-        userAuthenticated.setFollowers(followers);
-        return userRepository.save(userAuthenticated);
+        followers.add(newFollower);
+        userToUpdate.setFollowers(followers);
+        return userRepository.save(userToUpdate);
     }
 
     @Override
     public UserEntity removeFollower(String username) {
-        UserEntity userAuthenticated = this.findUserAuthenticated();
-        UserEntity followerToRemove = this.findUserByUsername(username);
+        UserEntity followerToRemove = this.findUserAuthenticated();
+        UserEntity userToUpdate = this.findUserByUsername(username);
 
-        List<UserEntity> followers = userAuthenticated.getFollowers();
+        List<UserEntity> followers = followerToRemove.getFollowers();
         if (followers.isEmpty()) {
             System.out.println("there isn't followers to remove");
-            return userAuthenticated;
+            return followerToRemove;
         }
         Optional<UserEntity> followerToRemoveOptional =
                 followers.stream()
                          .filter(userEntity -> Objects.equals(userEntity.getUsername(),
-                                                              followerToRemove.getUsername()))
+                                                              userToUpdate.getUsername()))
                          .findFirst();
         if (followerToRemoveOptional.isEmpty()) {
             System.out.println("can't remove a follower doesn't exists");
-            return userAuthenticated;
+            return followerToRemove;
         }
         followers.remove(followerToRemove);
-        userAuthenticated.setFollowers(followers);
-        return userRepository.save(userAuthenticated);
+        userToUpdate.setFollowers(followers);
+        return userRepository.save(userToUpdate);
     }
 
     @Override
