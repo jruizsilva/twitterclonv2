@@ -141,6 +141,56 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity addFollower(String username) {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
+        UserEntity followerToAdd = this.findUserByUsername(username);
+
+        if (Objects.equals(userAuthenticated.getUsername(),
+                           followerToAdd.getUsername())) {
+            System.out.println("can't follow yourself");
+            throw new RuntimeException("can't follow yourself");
+        }
+        List<UserEntity> followers = userAuthenticated.getFollowers();
+        if (!followers.isEmpty()) {
+            Optional<UserEntity> followerAlreadyAdded = followers.stream()
+                                                                 .filter(userEntity -> Objects.equals(userEntity.getUsername(),
+                                                                                                      followerToAdd.getUsername()))
+                                                                 .findFirst();
+            if (followerAlreadyAdded.isPresent()) {
+                System.out.println("follow already added");
+                throw new RuntimeException("follow already added");
+            }
+        }
+        followers.add(followerToAdd);
+        userAuthenticated.setFollowers(followers);
+        return userRepository.save(userAuthenticated);
+    }
+
+    @Override
+    public UserEntity removeFollower(String username) {
+        UserEntity userAuthenticated = this.findUserAuthenticated();
+        UserEntity followerToRemove = this.findUserByUsername(username);
+
+        List<UserEntity> followers = userAuthenticated.getFollowers();
+        if (followers.isEmpty()) {
+            System.out.println("there isn't followers to remove");
+            return userAuthenticated;
+        }
+        Optional<UserEntity> followerToRemoveOptional =
+                followers.stream()
+                         .filter(userEntity -> Objects.equals(userEntity.getUsername(),
+                                                              followerToRemove.getUsername()))
+                         .findFirst();
+        if (followerToRemoveOptional.isEmpty()) {
+            System.out.println("can't remove a follower doesn't exists");
+            return userAuthenticated;
+        }
+        followers.remove(followerToRemove);
+        userAuthenticated.setFollowers(followers);
+        return userRepository.save(userAuthenticated);
+    }
+
+    @Override
     public UserEntity updateUser(String username,
                                  UpdateUserRequest updateUserRequest) {
         UserEntity userToUpdate = this.findUserByUsername(username);

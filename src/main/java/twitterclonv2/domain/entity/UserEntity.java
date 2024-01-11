@@ -64,13 +64,6 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "user_follower_id"))
     private List<UserEntity> followers;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_following",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_following_id"))
-    private List<UserEntity> following;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities =

@@ -20,4 +20,6 @@ public interface UserService {
     UserEntity findUserByUsername(String username);
     UserEntity save(UserEntity userEntity);
     void deleteUserByUsername(String username);
+    UserEntity addFollower(String username);
+    UserEntity removeFollower(String username);
 }

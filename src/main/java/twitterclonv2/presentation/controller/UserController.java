@@ -52,4 +52,14 @@ public class UserController {
     public ResponseEntity<UserEntity> findUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.findUserByUsername(username));
     }
+
+    @PatchMapping("/addFollower/{username}")
+    public ResponseEntity<UserEntity> addFollower(@PathVariable String username) {
+        return ResponseEntity.ok(userService.addFollower(username));
+    }
+
+    @PatchMapping("/removeFollower/{username}")
+    public ResponseEntity<UserEntity> removeFollower(@PathVariable String username) {
+        return ResponseEntity.ok(userService.removeFollower(username));
+    }
 }
