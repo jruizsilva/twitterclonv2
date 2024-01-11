@@ -158,13 +158,11 @@ public class HttpSecurityConfig {
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.PATCH,
                                                                        "/users/removeFollower/**")
-                                                      .hasAuthority(
-                                                              Permission.REMOVE_FOLLOWER.name());
+                                                      .hasAuthority(Permission.REMOVE_FOLLOWER.name());
 
-            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/users/[a-z]+/findAllFollowers",
+            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/users/username/[a-z]+/findAllFollowers",
                                                                                                HttpMethod.GET.name()))
-                                                      .hasAuthority(
-                                                              Permission.FIND_ALL_FOLLOWERS_BY_USERNAME.name());
+                                                      .hasAuthority(Permission.FIND_ALL_FOLLOWERS_BY_USERNAME.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
