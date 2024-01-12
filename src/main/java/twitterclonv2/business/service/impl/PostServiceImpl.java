@@ -234,16 +234,17 @@ public class PostServiceImpl implements PostService {
         PostEntity post = this.findPostById(postId);
         CommentEntity commentToAdd = CommentEntity.builder()
                                                   .content(commentRequest.getContent())
-                                                  .post(post)
                                                   .user(userAuthenticated)
                                                   .build();
         post.getComments()
             .add(commentToAdd);
+        commentToAdd.setPost(post);
         return postRepository.save(post);
     }
 
     @Override
-    public PostEntity removeComment(Long postId) {
+    public PostEntity removeComment(Long postId,
+                                    Long commentId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
         Optional<CommentEntity> commentToDelete =
@@ -251,7 +252,8 @@ public class PostServiceImpl implements PostService {
                     .stream()
                     .filter(commentEntity -> Objects.equals(commentEntity.getUser()
                                                                          .getUsername(),
-                                                            userAuthenticated.getUsername()))
+                                                            userAuthenticated.getUsername()) && Objects.equals(commentId,
+                                                                                                               commentEntity.getId()))
                     .findFirst();
         if (commentToDelete.isEmpty()) {
             System.out.println("comment to delete not found");
@@ -263,7 +265,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostEntity likeComment(Long postId) {
+    public PostEntity likeComment(Long postId,
+                                  Long commentId) {
         return null;
     }
 }

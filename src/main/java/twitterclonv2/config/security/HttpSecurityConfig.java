@@ -209,12 +209,12 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(Permission.ADD_COMMENT.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/posts/[0-9]+/removeComment",
+                                                              new RegexRequestMatcher("/posts/[0-9]+/removeComment/[0-9]+",
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_COMMENT.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/posts/[0-9]+/likeComment",
+                                                              new RegexRequestMatcher("/posts/[0-9]+/likeComment/[0-9]+",
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.LIKE_COMMENT.name());
 
