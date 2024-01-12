@@ -85,6 +85,31 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public PostEntity removeLikeComment(Long postId,
+                                        Long commentId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = postService.findPostById(postId);
+        CommentEntity comment = this.findCommentById(commentId);
+        List<UserEntity> commentLikes = comment.getLikes();
+        if (commentLikes.stream()
+                        .noneMatch(c -> Objects.equals(c.getUsername(),
+                                                       userAuthenticated.getUsername()))) {
+            System.out.println("like to remove not found");
+            return post;
+        }
+        commentLikes.remove(userAuthenticated);
+        comment.setLikes(commentLikes);
+        commentRepository.save(comment);
+
+        return postService.save(post);
+    }
+
+    @Override
+    public List<CommentEntity> findAllComments() {
+        return commentRepository.findAll();
+    }
+
+    @Override
     public CommentEntity findCommentById(Long commentId) {
         return commentRepository.findById(commentId)
                                 .orElseThrow(() -> new CustomObjectNotFoundException("comment not found"));

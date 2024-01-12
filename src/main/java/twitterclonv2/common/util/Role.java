@@ -8,8 +8,10 @@ import java.util.List;
 @Getter
 public enum Role {
     USER(Arrays.asList(
+            Permission.REMOVE_LIKE_COMMENT,
+            Permission.FIND_ALL_COMMENTS,
             Permission.ADD_COMMENT,
-            Permission.REMOVE_COMMENT,
+            Permission.DELETE_COMMENT,
             Permission.LIKE_COMMENT,
             Permission.FIND_ALL_USERS_FOLLOWING_BY_USERNAME,
             Permission.FIND_ALL_FOLLOWERS_BY_USERNAME,
@@ -38,8 +40,10 @@ public enum Role {
             Permission.GET_USER_AUTHENTICATED,
             Permission.UPDATE_USER)),
     ADMINISTRATOR(Arrays.asList(
+            Permission.REMOVE_LIKE_COMMENT,
+            Permission.FIND_ALL_COMMENTS,
             Permission.ADD_COMMENT,
-            Permission.REMOVE_COMMENT,
+            Permission.DELETE_COMMENT,
             Permission.LIKE_COMMENT,
             Permission.FIND_ALL_USERS_FOLLOWING_BY_USERNAME,
             Permission.FIND_ALL_FOLLOWERS_BY_USERNAME,

@@ -4,7 +4,13 @@ import twitterclonv2.domain.dto.post.request.CommentRequest;
 import twitterclonv2.domain.entity.CommentEntity;
 import twitterclonv2.domain.entity.PostEntity;
 
+import java.util.List;
+
 public interface CommentService {
+    List<CommentEntity> findAllComments();
+
+    CommentEntity findCommentById(Long commentId);
+
     PostEntity addCommentToPost(Long postId,
                                 CommentRequest commentRequest);
 
@@ -14,5 +20,6 @@ public interface CommentService {
     PostEntity likeComment(Long postId,
                            Long commentId);
 
-    CommentEntity findCommentById(Long commentId);
+    PostEntity removeLikeComment(Long postId,
+                                 Long commentId);
 }
