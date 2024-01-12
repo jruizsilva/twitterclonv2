@@ -27,4 +27,5 @@ public interface PostService {
                              Long commentId);
     PostEntity likeComment(Long postId,
                            Long commentId);
+    PostEntity save(PostEntity post);
 }

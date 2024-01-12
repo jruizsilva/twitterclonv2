@@ -305,4 +305,9 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(post);
     }
+
+    @Override
+    public PostEntity save(PostEntity post) {
+        return postRepository.save(post);
+    }
 }
