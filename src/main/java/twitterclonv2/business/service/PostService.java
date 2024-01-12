@@ -1,5 +1,6 @@
 package twitterclonv2.business.service;
 
+import twitterclonv2.domain.dto.post.request.CommentRequest;
 import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 
@@ -20,4 +21,6 @@ public interface PostService {
     List<PostEntity> findAllPostsCreatedByUsername(String username);
     List<PostEntity> findAllPostsLikedByUsername(String username);
     List<PostEntity> findAllPostsSavedByUsername(String username);
+    PostEntity addCommentToPost(Long postId,
+                                CommentRequest commentRequest);
 }

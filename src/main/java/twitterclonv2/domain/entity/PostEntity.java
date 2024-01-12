@@ -45,6 +45,11 @@ public class PostEntity {
     @ToString.Exclude
     private List<UserEntity> savedByUsers;
 
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<CommentEntity> comments;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

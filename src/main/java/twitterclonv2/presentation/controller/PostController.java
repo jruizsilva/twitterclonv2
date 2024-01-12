@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import twitterclonv2.business.service.PostService;
+import twitterclonv2.domain.dto.post.request.CommentRequest;
 import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.PostEntity;
 
@@ -77,5 +78,14 @@ public class PostController {
     @GetMapping("/username/{username}/postsSaved")
     public ResponseEntity<List<PostEntity>> findAllPostsSavedByUsername(@PathVariable String username) {
         return ResponseEntity.ok(postService.findAllPostsSavedByUsername(username));
+    }
+
+    @PatchMapping("/{postId}/addComment")
+    public ResponseEntity<PostEntity> addCommentToPost(@PathVariable Long postId,
+                                                       @RequestBody @Valid
+                                                       CommentRequest commentRequest) {
+        return ResponseEntity.ok(postService.addCommentToPost(postId,
+                                                              commentRequest));
+
     }
 }
