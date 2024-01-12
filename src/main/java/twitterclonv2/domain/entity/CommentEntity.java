@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -47,4 +48,14 @@ public class CommentEntity {
     @JsonManagedReference
     @ToString.Exclude
     private List<UserEntity> likes;
+
+    @Column(name = "created_at",
+            nullable = false,
+            updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
