@@ -1,6 +1,7 @@
 package twitterclonv2.business.service;
 
 import twitterclonv2.domain.dto.post.request.CommentRequest;
+import twitterclonv2.domain.entity.CommentEntity;
 import twitterclonv2.domain.entity.PostEntity;
 
 public interface CommentService {
@@ -12,4 +13,6 @@ public interface CommentService {
 
     PostEntity likeComment(Long postId,
                            Long commentId);
+
+    CommentEntity findCommentById(Long commentId);
 }
