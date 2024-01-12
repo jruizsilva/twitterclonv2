@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +36,11 @@ public class CommentEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @ManyToMany
+    @JoinTable(
+            name = "comment_likes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> likes;
 }

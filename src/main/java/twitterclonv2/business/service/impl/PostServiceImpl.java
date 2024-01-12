@@ -267,6 +267,31 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity likeComment(Long postId,
                                   Long commentId) {
-        return null;
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        Optional<CommentEntity> commentToLike =
+                post.getComments()
+                    .stream()
+                    .filter(commentEntity -> Objects.equals(commentEntity.getUser()
+                                                                         .getUsername(),
+                                                            userAuthenticated.getUsername()) && Objects.equals(commentId,
+                                                                                                               commentEntity.getId()))
+                    .findFirst();
+        if (commentToLike.isEmpty()) {
+            System.out.println("comment to like not found");
+            return post;
+        }
+        List<UserEntity> likes = commentToLike.get()
+                                              .getLikes();
+        if (likes.stream()
+                 .anyMatch(userEntity -> Objects.equals(userEntity.getUsername(),
+                                                        userAuthenticated.getUsername()))) {
+            System.out.println("like already added");
+            return post;
+        }
+        likes.add(userAuthenticated);
+        post.setLikedByUsers(likes);
+
+        return postRepository.save(post);
     }
 }
