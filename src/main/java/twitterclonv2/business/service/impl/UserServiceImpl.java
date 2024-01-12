@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
         UserEntity followerToRemove = this.findUserAuthenticated();
         UserEntity userToUpdate = this.findUserByUsername(username);
 
-        List<UserEntity> followers = followerToRemove.getFollowers();
+        List<UserEntity> followers = userToUpdate.getFollowers();
         if (followers.isEmpty()) {
             System.out.println("there isn't followers to remove");
             return followerToRemove;
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> followerToRemoveOptional =
                 followers.stream()
                          .filter(userEntity -> Objects.equals(userEntity.getUsername(),
-                                                              userToUpdate.getUsername()))
+                                                              followerToRemove.getUsername()))
                          .findFirst();
         if (followerToRemoveOptional.isEmpty()) {
             System.out.println("can't remove a follower doesn't exists");
