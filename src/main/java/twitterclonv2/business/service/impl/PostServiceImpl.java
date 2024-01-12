@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
-import twitterclonv2.domain.dto.post.request.CommentRequest;
 import twitterclonv2.domain.dto.post.request.PostRequest;
-import twitterclonv2.domain.entity.CommentEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.CommentRepository;
@@ -227,83 +225,6 @@ public class PostServiceImpl implements PostService {
     public List<PostEntity> findAllPostsSavedByUsername(String username) {
         UserEntity user = userService.findUserByUsername(username);
         return user.getPostsSaved();
-    }
-
-    @Override
-    public PostEntity addCommentToPost(Long postId,
-                                       CommentRequest commentRequest) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = this.findPostById(postId);
-        CommentEntity commentToAdd = CommentEntity.builder()
-                                                  .content(commentRequest.getContent())
-                                                  .user(userAuthenticated)
-                                                  .build();
-        List<CommentEntity> comments = post.getComments();
-        comments.add(commentToAdd);
-        post.setComments(comments);
-        commentToAdd.setPost(post);
-        return postRepository.save(post);
-    }
-
-    @Override
-    public PostEntity removeComment(Long postId,
-                                    Long commentId) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = this.findPostById(postId);
-        Optional<CommentEntity> commentToDelete =
-                post.getComments()
-                    .stream()
-                    .filter(commentEntity -> Objects.equals(commentEntity.getUser()
-                                                                         .getUsername(),
-                                                            userAuthenticated.getUsername()) && Objects.equals(commentId,
-                                                                                                               commentEntity.getId()))
-                    .findFirst();
-        if (commentToDelete.isEmpty()) {
-            System.out.println("comment to delete not found");
-            return post;
-        }
-        List<CommentEntity> comments = post.getComments();
-        comments.remove(commentToDelete.get());
-        post.setComments(comments);
-        commentToDelete.get()
-                       .setPost(null);
-        commentToDelete.get()
-                       .setUser(null);
-        return postRepository.save(post);
-    }
-
-    @Override
-    public PostEntity likeComment(Long postId,
-                                  Long commentId) {
-        UserEntity userAuthenticated = userService.findUserAuthenticated();
-        PostEntity post = this.findPostById(postId);
-        Optional<CommentEntity> commentToAddLikeOptional =
-                post.getComments()
-                    .stream()
-                    .filter(commentEntity -> Objects.equals(commentEntity.getUser()
-                                                                         .getUsername(),
-                                                            userAuthenticated.getUsername()) && Objects.equals(commentId,
-                                                                                                               commentEntity.getId()))
-                    .findFirst();
-        if (commentToAddLikeOptional.isEmpty()) {
-            System.out.println("comment to like not found");
-            return post;
-        }
-        CommentEntity commentToAddLike = commentToAddLikeOptional.get();
-        List<UserEntity> commentLikes = commentToAddLike.getLikes();
-
-        if (commentLikes.stream()
-                        .anyMatch(userEntity -> Objects.equals(userEntity.getUsername(),
-                                                               userAuthenticated.getUsername()))) {
-            System.out.println("like already added");
-            return post;
-        }
-        commentLikes.add(userAuthenticated);
-        commentToAddLike.setLikes(commentLikes);
-
-        commentRepository.save(commentToAddLike);
-
-        return postRepository.save(post);
     }
 
     @Override
