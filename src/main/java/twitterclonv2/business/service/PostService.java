@@ -23,4 +23,6 @@ public interface PostService {
     List<PostEntity> findAllPostsSavedByUsername(String username);
     PostEntity addCommentToPost(Long postId,
                                 CommentRequest commentRequest);
+    PostEntity removeComment(Long postId);
+    PostEntity likeComment(Long postId);
 }

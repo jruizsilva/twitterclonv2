@@ -203,6 +203,21 @@ public class HttpSecurityConfig {
                                                                                       HttpMethod.GET.name()))
                                                       .hasAuthority(Permission.FIND_ALL_POSTS_SAVED_BY_USERNAME.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/[0-9]+/addComment",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.ADD_COMMENT.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/[0-9]+/removeComment",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.REMOVE_COMMENT.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/posts/[0-9]+/likeComment",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.LIKE_COMMENT.name());
+
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();
         };

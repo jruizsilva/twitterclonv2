@@ -27,5 +27,6 @@ public class CommentEntity {
 
     @JsonBackReference
     @ManyToOne
-    private PostEntity post;
+    @ToString.Exclude
+    private UserEntity user;
 }

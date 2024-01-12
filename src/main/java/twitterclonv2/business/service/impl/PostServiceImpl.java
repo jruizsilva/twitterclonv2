@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import twitterclonv2.business.service.PostService;
 import twitterclonv2.business.service.UserService;
 import twitterclonv2.common.exception.CustomObjectNotFoundException;
+import twitterclonv2.domain.dto.post.request.CommentRequest;
 import twitterclonv2.domain.dto.post.request.PostRequest;
+import twitterclonv2.domain.entity.CommentEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
 import twitterclonv2.persistence.PostRepository;
@@ -223,5 +225,45 @@ public class PostServiceImpl implements PostService {
     public List<PostEntity> findAllPostsSavedByUsername(String username) {
         UserEntity user = userService.findUserByUsername(username);
         return user.getPostsSaved();
+    }
+
+    @Override
+    public PostEntity addCommentToPost(Long postId,
+                                       CommentRequest commentRequest) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        CommentEntity commentToAdd = CommentEntity.builder()
+                                                  .content(commentRequest.getContent())
+                                                  .user(userAuthenticated)
+                                                  .build();
+
+        PostEntity post = this.findPostById(postId);
+        post.getComments()
+            .add(commentToAdd);
+        return postRepository.save(post);
+    }
+
+    @Override
+    public PostEntity removeComment(Long postId) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
+        Optional<CommentEntity> commentToDelete =
+                post.getComments()
+                    .stream()
+                    .filter(commentEntity -> Objects.equals(commentEntity.getUser()
+                                                                         .getUsername(),
+                                                            userAuthenticated.getUsername()))
+                    .findFirst();
+        if (commentToDelete.isEmpty()) {
+            System.out.println("comment to delete not found");
+            return post;
+        }
+        post.getComments()
+            .remove(commentToDelete.get());
+        return postRepository.save(post);
+    }
+
+    @Override
+    public PostEntity likeComment(Long postId) {
+        return null;
     }
 }

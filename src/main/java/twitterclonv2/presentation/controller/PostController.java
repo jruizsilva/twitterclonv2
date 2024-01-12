@@ -88,4 +88,14 @@ public class PostController {
                                                               commentRequest));
 
     }
+
+    @PatchMapping("/{postId}/removeComment")
+    public ResponseEntity<PostEntity> removeCommentToPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.removeComment(postId));
+    }
+
+    @PatchMapping("/{postId}/likeComment")
+    public ResponseEntity<PostEntity> likeComment(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.likeComment(postId));
+    }
 }
