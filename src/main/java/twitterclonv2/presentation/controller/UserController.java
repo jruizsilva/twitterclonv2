@@ -67,4 +67,9 @@ public class UserController {
     public ResponseEntity<List<UserEntity>> findAllFollowers(@PathVariable String username) {
         return ResponseEntity.ok(userService.findAllFollowersByUsername(username));
     }
+
+    @GetMapping("/username/{username}/findAllUsersFollowing")
+    public ResponseEntity<List<UserEntity>> findAllUsersFollowing(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findAllUsersFollowingByUsername(username));
+    }
 }

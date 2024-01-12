@@ -24,4 +24,5 @@ public interface UserService {
     UserEntity removeFollower(String username);
     List<UserEntity> findAllFollowersByUsername(String username);
 
+    List<UserEntity> findAllUsersFollowingByUsername(String username);
 }

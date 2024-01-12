@@ -164,6 +164,10 @@ public class HttpSecurityConfig {
                                                                                                HttpMethod.GET.name()))
                                                       .hasAuthority(Permission.FIND_ALL_FOLLOWERS_BY_USERNAME.name());
 
+            authorizationManagerRequestMatcherRegistry.requestMatchers(new RegexRequestMatcher("/users/username/[a-z]+/findAllUsersFollowing",
+                                                                                               HttpMethod.GET.name()))
+                                                      .hasAuthority(Permission.FIND_ALL_USERS_FOLLOWING_BY_USERNAME.name());
+
             authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/posts/[0-9]+/like",
                                                                                       HttpMethod.PATCH.name()))
