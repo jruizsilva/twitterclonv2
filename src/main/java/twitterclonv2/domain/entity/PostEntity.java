@@ -45,7 +45,7 @@ public class PostEntity {
     @ToString.Exclude
     private List<UserEntity> savedByUsers;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "post")
     @JsonManagedReference
     @ToString.Exclude
     private List<CommentEntity> comments;

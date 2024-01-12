@@ -28,5 +28,10 @@ public class CommentEntity {
     @JsonBackReference
     @ManyToOne
     @ToString.Exclude
+    private PostEntity post;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
+
 }

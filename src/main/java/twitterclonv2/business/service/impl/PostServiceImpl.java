@@ -231,12 +231,12 @@ public class PostServiceImpl implements PostService {
     public PostEntity addCommentToPost(Long postId,
                                        CommentRequest commentRequest) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = this.findPostById(postId);
         CommentEntity commentToAdd = CommentEntity.builder()
                                                   .content(commentRequest.getContent())
+                                                  .post(post)
                                                   .user(userAuthenticated)
                                                   .build();
-
-        PostEntity post = this.findPostById(postId);
         post.getComments()
             .add(commentToAdd);
         return postRepository.save(post);
