@@ -1,6 +1,8 @@
 package twitterclonv2.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -16,6 +18,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "comments")
+@JsonIgnoreProperties({"post", "comments"})
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +30,9 @@ public class CommentEntity {
     @NotBlank(message = "comment can't be empty")
     private String content;
 
-    @JsonBackReference
     @ManyToOne
     @ToString.Exclude
+    @JsonBackReference
     private PostEntity post;
 
     @OneToOne
@@ -38,9 +41,10 @@ public class CommentEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "comment_likes",
+            name = "comments_users_likes",
             joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonManagedReference
+    @ToString.Exclude
     private List<UserEntity> likes;
 }

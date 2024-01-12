@@ -10,6 +10,7 @@ import twitterclonv2.domain.dto.post.request.PostRequest;
 import twitterclonv2.domain.entity.CommentEntity;
 import twitterclonv2.domain.entity.PostEntity;
 import twitterclonv2.domain.entity.UserEntity;
+import twitterclonv2.persistence.CommentRepository;
 import twitterclonv2.persistence.PostRepository;
 
 import java.util.Collections;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final CommentRepository commentRepository;
 
     public PostEntity createOnePost(PostRequest postRequest) {
         UserEntity userEntity = userService.findUserAuthenticated();
@@ -236,8 +238,9 @@ public class PostServiceImpl implements PostService {
                                                   .content(commentRequest.getContent())
                                                   .user(userAuthenticated)
                                                   .build();
-        post.getComments()
-            .add(commentToAdd);
+        List<CommentEntity> comments = post.getComments();
+        comments.add(commentToAdd);
+        post.setComments(comments);
         commentToAdd.setPost(post);
         return postRepository.save(post);
     }
@@ -259,8 +262,13 @@ public class PostServiceImpl implements PostService {
             System.out.println("comment to delete not found");
             return post;
         }
-        post.getComments()
-            .remove(commentToDelete.get());
+        List<CommentEntity> comments = post.getComments();
+        comments.remove(commentToDelete.get());
+        post.setComments(comments);
+        commentToDelete.get()
+                       .setPost(null);
+        commentToDelete.get()
+                       .setUser(null);
         return postRepository.save(post);
     }
 
@@ -269,7 +277,7 @@ public class PostServiceImpl implements PostService {
                                   Long commentId) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = this.findPostById(postId);
-        Optional<CommentEntity> commentToLike =
+        Optional<CommentEntity> commentToAddLikeOptional =
                 post.getComments()
                     .stream()
                     .filter(commentEntity -> Objects.equals(commentEntity.getUser()
@@ -277,20 +285,23 @@ public class PostServiceImpl implements PostService {
                                                             userAuthenticated.getUsername()) && Objects.equals(commentId,
                                                                                                                commentEntity.getId()))
                     .findFirst();
-        if (commentToLike.isEmpty()) {
+        if (commentToAddLikeOptional.isEmpty()) {
             System.out.println("comment to like not found");
             return post;
         }
-        List<UserEntity> likes = commentToLike.get()
-                                              .getLikes();
-        if (likes.stream()
-                 .anyMatch(userEntity -> Objects.equals(userEntity.getUsername(),
-                                                        userAuthenticated.getUsername()))) {
+        CommentEntity commentToAddLike = commentToAddLikeOptional.get();
+        List<UserEntity> commentLikes = commentToAddLike.getLikes();
+
+        if (commentLikes.stream()
+                        .anyMatch(userEntity -> Objects.equals(userEntity.getUsername(),
+                                                               userAuthenticated.getUsername()))) {
             System.out.println("like already added");
             return post;
         }
-        likes.add(userAuthenticated);
-        post.setLikedByUsers(likes);
+        commentLikes.add(userAuthenticated);
+        commentToAddLike.setLikes(commentLikes);
+
+        commentRepository.save(commentToAddLike);
 
         return postRepository.save(post);
     }
