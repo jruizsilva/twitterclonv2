@@ -51,9 +51,10 @@ public class CommentServiceImpl implements CommentService {
 
         Optional<CommentEntity> commentOptional =
                 comments.stream()
-                        .filter(c -> Objects.equals(userAuthenticated.getId(),
-                                                    c.getUser()
-                                                     .getId()))
+                        .filter(c -> Objects.equals(c.getId(),
+                                                    commentId) && Objects.equals(userAuthenticated.getId(),
+                                                                                 c.getUser()
+                                                                                  .getId()))
                         .findFirst();
         if (commentOptional.isEmpty()) {
             System.out.println("can't delete a comment that doesn't exist");
