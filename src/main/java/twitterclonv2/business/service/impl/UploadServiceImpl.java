@@ -74,8 +74,7 @@ public class UploadServiceImpl implements UploadService {
             String profileImagePath = userAuthenticated.getProfileImage();
 
             if (profileImagePath != null) {
-                String profileImageRelativePath = profileImagePath.substring(1);
-                File profileImage = new File(profileImageRelativePath);
+                File profileImage = new File(profileImagePath);
                 if (profileImage.exists()) {
                     profileImage.delete();
                 }
@@ -148,8 +147,7 @@ public class UploadServiceImpl implements UploadService {
             String bgImagePath = userAuthenticated.getBackgroundImage();
 
             if (bgImagePath != null) {
-                String bgImageRelativePath = bgImagePath.substring(1);
-                File bgImage = new File(bgImageRelativePath);
+                File bgImage = new File(bgImagePath);
                 if (bgImage.exists()) {
                     bgImage.delete();
                 }
