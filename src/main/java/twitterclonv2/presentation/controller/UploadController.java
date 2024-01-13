@@ -28,4 +28,9 @@ public class UploadController {
                                                         MultipartFile backgroundImage) {
         return ResponseEntity.ok(uploadService.uploadBackgroundImage(backgroundImage));
     }
+
+    @DeleteMapping("/backgroundImage")
+    public ResponseEntity<String> deleteBackgroundImage() {
+        return ResponseEntity.ok(uploadService.deleteBackgroundImage());
+    }
 }

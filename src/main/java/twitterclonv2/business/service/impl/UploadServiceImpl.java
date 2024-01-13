@@ -68,6 +68,31 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
+    public String deleteProfileImage() {
+        try {
+            UserEntity userAuthenticated = userService.findUserAuthenticated();
+            String profileImagePath = userAuthenticated.getProfileImage();
+
+            if (profileImagePath != null) {
+                String profileImageRelativePath = profileImagePath.substring(1);
+                File profileImage = new File(profileImageRelativePath);
+                if (profileImage.exists()) {
+                    profileImage.delete();
+                }
+            }
+
+            userAuthenticated.setProfileImage(null);
+            userService.save(userAuthenticated);
+
+            return "image deleted";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public String uploadBackgroundImage(MultipartFile file) {
         try {
             byte[] bytes = file.getBytes();
@@ -117,23 +142,23 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public String deleteProfileImage() {
+    public String deleteBackgroundImage() {
         try {
             UserEntity userAuthenticated = userService.findUserAuthenticated();
-            String profileImagePath = userAuthenticated.getProfileImage();
+            String bgImagePath = userAuthenticated.getBackgroundImage();
 
-            if (profileImagePath != null) {
-                String profileImageRelativePath = profileImagePath.substring(1);
-                File profileImage = new File(profileImageRelativePath);
-                if (profileImage.exists()) {
-                    profileImage.delete();
+            if (bgImagePath != null) {
+                String bgImageRelativePath = bgImagePath.substring(1);
+                File bgImage = new File(bgImageRelativePath);
+                if (bgImage.exists()) {
+                    bgImage.delete();
                 }
             }
 
-            userAuthenticated.setProfileImage(null);
+            userAuthenticated.setBackgroundImage(null);
             userService.save(userAuthenticated);
 
-            return "image deleted";
+            return "background image deleted";
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
