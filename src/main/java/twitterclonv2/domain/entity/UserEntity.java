@@ -63,10 +63,12 @@ public class UserEntity implements UserDetails {
             name = "users_followers",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "user_follower_id"))
+    @ToString.Exclude
     private List<UserEntity> followers;
 
     @ManyToMany(mappedBy = "followers")
     @JsonIgnore
+    @ToString.Exclude
     private List<UserEntity> followings;
 
     @Override

@@ -1,7 +1,6 @@
 package twitterclonv2.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +18,6 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "comments")
-@JsonIgnoreProperties({"post", "comments"})
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,7 @@ public class CommentEntity {
     @JsonBackReference
     private PostEntity post;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
