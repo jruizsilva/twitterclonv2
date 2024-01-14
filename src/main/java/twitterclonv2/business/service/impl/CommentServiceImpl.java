@@ -111,23 +111,25 @@ public class CommentServiceImpl implements CommentService {
                                   CommentRequest commentRequest) {
         UserEntity userAuthenticated = userService.findUserAuthenticated();
         PostEntity post = postService.findPostById(postId);
-        CommentEntity comment = this.findCommentById(commentId);
 
         List<CommentEntity> comments = post.getComments();
         if (comments.isEmpty()) {
-            System.out.println("comment not found in post");
-            throw new CustomObjectNotFoundException("comment not found in post");
+            System.out.println("comment not found in post - comment list is empty");
+            throw new CustomObjectNotFoundException("comment not found in post - comment list is empty");
         }
 
-        if (comments.stream()
-                    .noneMatch(c -> Objects.equals(c.getPost()
-                                                    .getId(),
-                                                   postId)) || Objects.equals(comment.getUser()
-                                                                                     .getId(),
-                                                                              userAuthenticated.getId())) {
-            System.out.println("comment not found in post");
-            throw new CustomObjectNotFoundException("comment not found in post");
+        Optional<CommentEntity> commentOptional =
+                comments.stream()
+                        .filter(c -> Objects.equals(c.getUser()
+                                                     .getId(),
+                                                    userAuthenticated.getId()) && Objects.equals(c.getId(),
+                                                                                                 commentId))
+                        .findFirst();
+        if (commentOptional.isEmpty()) {
+            System.out.println("comment not found in post comment list");
+            throw new CustomObjectNotFoundException("comment not found in post comment list");
         }
+        CommentEntity comment = commentOptional.get();
         comment.setContent(commentRequest.getContent());
         commentRepository.save(comment);
 
