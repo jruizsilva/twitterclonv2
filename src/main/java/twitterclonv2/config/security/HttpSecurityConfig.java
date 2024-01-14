@@ -208,21 +208,6 @@ public class HttpSecurityConfig {
                                                       .hasAuthority(Permission.FIND_ALL_POSTS_SAVED_BY_USERNAME.name());
 
             authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/posts/[0-9]+/addComment",
-                                                                                      HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.ADD_COMMENT.name());
-
-            authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/posts/[0-9]+/removeComment/[0-9]+",
-                                                                                      HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.DELETE_COMMENT.name());
-
-            authorizationManagerRequestMatcherRegistry.requestMatchers(
-                                                              new RegexRequestMatcher("/posts/[0-9]+/likeComment/[0-9]+",
-                                                                                      HttpMethod.PATCH.name()))
-                                                      .hasAuthority(Permission.LIKE_COMMENT.name());
-
-            authorizationManagerRequestMatcherRegistry.requestMatchers(
                                                               new RegexRequestMatcher("/comments/posts/[0-9]+/addComment",
                                                                                       HttpMethod.POST.name()))
                                                       .hasAuthority(Permission.ADD_COMMENT.name());
@@ -241,6 +226,11 @@ public class HttpSecurityConfig {
                                                               new RegexRequestMatcher("/comments/[0-9]+/posts/[0-9]+/removeLikeComment",
                                                                                       HttpMethod.PATCH.name()))
                                                       .hasAuthority(Permission.REMOVE_LIKE_COMMENT.name());
+
+            authorizationManagerRequestMatcherRegistry.requestMatchers(
+                                                              new RegexRequestMatcher("/comments/[0-9]+/posts/[0-9]+/editComment",
+                                                                                      HttpMethod.PATCH.name()))
+                                                      .hasAuthority(Permission.EDIT_COMMENT.name());
 
             authorizationManagerRequestMatcherRegistry.anyRequest()
                                                       .denyAll();

@@ -106,6 +106,35 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public PostEntity editComment(Long postId,
+                                  Long commentId,
+                                  CommentRequest commentRequest) {
+        UserEntity userAuthenticated = userService.findUserAuthenticated();
+        PostEntity post = postService.findPostById(postId);
+        CommentEntity comment = this.findCommentById(commentId);
+
+        List<CommentEntity> comments = post.getComments();
+        if (comments.isEmpty()) {
+            System.out.println("comment not found in post");
+            throw new CustomObjectNotFoundException("comment not found in post");
+        }
+
+        if (comments.stream()
+                    .noneMatch(c -> Objects.equals(c.getPost()
+                                                    .getId(),
+                                                   postId)) || Objects.equals(comment.getUser()
+                                                                                     .getId(),
+                                                                              userAuthenticated.getId())) {
+            System.out.println("comment not found in post");
+            throw new CustomObjectNotFoundException("comment not found in post");
+        }
+        comment.setContent(commentRequest.getContent());
+        commentRepository.save(comment);
+
+        return postService.save(post);
+    }
+
+    @Override
     public List<CommentEntity> findAllComments() {
         return commentRepository.findAll();
     }

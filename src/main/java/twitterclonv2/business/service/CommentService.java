@@ -22,4 +22,7 @@ public interface CommentService {
 
     PostEntity removeLikeComment(Long postId,
                                  Long commentId);
+    PostEntity editComment(Long postId,
+                           Long commentId,
+                           CommentRequest commentRequest);
 }

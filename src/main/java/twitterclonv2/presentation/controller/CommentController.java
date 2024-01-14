@@ -49,4 +49,13 @@ public class CommentController {
         return ResponseEntity.ok(commentService.removeLikeComment(postId,
                                                                   commentId));
     }
+
+    @PatchMapping("/{commentId}/posts/{postId}/editComment")
+    public ResponseEntity<PostEntity> editComment(@PathVariable Long postId,
+                                                  @PathVariable Long commentId,
+                                                  @RequestBody @Valid CommentRequest commentRequest) {
+        return ResponseEntity.ok(commentService.editComment(postId,
+                                                            commentId,
+                                                            commentRequest));
+    }
 }

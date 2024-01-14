@@ -32,4 +32,5 @@ public enum Permission {
     LIKE_COMMENT,
     REMOVE_LIKE_COMMENT,
     FIND_ALL_COMMENTS,
+    EDIT_COMMENT,
 }
